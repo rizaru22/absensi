@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root{
+    --warna1:#00A693;
+    --warna2:#fff;
+}
+
+html{
+    overflow: scroll;
+    height: 100%;
+}
+body{
+    text-decoration: none; /* no underline */
+    font-family: "Roboto",sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    height: 30vh;
+    background-color: var(--warna1);
+    color:var(--warna2);
+}
+
+.jam{
+    border: var(--warna2);
+    border-radius: 3px;
+    background-color: var(--warna2);
+    color:var(--warna1);
+
+}
+
+.nip{
+    margin-top: -4px;
+}
+
+.menu{
+    height: 14vh;
+    margin-top: -7vh;
+    color:var(--warna1);
+    background-color: var(--warna2);
+    border-radius: 15px;
+    box-shadow: 1px 2px 30px rgba(0,0,0,.2);
+
+}
+
+/* .menu .icon{
+    display: inline-block;
+    font-size: 1em;
+    padding: 10px;
+    border: 2px solid var(--warna1);
+    border-radius: 10px;
+    text-align: center;
+    color:var(--warna1)
+} */
+
+.menu .item{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: var(--warna1);
+
+}
+
+.menu a{
+    text-decoration: none;
+}
+
+
+
+main{
+    height: 40vh;
+}
+
+.logout button{
+    color: var(--warna1);
+    border-color: var(--warna1);
+}
