@@ -10,11 +10,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <title>Absensi Pegawai</title>
 </head>
 
-<body onload="startTime()">
+<body onload="startAll()">
     <header>
         <div class="container-fluid">
             <div class="row d-flex">
@@ -36,22 +38,41 @@
 
                 </div>
             </div>
+            <div class="row d-flex">
+                <div class="col-sm-12 ml-3">
+                    <div class="logout">
+                        <form action="logout" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-outline-success"><i class="fas fa-power-off mr-2"></i>Logout</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </header>
     <main>
         <div class="container">
             <div class="menu ml-2 mr-2 ">
                 <div class="row pl-2 pt-4 pr-2">
-                    <div class="col-4">
-                        <a href="#" class="item"><button class="btn btn-outline-success"><i class="fas fa-sign-in-alt"></i></button><span>Masuk</span></a>
+                    <div class="col-3">
+
+                        <a href="#" class="item" onclick=" submitForm();"><button class="btn btn-outline-success"><i class="fas fa-sign-in-alt"></i></button><span>Masuk</span></a>
                     </div>
-                    <div class="col-4 "> <a href="#" class="item"><button class="btn btn-outline-success"><i class="fas fa-sign-out-alt"></i></button><span>Pulang</span></a></div>
-                    <div class="col-4 "> <a href="#" class="item"><button class="btn btn-outline-success"><i class="fas fa-envelope"></i></button><span>Cuti</span></a></div>
+                    <div class="col-3 ">
+                        <a href="#" class="item" onclick=" submitFormPulang();"><button class="btn btn-outline-success">
+                            <i class="fas fa-sign-out-alt"></i></button><span>Pulang</span>
+                        </a>
+                    </div>
+
+                    <div class="col-3 "> <a href="#" class="item"><button class="btn btn-outline-success"><i class="fas fa-envelope"></i></button><span>Cuti</span></a></div>
+                    <div class="col-3 "> <a href="#" class="item"><button class="btn btn-outline-success"><i class="fas fa-user-alt"></i></button><span>Akun</span></a></div>
                 </div>
 
 
 
             </div>
+           
             <div class="row">
                 <div class="col-sm-12">
                     <div class="text pt-3">
@@ -68,56 +89,111 @@
                         <tbody>
                             <tr class="odd">
                                 <td class="" tabindex="0">Senin</td>
-                                <td>Firefox 1.0</td>
-                                <td>Win 98+ / OSX.2+</td>
+                               
+                                @forelse ($dataAbsen[0] as $dt)
+                                <td> {{ $dt->jam_masuk }}</td>
+                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
+                                @empty
+                                <td> --:--:--</td>
+                                <td> --:--:--</td>
+                                @endforelse
 
                             </tr>
                             <tr class="even">
-                                <td class="" tabindex="0">Senin</td>
-                                <td>Firefox 1.5</td>
-                                <td>Win 98+ / OSX.2+</td>
-
+                          
+               
+                                <td class="" tabindex="0">Selasa</td>
+                                @forelse ($dataAbsen[1] as $dt)
+                                <td> {{ $dt->jam_masuk }}</td>
+                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
+                                @empty
+                                <td> --:--:--</td>
+                                <td> --:--:--</td>
+                                @endforelse
                             </tr>
                             <tr class="odd">
-                                <td class="" tabindex="0">Senin</td>
-                                <td>Firefox 2.0</td>
-                                <td>Win 98+ / OSX.2+</td>
+                                <td class="" tabindex="0">Rabu</td>
+                                @forelse ($dataAbsen[2] as $dt)
+                                <td> {{ $dt->jam_masuk }}</td>
+                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
+                                @empty
+                                <td> --:--:--</td>
+                                <td> --:--:--</td>
+                                @endforelse
 
                             </tr>
                             <tr class="even">
-                                <td class="" tabindex="0">Senin</td>
-                                <td>Firefox 3.0</td>
-                                <td>Win 2k+ / OSX.3+</td>
-
+                                <td class="" tabindex="0">Kamis</td>
+                                @forelse ($dataAbsen[3] as $dt)
+                                <td> {{ $dt->jam_masuk }}</td>
+                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
+                                @empty
+                                <td> --:--:--</td>
+                                <td> --:--:--</td>
+                                @endforelse
                             </tr>
                             <tr class="odd">
-                                <td class="">Senin</td>
-                                <td>Camino 1.0</td>
-                                <td>OSX.2+</td>
+                                <td class="">Jumat</td>
+                                @forelse ($dataAbsen[4] as $dt)
+                                <td> {{ $dt->jam_masuk }}</td>
+                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
+                                @empty
+                                <td> --:--:--</td>
+                                <td> --:--:--</td>
+                                @endforelse
                             </tr>
                             <tr class="odd">
-                                <td class="">Senin</td>
-                                <td>Camino 1.0</td>
-                                <td>OSX.2+</td>
+                                <td class="">Sabtu</td>
+                                @forelse ($dataAbsen[5] as $dt)
+                                <td> {{ $dt->jam_masuk }}</td>
+                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
+                                @empty
+                                <td> --:--:--</td>
+                                <td> --:--:--</td>
+                                @endforelse
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+           
+            <div class="row mt-2 pb-2">
+            <div class="col-sm-12 text-center">
+                <div class="keterangan" id="keterangan">
+                    <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-question-circle mr-1"></i>FAQ</a>
+                </div>
+            </div>
         </div>
-        <div class="logout text-center pb-3">
-            <form action="logout" method="POST">
-                @csrf
-                <button type="submit" class="btn btn-sm btn-outline-success"><i class="fas fa-power-off mr-2"></i>Logout</button>
-            </form>
+            </div>
         </div>
+
     </main>
+<form action="{{ route('masuk') }}" method="POST" name="formJarak">
+    @csrf
+    <input type="hidden" name="inputJarak" id="inputJarak">
+</form>
+<form action="{{ route('pulang') }}" method="POST" name="formJarakPulang">
+    @csrf
+    <input type="hidden" name="inputJarakPulang" id="inputJarakPulang">
+</form>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-
+    <!-- Toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
+        // const x = document.getElementById("keterangan");
+        var inputJarak=document.getElementById("inputJarak");
+        let latitude;
+        let longitude;
+        var jarak;
+        let latSMK1 = {{$data[0] -> latitude}};
+        let longSMK1 = {{$data[0] -> longitude}};
+
+        function startAll(){
+            startTime();
+            getLocation();
+        }
         function startTime() {
             const today = new Date();
             let h = today.getHours();
@@ -135,7 +211,58 @@
             }; // add zero in front of numbers < 10
             return i;
         }
+
+
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            hitungjarak(latSMK1, longSMK1, latitude, longitude);
+        }
+
+        function hitungjarak(lat1, long1, lat2, long2, unit = 'kilometers') {
+            console.log(lat1, long1, lat2, long2, unit);
+            let theta = long1 - long2;
+            let distance = 60 * 1.1515 * (180 / Math.PI) * Math.acos(
+                Math.sin(lat1 * (Math.PI / 180)) * Math.sin(lat2 * (Math.PI / 180)) + Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.cos(theta * (Math.PI / 180))
+            );
+            if (unit == 'miles') {
+                jarak = Math.round(distance);
+
+            } else if (unit == 'kilometers') {
+                jarak = Math.round(distance * 1.609344 * 1000);
+            }
+            inputJarak.value=jarak;
+            inputJarakPulang.value=jarak;
+            console.log(jarak)
+            // var url = "{{route('masuk',':jarak')}}";
+            // url = url.replace(':jarak', jarak);
+            // window.location.href = url;
+        }
+
+        function submitForm(){
+            document.formJarak.submit();
+        }
+        
+        function submitFormPulang(){
+            document.formJarakPulang.submit();
+        }
+
+        @if($message = Session::get('error'))
+            toastr.error("{{ $message}}");
+        @elseif($message = Session::get('success'))
+            toastr.success("{{ $message}}");
+        @endif
     </script>
+
 </body>
 
 </html>

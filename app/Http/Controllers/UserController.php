@@ -29,7 +29,7 @@ class UserController extends Controller
             "email"=>"nullable",
             "password"=>"required",
         ]);
-
+ 
         $password=Hash::make($request->password);
         $role='user';
 
@@ -49,5 +49,10 @@ class UserController extends Controller
         // dd($user->password);
         dd(Hash::check('321',$user->password));
         
+    }
+
+    public function kerjaan(){
+        $hashed=Hash::make('admin');
+        dd($hashed);
     }
 }

@@ -13,7 +13,7 @@
                     {{ session('loginError') }}
                 </div>
                 @endif
-    <form action="{{ route('login')}}" method="POST">
+    <form action="{{ route('postlogin')}}" method="POST">
         @csrf
         <input type="text" name="username" id="username" autofocus required>
         <input type="password" name="password" id="password" required>

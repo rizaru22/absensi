@@ -15,6 +15,9 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if(empty($request->user()->role)){
+            return redirect()->route('login');
+        }
         if($request->user()->role != "admin"){
             return redirect()->route('restricted');
         }

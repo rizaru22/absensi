@@ -17,7 +17,11 @@ return new class extends Migration
             $table->double('latitude');
             $table->double('longitude');
             $table->string('jam_masuk');
+            $table->string('jam_pulang');
+            $table->string('jam_maksimal_masuk');
+            $table->string('jam_maksimal_pulang');
             $table->double('jarak_maksimal');
+
             $table->timestamps();
         });
     }

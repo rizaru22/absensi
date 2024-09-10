@@ -24,10 +24,12 @@ class LoginController extends Controller
 
         // dd(Auth::attempt($credentials)) ;
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            if(Auth::user()->role==='admin'){
+            if(Auth::user()->role=='admin'){
+                $request->session()->regenerate();
+                // dd(Auth::user()->role);
                 return redirect()->intended('admin');
-                }else{
+            }
+            if(Auth::user()->role=='user'){
                 return redirect()->route('pegawai');
             }
         }
@@ -40,6 +42,6 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('login');
+        return redirect()->route('login');
     }
 }

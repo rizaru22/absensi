@@ -7,7 +7,6 @@
 </head>
 <body>
     <a href="{{route('pengguna.create')}}" >Create</a>
-    <a href="{{route('pengguna.show','4')}}" >Cek pass</a>
 
     <br>
     @foreach($data as $dt)
