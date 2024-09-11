@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardPegawaiController;
+use Illuminate\Support\Facades\Artisan;
+
 Route::get('/generate', function(){
     \Illuminate\Support\Facades\Artisan::call('storage:link');
     echo 'ok';
@@ -45,7 +47,13 @@ Route::get('/restricted',function(){
  
 Route::get('/kerjaan',[UserController::class,'kerjaan']);
 
-
+Route::get('/symlink',function(){
+    // Artisan::call('storage:link');
+    $target=$_SERVER['DOCUMENT_ROOT'].'/teacher-attendance/laravel/storage/app/public';
+    $link=$_SERVER['DOCUMENT_ROOT'].'/teacher-attendance/public/storage';
+    symlink($target,$link);
+    echo 'done';
+});
 // Route::get('/', function () {
 //     return view('layouts.template');
 // });
