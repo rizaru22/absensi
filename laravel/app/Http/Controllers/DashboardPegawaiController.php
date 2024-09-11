@@ -15,7 +15,7 @@ class DashboardPegawaiController extends Controller
     //
     public function index()
     {
-        $tanggal = Carbon::now()->isoFormat('dddd,D MMMM Y');
+        $tanggal = Carbon::now('Asia/Jakarta')->isoFormat('dddd,D MMMM Y');
         $data = Pengaturan::limit(1)->get();
 
         $period = CarbonPeriod::create(Carbon::now('Asia/Jakarta')->startOfWeek(Carbon::MONDAY), Carbon::now('Asia/Jakarta')->endOfWeek(Carbon::SATURDAY));
