@@ -37,7 +37,12 @@ class AbsenController extends Controller
             return redirect()->route('pegawai')->with('error','Anda sudah melakukan absensi masuk');
         }
         //cek apakah waktu abseni berada dalam rentang waktu yang diizinkan untuk absen masuk
-        // if ($selisih>0 and $selisih<$waktuMaksimal){
+
+        $jam_sekarang=strtotime($jam_sekarang);
+        $waktuMasuk=strtotime($waktuMasuk);
+        $waktuMaksimalMasuk=strtotime($waktuMaksimalMasuk);
+
+        // dd( $jam_sekarang,$waktuMaksimalMasuk);
         if ($jam_sekarang>$waktuMasuk and $jam_sekarang<$waktuMaksimalMasuk){
             //cek apakah berada dalam lingkup area yang diizinkan untuk absen
             if($jarak<=$jarakMaksimal){
@@ -88,6 +93,10 @@ class AbsenController extends Controller
         $waktuPulang=$Pengaturan[0]->jam_pulang;
         $waktuMaksimalPulang=$Pengaturan[0]->jam_maksimal_pulang; 
         $jam_sekarang=Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
+        
+        $jam_sekarang=strtotime($jam_sekarang);
+        $waktuPulang=strtotime($waktuPulang);
+        $waktuMaksimalPulang=strtotime($waktuMaksimalPulang);
         
         if ($jam_sekarang>$waktuPulang and $jam_sekarang<$waktuMaksimalPulang){
             //cek apakah berada dalam lingkup area yang diizinkan untuk absen

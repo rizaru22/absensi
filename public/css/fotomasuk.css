@@ -20,6 +20,7 @@ body{
     font-family: "Roboto",sans-serif;
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 input[type=file]::file-selector-button {
@@ -39,6 +40,16 @@ input[type=file]::file-selector-button {
 
 .card-header{
     background-color: var(--warna1);
+    border: 2px solid var(--warna1);
     color: var(--warna2);
     font-weight: 400;
+}
+
+.form-control{
+  border: 2px solid var(--warna1);
+  
+}
+
+.card{
+  border: 1px  solid var(--warna1);
 }

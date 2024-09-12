@@ -255,7 +255,7 @@
         function submitFormPulang(){
             document.formJarakPulang.submit();
         }
-
+ 
         @if($message = Session::get('error'))
             toastr.error("{{ $message}}");
         @elseif($message = Session::get('success'))

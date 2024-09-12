@@ -11,9 +11,7 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/fotomasuk.css') }}">
-<style>
-    
-</style>
+
     <title>Absensi Pegawai</title>
 </head>
 
