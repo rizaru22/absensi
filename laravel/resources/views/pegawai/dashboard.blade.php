@@ -26,9 +26,8 @@
                         <span class="jam pl-2 pr-2" id="waktu"></span>
                     </p>
                 </div>
-
-
             </div>
+
             <div class="row d-flex">
                 <div class="col-sm-12 ml-3 info">
                     <h2 class="">
@@ -218,13 +217,14 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition);
             } else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
+                alert("Geolocation is not supported by this browser.");
             }
         }
 
         function showPosition(position) {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
+            alert(latitude+'-'+longitude);
             hitungjarak(latSMK1, longSMK1, latitude, longitude);
         }
 
