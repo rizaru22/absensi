@@ -51,8 +51,4 @@ class UserController extends Controller
         
     }
 
-    public function kerjaan(){
-        $hashed=Hash::make('admin');
-        dd($hashed);
-    }
 }

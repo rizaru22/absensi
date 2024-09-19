@@ -22,5 +22,37 @@ class UserSeeder extends Seeder
             'password'=>Hash::make('admin'),
             'nip'=>'0000'
         ]);
+        DB::table('users')->insert([
+            'name'=>'Safrizal, S.ST',
+            'username'=>'safrizal',
+            'email'=>'safriza@gmail.com',
+            'password'=>Hash::make('admin'),
+            'nip'=>'198705302010031001',
+            'role'=>'user'
+        ]);
+        DB::table('users')->insert([
+            'name'=>'Syarifah Shabrina',
+            'username'=>'shabrina',
+            'email'=>'syarifahshabrina8@gmail.com',
+            'password'=>Hash::make('1234'),
+            'nip'=>'11111',
+            'role'=>'user'
+        ]);
+        DB::table('users')->insert([
+            'name'=>'Salwa Khalisha',
+            'username'=>'Salwa',
+            'email'=>'salwakhalisha2023@gmail.com ',
+            'password'=>Hash::make('1234'),
+            'nip'=>'22222',
+            'role'=>'user'
+        ]);
+        DB::table('users')->insert([
+            'name'=>'Rani bila aulia',
+            'username'=>'Rani',
+            'email'=>'ranibilaaulia@gmail.com ',
+            'password'=>Hash::make('1234'),
+            'nip'=>'33333',
+            'role'=>'user'
+        ]);
     }
 }

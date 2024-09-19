@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardPegawaiController;
+use App\Models\Absensi;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Artisan;
 
 Route::get('/generate', function(){
@@ -17,11 +19,15 @@ Route::get('/generate', function(){
 Route::get('/',[LoginController::class,'index'])->name('login');
 Route::post('/login',[LoginController::class,'authenticate'])->name('postlogin');
 
+Route::get('/restricted',function(){
+    return view('admin.restricted');
+})->name('restricted');
 
 Route::resource('/pengguna',UserController::class)->middleware(IsAdmin::class);
 Route::get('/admin',function(){
     return view('admin.dashboard');
 })->name('admin')->middleware(IsAdmin::class);
+
 
 Route::post('logout',[LoginController::class,'logout'])->name('logout')->middleware('auth');
 
@@ -41,19 +47,18 @@ Route::post('/kirimfotopulang',[AbsenController::class,'kirimfotopulang'])->name
 Route::post('/masuk',[AbsenController::class,'masuk'])->name('masuk')->middleware('auth');
 Route::post('/pulang',[AbsenController::class,'pulang'])->name('pulang')->middleware('auth');
 
-Route::get('/restricted',function(){
-    return view('admin.restricted');
-})->name('restricted');
+Route::get('/izin',[AbsenController::class,'izin'])->name('izin')->middleware('auth');
+Route::post('/kirimizin',[AbsenController::class,'kirimizin'])->name('kirimizin')->middleware('auth');
  
-Route::get('/kerjaan',[UserController::class,'kerjaan']);
 
-Route::get('/symlink',function(){
-    // Artisan::call('storage:link');
-    $target=$_SERVER['DOCUMENT_ROOT'].'/teacher-attendance/laravel/storage/app/public';
-    $link=$_SERVER['DOCUMENT_ROOT'].'/teacher-attendance/public/storage';
-    symlink($target,$link);
-    echo 'done';
-});
+
+// Route::get('/symlink',function(){
+//     // Artisan::call('storage:link');
+//     $target=$_SERVER['DOCUMENT_ROOT'].'/teacher-attendance/laravel/storage/app/public';
+//     $link=$_SERVER['DOCUMENT_ROOT'].'/teacher-attendance/public/storage';
+//     symlink($target,$link);
+//     echo 'done';
+// });
 // Route::get('/', function () {
 //     return view('layouts.template');
 // });

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('jam_pulang');
             $table->string('foto_masuk');
             $table->string('foto_pulang');
+            $table->string('foto_izin');
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 class DashboardPegawaiController extends Controller
 {
     //
-    public function index()
+    public function index() 
     {
         $tanggal = Carbon::now('Asia/Jakarta')->isoFormat('dddd,D MMMM Y');
         $data = Pengaturan::limit(1)->get();

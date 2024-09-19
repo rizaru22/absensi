@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('nama_instansi');
             $table->double('latitude');
             $table->double('longitude');
-            $table->string('jam_masuk');
-            $table->string('jam_pulang');
-            $table->string('jam_maksimal_masuk');
-            $table->string('jam_maksimal_pulang');
+            $table->string('jam_masuk',length:20);
+            $table->string('jam_pulang',length:20);
+            $table->string('jam_maksimal_masuk',length:20);
+            $table->string('jam_maksimal_pulang',length:20);
             $table->double('jarak_maksimal');
 
             $table->timestamps();

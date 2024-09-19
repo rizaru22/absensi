@@ -64,7 +64,8 @@
                         </a>
                     </div>
 
-                    <div class="col-3 "> <a href="#" class="item"><button class="btn btn-outline-success"><i class="fas fa-envelope"></i></button><span>Cuti</span></a></div>
+                    <div class="col-3 "> <a href="{{route('izin')}}" class="item"><button class="btn btn-outline-success"><i class="fas fa-envelope"></i></button><span>Cuti</span></a></div>
+
                     <div class="col-3 "> <a href="#" class="item"><button class="btn btn-outline-success"><i class="fas fa-user-alt"></i></button><span>Akun</span></a></div>
                 </div>
 

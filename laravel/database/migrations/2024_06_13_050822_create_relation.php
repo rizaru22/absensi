@@ -15,10 +15,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')
             ->onUpdate('cascade')->onDelete('cascade');
         });
-        Schema::table('cutis',function(Blueprint $table){
-            $table->foreign('user_id')->references('id')->on('users')
-            ->onUpdate('cascade')->onDelete('cascade');
-        });
     }
 
     /**
