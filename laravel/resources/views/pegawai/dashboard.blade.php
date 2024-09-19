@@ -76,7 +76,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="text pt-3">
-                        <h4>Rekap absen minggu ini</h4>
+                        <h4>Rekap absen pekan ini</h4>
                     </div>
                     <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
                         <thead>
@@ -87,71 +87,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd">
-                                <td class="" tabindex="0">Senin</td>
-                               
-                                @forelse ($dataAbsen[0] as $dt)
-                                <td> {{ $dt->jam_masuk }}</td>
-                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
-                                @empty
-                                <td> --:--:--</td>
-                                <td> --:--:--</td>
-                                @endforelse
-
-                            </tr>
-                            <tr class="even">
+                         @php
+                         $daftar_hari = array(
+                                    'Sunday' => 'Minggu',
+                                    'Monday' => 'Senin',
+                                    'Tuesday' => 'Selasa',
+                                    'Wednesday' => 'Rabu',
+                                    'Thursday' => 'Kamis',
+                                    'Friday' => 'Jumat',
+                                    'Saturday' => 'Sabtu'
+                            );
                           
-               
-                                <td class="" tabindex="0">Selasa</td>
-                                @forelse ($dataAbsen[1] as $dt)
-                                <td> {{ $dt->jam_masuk }}</td>
-                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
-                                @empty
-                                <td> --:--:--</td>
-                                <td> --:--:--</td>
-                                @endforelse
-                            </tr>
-                            <tr class="odd">
-                                <td class="" tabindex="0">Rabu</td>
-                                @forelse ($dataAbsen[2] as $dt)
-                                <td> {{ $dt->jam_masuk }}</td>
-                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
-                                @empty
-                                <td> --:--:--</td>
-                                <td> --:--:--</td>
-                                @endforelse
+                         @endphp
+                        @foreach($dataAbsen as $item)
+                        @foreach($item as $subItem)
+                    <tr>
+                    
+                    
+                    <td>{{ $daftar_hari[date('l',strtotime($subItem['created_at']))] }}</td>
 
-                            </tr>
-                            <tr class="even">
-                                <td class="" tabindex="0">Kamis</td>
-                                @forelse ($dataAbsen[3] as $dt)
-                                <td> {{ $dt->jam_masuk }}</td>
-                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
-                                @empty
-                                <td> --:--:--</td>
-                                <td> --:--:--</td>
-                                @endforelse
-                            </tr>
-                            <tr class="odd">
-                                <td class="">Jumat</td>
-                                @forelse ($dataAbsen[4] as $dt)
-                                <td> {{ $dt->jam_masuk }}</td>
-                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
-                                @empty
-                                <td> --:--:--</td>
-                                <td> --:--:--</td>
-                                @endforelse
-                            </tr>
-                            <tr class="odd">
-                                <td class="">Sabtu</td>
-                                @forelse ($dataAbsen[5] as $dt)
-                                <td> {{ $dt->jam_masuk }}</td>
-                                <td> {{ $dt->jam_pulang ?? ' '}}</td>
-                                @empty
-                                <td> --:--:--</td>
-                                <td> --:--:--</td>
-                                @endforelse
-                            </tr>
+                        <td>{{ $subItem['jam_masuk'] }}</td>
+                        <td>{{ $subItem['jam_pulang'] }}</td>
+                    </tr>
+                @endforeach
+                @endforeach
+
                         </tbody>
                     </table>
                 </div>
@@ -183,12 +143,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         // const x = document.getElementById("keterangan");
+  
         var inputJarak=document.getElementById("inputJarak");
         let latitude;
         let longitude;
         var jarak;
-        let latSMK1 = {{$data[0] -> latitude}};
-        let longSMK1 = {{$data[0] -> longitude}};
+        let latSMK1 = {{$pengaturan[0] -> latitude}};
+        let longSMK1 = {{$pengaturan[0] -> longitude}};
 
         function startAll(){
             startTime();
