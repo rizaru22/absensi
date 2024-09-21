@@ -1,15 +1,13 @@
 <?php
 
 use App\Http\Middleware\IsAdmin;
-use App\Http\Middleware\IsPegawai;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AbsenController;
+use App\Http\Controllers\AutoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardPegawaiController;
-use App\Models\Absensi;
-use GuzzleHttp\Middleware;
-use Illuminate\Support\Facades\Artisan;
+
 
 Route::get('/generate', function(){
     \Illuminate\Support\Facades\Artisan::call('storage:link');
@@ -24,8 +22,11 @@ Route::get('/restricted',function(){
 })->name('restricted');
 
 Route::resource('/pengguna',UserController::class)->middleware(IsAdmin::class);
+
 Route::get('/admin',function(){
-    return view('admin.dashboard');
+    return view('admin.dashboard',[
+        "title"=>"Dashboard"
+    ]);
 })->name('admin')->middleware(IsAdmin::class);
 
 
@@ -49,16 +50,8 @@ Route::post('/pulang',[AbsenController::class,'pulang'])->name('pulang')->middle
 
 Route::get('/izin',[AbsenController::class,'izin'])->name('izin')->middleware('auth');
 Route::post('/kirimizin',[AbsenController::class,'kirimizin'])->name('kirimizin')->middleware('auth');
- 
 
 
-// Route::get('/symlink',function(){
-//     // Artisan::call('storage:link');
-//     $target=$_SERVER['DOCUMENT_ROOT'].'/teacher-attendance/laravel/storage/app/public';
-//     $link=$_SERVER['DOCUMENT_ROOT'].'/teacher-attendance/public/storage';
-//     symlink($target,$link);
-//     echo 'done';
-// });
-// Route::get('/', function () {
-//     return view('layouts.template');
-// });
+
+Route::get('/autoMinggu',[AutoController::class,'minggu']);
+Route::get('/autoLibur',[AutoController::class,'libur']);

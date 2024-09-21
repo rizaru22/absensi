@@ -16,9 +16,9 @@ return new class extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->string('jam_masuk');
             $table->string('jam_pulang');
-            $table->string('foto_masuk');
-            $table->string('foto_pulang');
-            $table->string('foto_izin');
+            $table->string('foto_masuk')->nullable();
+            $table->string('foto_pulang')->nullable();
+            $table->string('foto_izin')->nullable();
             $table->timestamps();
         });
     }

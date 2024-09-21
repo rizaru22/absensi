@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('tanggal');
             $table->char('kode',length:5);
-            $table->string('keterangan',length:100);
+            $table->string('keterangan',length:100)->nullable();
             $table->timestamps();
         });
     }

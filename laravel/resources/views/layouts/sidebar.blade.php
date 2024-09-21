@@ -16,10 +16,58 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link {{ ($title==='Dashboard')?'active':'' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Menu
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link {{ ($title==='Pengaturan')?'active':'' }}">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>
+                Pengaturan
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('pengguna.index')}}" class="nav-link {{ ($title==='Pegawai')?'active':'' }}">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Pegawai
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link {{ ($title==='Libur Nasional')?'active':'' }}">
+              <i class="nav-icon fas fa-thumbs-up"></i>
+              <p>
+                Libur Nasional
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link {{ ($title==='Laporan Harian')?'active':'' }}">
+              <i class="nav-icon far fa-flag"></i>
+              <p>
+                Laporan Harian
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link {{ ($title==='Laporan Mingguan')?'active':'' }}">
+              <i class="nav-icon fas fa-flag"></i>
+              <p>
+                Laporan Mingguan
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link {{ ($title==='Laporan Bulanan')?'active':'' }}">
+            <i class="nav-icon fas fa-flag-checkered"></i>
+              <p>
+                Laporan Bulanan
               </p>
             </a>
           </li>
