@@ -99,6 +99,7 @@
                             );
                           
                          @endphp
+                         
                         @foreach($dataAbsen as $item)
                         @foreach($item as $subItem)
                     <tr>
@@ -108,10 +109,15 @@
 
                         <td>{{ $subItem['jam_masuk'] }}</td>
                         <td>{{ $subItem['jam_pulang'] }}</td>
+            
                     </tr>
+                   
                 @endforeach
                 @endforeach
-
+                <tr>
+                        <td>Total Jam Per Minggu</td>
+                        <td colspan="2">{{ $jamKerjaPerMinggu }} </td>
+                    </tr>
                         </tbody>
                     </table>
                 </div>

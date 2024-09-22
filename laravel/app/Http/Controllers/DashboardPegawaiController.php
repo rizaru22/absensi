@@ -20,16 +20,9 @@ class DashboardPegawaiController extends Controller
         // dd($tanggal);
         $pengaturan= Pengaturan::limit(1)->get();
         $date=Carbon::now('Asia/Jakarta');
-        $period = CarbonPeriod::create(Carbon::now('Asia/Jakarta')->startOfWeek(Carbon::MONDAY), Carbon::now('Asia/Jakarta')->endOfWeek(Carbon::SATURDAY));
-        
-        // dd($period);
-        // $dataAbsen= Absensi::select('created_at', 'jam_masuk', 'jam_pulang')
-        //         ->whereDate('created_at', $date)
-        //         ->where('user_id', Auth::user()->id)
-        //         ->get()
-        //         ->toArray();
-        //     dd($dataAbsen);
-  
+        $period = CarbonPeriod::create(Carbon::now('Asia/Jakarta')->startOfWeek(Carbon::SUNDAY), Carbon::now('Asia/Jakarta')->endOfWeek(Carbon::SATURDAY));
+        $jamKerjaPerHari=0;
+        $jamKerjaPerMinggu=0;
         foreach ($period as $date) {
             $data= Absensi::select('created_at', 'jam_masuk', 'jam_pulang')
                 ->whereDate('created_at', $date)
@@ -45,18 +38,33 @@ class DashboardPegawaiController extends Controller
                         'jam_masuk'=>'0',
                         'jam_pulang'=>'0',
                     ]);
+                    $jamKerjaPerHari=0;
+                }else{
+                    if(strlen($data[0]['jam_masuk'])>3 and strlen($data[0]['jam_pulang'])>3){
+                        $jamKerjaPerHari=strtotime($data[0]['jam_pulang']-strtotime($data['0']['jam_masuk']));
+                    }else{
+                        $jamKerjaPerHari=0;
+                    }
                 }
             $dataAbsen[]=$data;
-        }
-        // dd($dataAbsen);
+            $jamKerjaPerMinggu=$jamKerjaPerMinggu+$jamKerjaPerHari;
 
+        }
+        // $jamKerjaPerMinggu=strtotime('12:15:30')-strtotime('07:30:20');
+        $jam=(int) floor($jamKerjaPerMinggu/3600);
+        $menit=(int) floor(($jamKerjaPerMinggu-($jam*3600))/60);
+        $detik=(int) $jamKerjaPerMinggu-(($jam*3600)+($menit*60));
+        $stringJamKerjaPerMinggu=$jam.' Jam '.$menit.' menit '.$detik.' detik ';
+        // dd($stringJamKerjaPerMinggu);
 
 
 
         return view('pegawai.dashboard', [
             "tanggal" => $tanggal,
             "pengaturan" => $pengaturan,
-            "dataAbsen" => $dataAbsen
+            "dataAbsen" => $dataAbsen,
+            "jamKerjaPerMinggu"=>$stringJamKerjaPerMinggu
         ]);
+
     }
 }
