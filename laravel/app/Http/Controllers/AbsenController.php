@@ -116,7 +116,7 @@ class AbsenController extends Controller
                 }
                 //jika record belum ada maka lakukan insert
                 else {
-                    return redirect()->route('pegawai')->with('error','Anda belum melakukan absen masuk')
+                    return redirect()->route('pegawai')->with('error','Anda belum melakukan absen masuk');
                 }
             } else {
                 return redirect()->route('pegawai')->with('error', 'Anda berada di luar area sekolah');
