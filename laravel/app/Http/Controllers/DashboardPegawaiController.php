@@ -41,7 +41,7 @@ class DashboardPegawaiController extends Controller
                     $jamKerjaPerHari=0;
                 }else{
                     if(strlen($data[0]['jam_masuk'])>3 and strlen($data[0]['jam_pulang'])>3){
-                        $jamKerjaPerHari=strtotime($data[0]['jam_pulang']-strtotime($data['0']['jam_masuk']));
+                        $jamKerjaPerHari=strtotime($data[0]['jam_pulang'])-strtotime($data['0']['jam_masuk']);
                     }else{
                         $jamKerjaPerHari=0;
                     }
