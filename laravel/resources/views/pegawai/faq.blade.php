@@ -64,5 +64,10 @@
             </div>
         </div>
     </div>
+    <div class="row pt-5">
+        <div class="col-12">
+            <a href="{{route('pegawai')}}" class="btn btn-sm btn-outline-success"><i class="fas fa-home"></i> Dashboard</a>
+        </div>
+    </div>
 </div>
 @endsection
