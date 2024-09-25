@@ -37,6 +37,7 @@ Route::get('/pegawai',[DashboardPegawaiController::class,'index'])->name('pegawa
 Route::get('/fotomasuk',function(){
     return view('pegawai.fotomasuk');
 })->name('fotomasuk')->middleware('auth');
+
 Route::post('/kirimfotomasuk',[AbsenController::class,'kirimfotomasuk'])->name('kirimfotomasuk')->middleware('auth');
 
 Route::get('/fotopulang',function(){
@@ -56,6 +57,7 @@ Route::get('/akun',[AbsenController::class,'lihatAkun'])->name('akun')->middlewa
 
 Route::put('/updateAkun',[AbsenController::class,'updateAkun'])->name('updateAkun')->middleware('auth');
 
+Route::get('/faq',[DashboardPegawaiController::class,'faq'])->name('faq')->middleware('auth');
 
 Route::get('/autoMinggu',[AutoController::class,'minggu']);
 Route::get('/autoLibur',[AutoController::class,'libur']);

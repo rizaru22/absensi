@@ -1,5 +1,5 @@
 @extends('layouts.pegawai')
-@section('title','Izin/Cuti')
+@section('title','Ubah Password')
 
 @section('konten')
 <div class="container">

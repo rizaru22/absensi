@@ -67,4 +67,13 @@ class DashboardPegawaiController extends Controller
         ]);
 
     }
+
+    public function faq()
+    {
+        $data=Pengaturan::all();
+
+        return view('pegawai.faq',[
+            "data"=>$data
+        ]);
+    }
 }

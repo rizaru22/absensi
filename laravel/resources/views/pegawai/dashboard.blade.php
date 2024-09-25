@@ -126,7 +126,7 @@
             <div class="row mt-2 pb-2">
             <div class="col-sm-12 text-center">
                 <div class="keterangan" id="keterangan">
-                    <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-question-circle mr-1"></i>FAQ</a>
+                    <a href="{{route('faq')}}" class="btn btn-sm btn-outline-success"><i class="fas fa-question-circle mr-1"></i>FAQ</a>
                 </div>
             </div>
         </div>
