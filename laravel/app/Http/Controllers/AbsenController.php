@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Absensi;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Absensi;
+use Illuminate\View\View;
 use App\Models\Pengaturan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
 
 class AbsenController extends Controller
 {
@@ -185,5 +187,27 @@ class AbsenController extends Controller
 
         Absensi::create($validasi);
         return redirect()->route('pegawai')->with('success', 'Anda berhasil melakukan izin cuti');
+    }
+
+    public function lihatAkun():View
+    {
+        $dataUser=User::select('name','nip','username','email')->where('id',Auth::user()->id)->get();
+        // dd($dataUser[0]);
+        return view('pegawai.akun',[
+            "data"=>$dataUser[0]
+        ]);
+    }
+
+    public function updateAkun(Request $request):RedirectResponse
+    {
+        $validasi=$request->validate([
+            "password"=>"required"
+        ]);
+
+        $validasi['password']=Hash::make($validasi['password']);
+        User::where('id',Auth::user()->id)->update($validasi);
+
+        
+        return redirect()->route('pegawai')->with('success', 'Password telah diubah');
     }
 }

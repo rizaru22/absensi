@@ -52,11 +52,9 @@ Route::post('/pulang',[AbsenController::class,'pulang'])->name('pulang')->middle
 Route::get('/izin',[AbsenController::class,'izin'])->name('izin')->middleware('auth');
 Route::post('/kirimizin',[AbsenController::class,'kirimizin'])->name('kirimizin')->middleware('auth');
 
-Route::get('/akun',function(){
-    return view('pegawai.akun');
-})->name('akun')->middleware('auth');
+Route::get('/akun',[AbsenController::class,'lihatAkun'])->name('akun')->middleware('auth');
 
-Route::post('/updateAkun',[AbsenController::class,'updateAkun'])->name('updateAkun')->middleware('auth');
+Route::put('/updateAkun',[AbsenController::class,'updateAkun'])->name('updateAkun')->middleware('auth');
 
 
 Route::get('/autoMinggu',[AutoController::class,'minggu']);
