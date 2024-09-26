@@ -192,7 +192,7 @@
         function showPosition(position) {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
-            alert(latitude+'-'+longitude);
+            // alert(latitude+'-'+longitude);
             hitungjarak(latSMK1, longSMK1, latitude, longitude);
         }
 

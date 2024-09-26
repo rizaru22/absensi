@@ -43,6 +43,7 @@
                                 <li>Absen masuk dapat dilakukan pada pukul <b> {{$data[0]->jam_masuk}} sampai dengan {{$data[0]->jam_maksimal_masuk}} </b></li>
                                 <li>Absen pulang dapat dilakukan pada pukul <b>{{$data[0]->jam_pulang}} sampai dengan {{$data[0]->jam_maksimal_pulang}}</b></li>
                                 <li>Tidak bisa melakukan absen pulang jika belum melakukan absen masuk</li>
+                                <li>Foto Absen dilakukan dengan latar belakang sekolah, jika sedang ada jam mengajar maka lakukan di dalam kelas atau lab/bengkel. Jika tidak ada jam mengajar lakukan di tempat yang menandakan bahwa anda berada di lingkungan sekolah</li>
                             </ol>
                         </div>
                     </div>
@@ -65,7 +66,7 @@
         </div>
     </div>
     <div class="row pt-5">
-        <div class="col-12">
+        <div class="col-12 text-center">
             <a href="{{route('pegawai')}}" class="btn btn-sm btn-outline-success"><i class="fas fa-home"></i> Dashboard</a>
         </div>
     </div>

@@ -39,7 +39,7 @@ class AbsenController extends Controller
             ->get();
         //mengecek absensi apakah sudah melakukan absensi masuk pada hari ini
         if (!blank($cekAbsensi)) {
-            return redirect()->route('pegawai')->with('error', 'Anda sudah melakukan absensi masuk');
+            return redirect()->route('pegawai')->with('error', 'Anda sudah melakukan absensi/cuti');
         }
         //cek apakah waktu abseni berada dalam rentang waktu yang diizinkan untuk absen masuk
 
@@ -110,13 +110,19 @@ class AbsenController extends Controller
                     ->where('user_id', '=', Auth::user()->id)
                     ->whereDate('created_at', Carbon::today())
                     ->get();
-                //jika record sudah ada maka lakukan update
+                //jika record sudah ada maka lakukan update di fotopulang
                 if (!blank($cekAbsensi)) {
-                    // $data["jam_pulang"]=Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
-                    // Absensi::where('user_id',Auth::user()->id)->whereDate('created_at',Carbon::today())->update($data);
-                    return redirect()->route('fotopulang');
+                    $jamPulang=Absensi::select('jam_pulang')
+                                                        ->whereDate('created_at',Carbon::today())
+                                                         ->where('user_id',Auth::user()->id)
+                                                        ->get();
+                    if($jamPulang[0]->jam_pulang!=0){
+                        return redirect()->route('pegawai')->with('error',"Anda sudah mengajukan cuti");
+                    }else {
+                        return redirect()->route('fotopulang');   
+                    }
                 }
-                //jika record belum ada maka lakukan insert
+                //jika record belum ada maka  kirim pesan error
                 else {
                     return redirect()->route('pegawai')->with('error','Anda belum melakukan absen masuk');
                 }
