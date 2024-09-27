@@ -7,11 +7,11 @@ use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\AutoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardPegawaiController;
+use App\Http\Controllers\LaporanController;
 
 Route::controller(LoginController::class)->group(function(){
     Route::get('/', 'index')->name('login');
     Route::post('/login', 'authenticate')->name('postlogin');
-
 });
 
 Route::get('/restricted', function () {
@@ -26,6 +26,10 @@ Route::middleware(IsAdmin::class)->group(function () {
             "title" => "Dashboard"
         ]);
     })->name('admin');
+
+    Route::get('/pilihtanggallh',[LaporanController::class,'pilihTanggalLH'])->name('pilihtanggallh');
+    Route::post('/laporanharian',[LaporanController::class,'laporanHarian'])->name('laporanharian');
+
 });
 
 Route::middleware('auth')->group(function () {

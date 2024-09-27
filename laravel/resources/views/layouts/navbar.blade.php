@@ -13,7 +13,7 @@
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <div class="user-panel d-flex">
                 <div class="image">
-                    <img src="{{asset('dist/img/user2-160x160.jpg')}}" alt="User Image" class="img-circle elevation-1 mr-1">
+                    <img src="{{asset("dist/img/user2-160x160.jpg")}}" alt="User Image" class="img-circle elevation-1 mr-1">
                 </div>
                 <div class="info">
                 {{ Auth::user()->name }}

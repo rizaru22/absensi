@@ -16,7 +16,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($title==='Dashboard')?'active':'' }}">
+            <a href="{{ route('admin') }}"  class="nav-link {{ ($title==='Dashboard')?'active':'' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -48,7 +48,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($title==='Laporan Harian')?'active':'' }}">
+            <a href="{{route('pilihtanggallh')}}" class="nav-link {{ ($title==='Laporan Harian')?'active':'' }}">
               <i class="nav-icon far fa-flag"></i>
               <p>
                 Laporan Harian
