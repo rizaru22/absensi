@@ -8,12 +8,6 @@ use App\Http\Controllers\AutoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardPegawaiController;
 
-
-Route::get('/generate', function () {
-    \Illuminate\Support\Facades\Artisan::call('storage:link');
-    echo 'ok';
-});
-
 Route::controller(LoginController::class)->group(function(){
     Route::get('/', 'index')->name('login');
     Route::post('/login', 'authenticate')->name('postlogin');
