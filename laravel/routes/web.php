@@ -9,55 +9,60 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardPegawaiController;
 
 
-Route::get('/generate', function(){
+Route::get('/generate', function () {
     \Illuminate\Support\Facades\Artisan::call('storage:link');
     echo 'ok';
- });
+});
 
-Route::get('/',[LoginController::class,'index'])->name('login');
-Route::post('/login',[LoginController::class,'authenticate'])->name('postlogin');
+Route::controller(LoginController::class)->group(function(){
+    Route::get('/', 'index')->name('login');
+    Route::post('/login', 'authenticate')->name('postlogin');
 
-Route::get('/restricted',function(){
+});
+
+Route::get('/restricted', function () {
     return view('admin.restricted');
 })->name('restricted');
 
-Route::resource('/pengguna',UserController::class)->middleware(IsAdmin::class);
+Route::middleware(IsAdmin::class)->group(function () {
+    Route::resource('/pengguna', UserController::class);
 
-Route::get('/admin',function(){
-    return view('admin.dashboard',[
-        "title"=>"Dashboard"
-    ]);
-})->name('admin')->middleware(IsAdmin::class);
+    Route::get('/admin', function () {
+        return view('admin.dashboard', [
+            "title" => "Dashboard"
+        ]);
+    })->name('admin');
+});
 
+Route::middleware('auth')->group(function () {
+    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::post('logout',[LoginController::class,'logout'])->name('logout')->middleware('auth');
+    Route::controller(DashboardPegawaiController::class)->group(function () {
+        Route::get('/pegawai',  'index')->name('pegawai');
+        Route::get('/faq',  'faq')->name('faq');
+    });
 
-Route::get('/pegawai',[DashboardPegawaiController::class,'index'])->name('pegawai')->middleware('auth');
+    Route::get('/fotomasuk', function () {
+        return view('pegawai.fotomasuk');
+    })->name('fotomasuk');
 
-Route::get('/fotomasuk',function(){
-    return view('pegawai.fotomasuk');
-})->name('fotomasuk')->middleware('auth');
+    Route::get('/fotopulang', function () {
+        return view('pegawai.fotopulang');
+    })->name('fotopulang');
 
-Route::post('/kirimfotomasuk',[AbsenController::class,'kirimfotomasuk'])->name('kirimfotomasuk')->middleware('auth');
+    Route::controller(AbsenController::class)->group(function () {
+        Route::post('/kirimfotomasuk', 'kirimfotomasuk')->name('kirimfotomasuk');
+        Route::post('/kirimfotopulang', 'kirimfotopulang')->name('kirimfotopulang');
+        Route::post('/masuk', 'masuk')->name('masuk');
+        Route::post('/pulang',  'pulang')->name('pulang');
+        Route::get('/izin',  'izin')->name('izin');
+        Route::post('/kirimizin', 'kirimizin')->name('kirimizin');
+        Route::get('/akun', 'lihatAkun')->name('akun');
+        Route::put('/updateAkun', 'updateAkun')->name('updateAkun');
+    });
+});
 
-Route::get('/fotopulang',function(){
-    return view('pegawai.fotopulang');
-})->name('fotopulang')->middleware('auth');
-
-
-Route::post('/kirimfotopulang',[AbsenController::class,'kirimfotopulang'])->name('kirimfotopulang')->middleware('auth');
-
-Route::post('/masuk',[AbsenController::class,'masuk'])->name('masuk')->middleware('auth');
-Route::post('/pulang',[AbsenController::class,'pulang'])->name('pulang')->middleware('auth');
-
-Route::get('/izin',[AbsenController::class,'izin'])->name('izin')->middleware('auth');
-Route::post('/kirimizin',[AbsenController::class,'kirimizin'])->name('kirimizin')->middleware('auth');
-
-Route::get('/akun',[AbsenController::class,'lihatAkun'])->name('akun')->middleware('auth');
-
-Route::put('/updateAkun',[AbsenController::class,'updateAkun'])->name('updateAkun')->middleware('auth');
-
-Route::get('/faq',[DashboardPegawaiController::class,'faq'])->name('faq')->middleware('auth');
-
-Route::get('/autoMinggu',[AutoController::class,'minggu']);
-Route::get('/autoLibur',[AutoController::class,'libur']);
+Route::controller(AutoController::class)->group(function () {
+    Route::get('/autoMinggu',  'minggu');
+    Route::get('/autoLibur',  'libur');
+});
