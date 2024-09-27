@@ -31,9 +31,9 @@
                     <td>{{ $i }}</td>
                     <td>{{ $subdah['name'] }}</td>
                     <td>{{ $subdah['jam_masuk'] }}-{{$subdah['jam_pulang']}}</td>
-                    <td><img src="{{asset('storage/'.$subdah['foto_masuk'])}}" alt=""></td>
-                    <td> {{$subdah['foto_pulang']}}</td>
-                    <td> {{$subdah['foto_izin']}}</td>
+                    <td><img src="{{asset('storage/'.$subdah['foto_masuk'])}}" width="150"></td>
+                    <td><img src="{{asset('storage/'.$subdah['foto_pulang'])}}" width="150"> </td>
+                    <td> <img src="{{asset('storage/'.$subdah['foto_izin'])}}" width="150"></td>
 
                 </tr>
                 @endforeach
