@@ -56,7 +56,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($title==='Laporan Mingguan')?'active':'' }}">
+            <a href="{{ route('pilihtanggallm') }}" class="nav-link {{ ($title==='Laporan Mingguan')?'active':'' }}">
               <i class="nav-icon fas fa-flag"></i>
               <p>
                 Laporan Mingguan

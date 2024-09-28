@@ -19,7 +19,7 @@ class DashboardPegawaiController extends Controller
         // $tanggal = Carbon::parse('2024-09-20')->isoFormat('dddd,D MMMM Y');
         // dd($tanggal);
         $pengaturan= Pengaturan::limit(1)->get();
-        $date=Carbon::now('Asia/Jakarta');
+        // $date=Carbon::now('Asia/Jakarta');
         $period = CarbonPeriod::create(Carbon::now('Asia/Jakarta')->startOfWeek(Carbon::SUNDAY), Carbon::now('Asia/Jakarta')->endOfWeek(Carbon::SATURDAY));
         $jamKerjaPerHari=0;
         $jamKerjaPerMinggu=0;

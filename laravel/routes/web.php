@@ -30,6 +30,9 @@ Route::middleware(IsAdmin::class)->group(function () {
     Route::get('/pilihtanggallh',[LaporanController::class,'pilihTanggalLH'])->name('pilihtanggallh');
     Route::post('/laporanharian',[LaporanController::class,'laporanHarian'])->name('laporanharian');
 
+    Route::get('/pilihtanggallm',[LaporanController::class,'pilihTanggalLM'])->name('pilihtanggallm');
+    Route::post('/laporanmingguan',[LaporanController::class,'laporanMingguan'])->name('laporanmingguan');
+
 });
 
 Route::middleware('auth')->group(function () {

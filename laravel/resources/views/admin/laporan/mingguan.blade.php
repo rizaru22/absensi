@@ -5,58 +5,52 @@
 <link rel="stylesheet" href="{{asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+<style>
+    @media print {
+        td {
+            white-space: pre-wrap;
+            /* Memastikan line breaks berfungsi */
+        }
+    }
+</style>
 @endsection
 @section('namaHalaman','Laporan Harian')
 @section('konten')
 <div class="card">
-    <div class="card-header">
-        <h4>{{ $tanggal }}</h4>
-    </div>
+
     <div class="card-body">
         <table id="example1" class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama</th>
-                    <th>Masuk</th>
-                    <th>Pulang</th>
-                    <th>Foto (<span style="color: green;">Masuk</span> || <span style="color: blue;">Pulang</span> || <span style="color: yellow;">Izin</span>)</th>
+
+                    @foreach($header as $hd)
+                    <th>{{ $hd }}</th>
+                    @endforeach
                 </tr>
+
             </thead>
             <tbody>
+                @foreach($data as $dt)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $dt['nama'] }} <br>NIP. {{ $dt['nip'] }}</td>
+                    @foreach($dt['absen'] as $subdt)
+                    <td>{{ $subdt['jam_masuk'] }}<br>s.d<br>{{ $subdt['jam_pulang'] }}</td>
+                    @endforeach
+                    <td>{{ $dt['total_jam_kerja_per_minggu'] }}</td>
+                </tr>
+                @endforeach
+
+
                 @php
                 $i=1;
                 @endphp
-                @foreach ($dataAbsenHarian as $dah)
-                @foreach($dah as $subdah)
-                <tr>
-                    <td>{{ $i }}</td>
-                    <td>{{ $subdah['name'] }}</td>
-                    <td>{{ $subdah['jam_masuk'] }}</td>
-                    <td>{{$subdah['jam_pulang']}}</td>
-                    <td>
-                        @if($subdah['foto_masuk']=='-' or $subdah['foto_masuk']=='0')
-                        @else
-                        <img src="{{asset('storage/'.$subdah['foto_masuk'])}}" width="150" alt="Foto Masuk" style="border: 2px solid green; ">
-                        @endif
-                        @if($subdah['foto_pulang']=='-' or $subdah['foto_pulang']=='0' or $subdah['foto_pulang']=='')
-                        @else
-                        
-                        <img src="{{asset('storage/'.$subdah['foto_pulang'])}}" width="150" alt="Foto Pulang" style="border: 2px solid blue; " > 
-                        @endif
-                        @if($subdah['foto_izin']=='-' or $subdah['foto_izin']=='0' or $subdah['foto_izin']=='')
-                        @else
-                        
-                        <img src="{{asset('storage/'.$subdah['foto_izin'])}}" width="150" alt="Foto Izin" style="border: 2px solid yellow; ">
-                        @endif
-                    </td>
 
-                </tr>
-                @endforeach
                 @php
                 $i++
                 @endphp
-                @endforeach
+
 
             </tbody>
         </table>
