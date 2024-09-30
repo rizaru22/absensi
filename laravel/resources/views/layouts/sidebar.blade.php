@@ -64,7 +64,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($title==='Laporan Bulanan')?'active':'' }}">
+            <a href="{{ route('pilihbulantahun') }}" class="nav-link {{ ($title==='Laporan Bulanan')?'active':'' }}">
             <i class="nav-icon fas fa-flag-checkered"></i>
               <p>
                 Laporan Bulanan

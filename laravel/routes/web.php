@@ -27,11 +27,18 @@ Route::middleware(IsAdmin::class)->group(function () {
         ]);
     })->name('admin');
 
-    Route::get('/pilihtanggallh',[LaporanController::class,'pilihTanggalLH'])->name('pilihtanggallh');
-    Route::post('/laporanharian',[LaporanController::class,'laporanHarian'])->name('laporanharian');
+    Route::controller(LaporanController::class)->group(function(){
+        Route::get('/pilihtanggallh','pilihTanggalLH')->name('pilihtanggallh');
+        Route::post('/laporanharian','laporanHarian')->name('laporanharian');
+    
+        Route::get('/pilihtanggallm','pilihTanggalLM')->name('pilihtanggallm');
+        Route::post('/laporanmingguan','laporanMingguan')->name('laporanmingguan');
+        
+        Route::get('/pilihbulantahun','pilihBulanTahun')->name('pilihbulantahun');
+        Route::post('/laporanbulanan','laporanBulanan')->name('laporanbulanan');
+    
+    });
 
-    Route::get('/pilihtanggallm',[LaporanController::class,'pilihTanggalLM'])->name('pilihtanggallm');
-    Route::post('/laporanmingguan',[LaporanController::class,'laporanMingguan'])->name('laporanmingguan');
 
 });
 

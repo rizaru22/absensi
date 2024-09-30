@@ -4,7 +4,7 @@
   <!-- Tempusdominus Bootstrap 4 -->
   <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
 @endsection
-@section('namaHalaman','Laporan Harian')
+@section('namaHalaman','Laporan Mingguan')
 @section('konten')
 <div class="row">
     <div class="col-md-6">

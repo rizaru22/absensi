@@ -14,7 +14,7 @@
     }
 </style>
 @endsection
-@section('namaHalaman','Laporan Harian')
+@section('namaHalaman','Laporan Mingguan')
 @section('konten')
 <div class="card">
 

@@ -31,7 +31,7 @@
                 @foreach($dah as $subdah)
                 <tr>
                     <td>{{ $i }}</td>
-                    <td>{{ $subdah['name'] }}</td>
+                    <td>{{ $subdah['name'] }} <br>NIP.{{$subdah['nip']}}</td>
                     <td>{{ $subdah['jam_masuk'] }}</td>
                     <td>{{$subdah['jam_pulang']}}</td>
                     <td>

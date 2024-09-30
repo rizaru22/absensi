@@ -52,10 +52,11 @@ class LaporanController extends Controller
         }
         // dd($dataAbsenHarian);
 
-
+        // $stringTitle=$tanggal->isoFormat('D MMMM Y');
+        // dd($stringTitle);
 
         return view('admin.laporan.harian', [
-            "title" => "Laporan Harian",
+            "title" => "Laporan Harian :".$tanggal->isoFormat('D MMMM Y'),
             "dataAbsenHarian" => $dataAbsenHarian,
             "tanggal" => $tanggal->isoFormat('dddd,D MMMM Y')
         ]);
@@ -132,10 +133,71 @@ class LaporanController extends Controller
 
         // dd($seluruh);
 
-
+        $string_Tahun=Carbon::parse($tanggal)->year;
         return view('admin.laporan.mingguan', [
-            "title" => "Laporan Mingguan",
+            "title" => "Laporan Mingguan <br> Tahun:".$string_Tahun,
             "header" => $header,
+            "data"=>$seluruh_data
+        ]);
+    }
+
+    public function pilihBulanTahun():View
+    {
+        return view('admin.laporan.pilihbulantahun',[
+            "title"=>"Laporan Bulanan"
+        ]);
+    }
+
+    public function laporanBulanan(Request $request):View
+    {
+        $bulan=$request['tanggal'];
+        $tanggal_Awal=Carbon::parse($bulan)->startOfMonth();
+        $tanggal_Akhir=Carbon::parse($bulan)->endOfMonth();
+        $period=CarbonPeriod::create($tanggal_Awal,$tanggal_Akhir);
+
+        $all_Users = User::select('id', 'name', 'nip')
+        ->where('role', 'user')
+        ->orderBy('name')
+        ->get()
+        ->toArray();
+
+        $header = array("Nama");
+        foreach ($period as $date) {
+            $header[] = $date->isoFormat('D');
+        }
+
+        foreach ($all_Users as $au) {
+            foreach ($period as $date) {
+                $data = Absensi::select('jam_masuk', 'jam_pulang')
+                    ->where('user_id', $au['id'])
+                    ->whereDate('created_at', $date)
+                    ->get()->toArray();
+                if (!blank($data)) {
+                    $data_absen_per_orang[] = $data[0];
+                } else {
+                    $data = array("jam_masuk" => "0", "jam_pulang" => "0");
+                    $data_absen_per_orang[] = $data;
+                }
+                
+            }
+          
+
+            $data_lengkap_per_orang = array("nama" => $au['name'], "nip" => $au['nip']);
+            $data_lengkap_per_orang['absen'] = $data_absen_per_orang;
+        
+            $seluruh_data[]=$data_lengkap_per_orang;
+            unset($data_absen_per_orang);
+        }
+
+
+
+        $string_Bulan=Carbon::parse($bulan)->monthName;
+        $string_Tahun=Carbon::parse($bulan)->year;
+        // dd($string_Tahun);
+
+        return view('admin.laporan.bulanan',[
+            "title"=>"Laporan Bulanan <br>Bulan:$string_Bulan <br>Tahun:$string_Tahun",
+            "header"=>$header,
             "data"=>$seluruh_data
         ]);
     }
