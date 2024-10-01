@@ -8,17 +8,21 @@ use App\Http\Controllers\AutoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardPegawaiController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Middleware\IsPegawai;
 
 Route::controller(LoginController::class)->group(function(){
     Route::get('/', 'index')->name('login');
     Route::post('/login', 'authenticate')->name('postlogin');
+    Route::post('/logout',  'logout')->name('logout');
 });
 
 Route::get('/restricted', function () {
     return view('admin.restricted');
 })->name('restricted');
 
-Route::middleware(IsAdmin::class)->group(function () {
+
+Route::middleware(['auth',IsAdmin::class])->group(function () {
+    
     Route::resource('/pengguna', UserController::class);
 
     Route::get('/admin', function () {
@@ -42,8 +46,8 @@ Route::middleware(IsAdmin::class)->group(function () {
 
 });
 
-Route::middleware('auth')->group(function () {
-    Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::middleware(['auth',IsPegawai::class])->group(function () {
+
 
     Route::controller(DashboardPegawaiController::class)->group(function () {
         Route::get('/pegawai',  'index')->name('pegawai');
