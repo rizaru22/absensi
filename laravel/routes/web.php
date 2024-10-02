@@ -42,13 +42,9 @@ Route::middleware(['auth',IsAdmin::class])->group(function () {
         Route::post('/laporanbulanan','laporanBulanan')->name('laporanbulanan');
     
     });
-
-
 });
 
 Route::middleware(['auth',IsPegawai::class])->group(function () {
-
-
     Route::controller(DashboardPegawaiController::class)->group(function () {
         Route::get('/pegawai',  'index')->name('pegawai');
         Route::get('/faq',  'faq')->name('faq');
