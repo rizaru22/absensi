@@ -17,9 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
     ->withExceptions(function (Exceptions $exceptions) {
         //
-        // $exceptions->render(function ($request, Throwable $exception){
-        //     if ($exception instanceof TokenMismatchException){
-        //         return redirect()->route('login');
-        //     }
-        // });
+        $exceptions->renderable(function (\Exception $e) {
+            if ($e->getPrevious() instanceof \Illuminate\Session\TokenMismatchException) {
+                return redirect()->route('login');
+            };
+        });
     })->create();

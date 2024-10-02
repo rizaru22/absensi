@@ -7,12 +7,17 @@
 <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+    <style>
+        .card-header .btn-success{
+            background-color: #3D9970;
+        }
+    </style>
 @endsection
 @section('namaHalaman','Daftar Pegawai')
 @section('konten')
 <div class="card">
     <div class="card-header">
-    <a href="{{route('pengguna.create')}}"  class="btn btn-md btn-success float-right">Create</a>
+    <a href="{{route('pengguna.create')}}"  class="btn btn-md btn-success float-right"> <i class="fas fa-user-plus"></i> Create</a>
     </div>
     <div class="card-body">
     <table id="example1" class="table table-bordered table-striped ">
@@ -21,6 +26,7 @@
                         <th>No</th>
                         <th>Nama</th>
                         <th>NIP</th>
+                        <th>Username</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -31,20 +37,15 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $dt->name }}</td>
                         <td>{{ $dt->nip }}</td>
-                       
+                        <td>{{ $dt->username }}</td>
                         <td>
                             <div class="btn-group">
-  
-                                <a type="button" class="btn btn-warning" href="#">
+                                <a type="button" class="btn btn-warning" href="{{route('pengguna.edit',$dt->id)}}">
                                     <i class=" fas fa-edit"></i>
                                 </a>
-                               
                             </div>
-
-
                         </td>
                     </tr>
-
                     @endforeach
                 </tbody>
             </table>

@@ -24,23 +24,24 @@
     @endif
 <div class="card card-success">
     <div class="card-header">
-        <h3 class="card-title">Tambah Data Pegawai</h3>
+        <h3 class="card-title">Ubah Data Pegawai</h3>
     </div>
     <div class="card-body">
 
-        <form action="{{route('pengguna.store')}}" method="post">
+        <form action="{{route('pengguna.update',$user->id)}}" method="post">
             @csrf
+            @method('PUT')
             <div class="form-group">
                 <label for="nama">Nama Lengkap:</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Nama Lengkap" required>
+                <input type="text" class="form-control" id="name" name="name"  value="{{$user->name}}" required>
             </div>
             <div class="form-group">
                 <label for="nip">NIP/NIPPPK/NIPS/NIK:</label>
-                <input type="number" class="form-control" id="nip" name="nip" placeholder="198012122008032003">
+                <input type="number" class="form-control" id="nip" name="nip" value="{{$user->nip}}">
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="jhondoe@guru.smk.belajar.id" required>
+                <input type="email" class="form-control" id="email" name="email"  value="{{$user->email}}" required>
             </div>
     </div>
     <div class="card-footer">

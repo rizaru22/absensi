@@ -20,37 +20,53 @@ class UserController extends Controller
     }
 
     public function create():View{
-        return view('admin.user.create');
+        return view('admin.user.create',[
+            "title"=>"Pegawai"
+        ]);
     }
 
     public function store(Request $request):RedirectResponse{
         $request->validate([
             "name"=>"required",
-            "username"=>"required",
             "nip"=>"nullable",
-            "email"=>"nullable",
-            "password"=>"required",
+            "email"=>"required",
         ]);
- 
-        $password=Hash::make($request->password);
+        $username=strstr($request->email,'@',true);
+        $password=Hash::make('1234');
         $role='user';
 
         $request->merge([
+            "username"=>$username,
             "password"=>$password,
             "role"=>$role
         ]);
-
+        // dd($request);
         User::create($request->all());
 
         return redirect()->route('pengguna.index');
 
     }
 
-    public function show($id){
-        $user=User::find($id);
-        // dd($user->password);
-        dd(Hash::check('321',$user->password));
-        
+    public function edit(string $id):View
+    {
+        $user=User::findOrFail($id);
+        // dd($user);
+        return view('admin.user.edit',compact('user'),[
+            "title"=>"Pegawai"
+        ]);
     }
+
+    public function update(Request $request,$id):RedirectResponse
+    {
+        $username=strstr($request->email,'@',true);
+        $user=User::findOrFail($id);
+        $user->name=$request->name;
+        $user->nip=$request->nip;
+        $user->email=$request->email;
+        $user->username=$username;
+        $user->save();
+        return redirect()->route('pengguna.index');
+    }
+
 
 }
