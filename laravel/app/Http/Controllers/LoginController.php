@@ -30,7 +30,11 @@ class LoginController extends Controller
                 return redirect()->intended('admin');
             }
             if(Auth::user()->role=='user'){
-                return redirect()->route('pegawai');
+                if($request->password=='1234'){
+                    return redirect()->route('akun');
+                }else{
+                    return redirect()->route('pegawai');
+                }
             }
         }
  
