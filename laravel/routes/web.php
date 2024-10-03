@@ -23,7 +23,8 @@ Route::get('/restricted', function () {
 
 Route::middleware(['auth',IsAdmin::class])->group(function () {
     
-    Route::resource('/pengguna', UserController::class);
+    Route::resource('/pengguna', UserController::class)->except('detroy','show');
+    Route::get('/reset/{id}',[UserController::class,'reset'])->name('reset');
 
     Route::get('/admin', function () {
         return view('admin.dashboard', [

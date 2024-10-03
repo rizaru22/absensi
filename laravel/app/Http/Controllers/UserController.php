@@ -65,8 +65,17 @@ class UserController extends Controller
         $user->email=$request->email;
         $user->username=$username;
         $user->save();
-        return redirect()->route('pengguna.index');
+        return redirect()->route('pengguna.index')->with('success', 'Berhasil ubah data '.$user->name);
     }
+
+    public function reset(string $id)
+    {
+        $user=user::findOrFail($id);
+        $user->password=Hash::make('1234');
+        $user->save();
+        return redirect()->route('pengguna.index')->with('success', 'Berhasil reset password '.$user->name);
+    }
+    
 
 
 }

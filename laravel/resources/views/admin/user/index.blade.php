@@ -40,8 +40,11 @@
                         <td>{{ $dt->username }}</td>
                         <td>
                             <div class="btn-group">
-                                <a type="button" class="btn btn-warning" href="{{route('pengguna.edit',$dt->id)}}">
+                                <a type="button" class="btn btn-sm btn-warning btn-flat" href="{{route('pengguna.edit',$dt->id)}}">
                                     <i class=" fas fa-edit"></i>
+                                </a>
+                                <a type="button" class="btn btn-sm btn-danger btn-flat" href="{{route('reset',$dt->id)}}">
+                                    <i class=" fas fa-key"></i>
                                 </a>
                             </div>
                         </td>
