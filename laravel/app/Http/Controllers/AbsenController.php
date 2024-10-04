@@ -216,4 +216,4 @@ class AbsenController extends Controller
         
         return redirect()->route('pegawai')->with('success', 'Password telah diubah');
     }
-}
+} 

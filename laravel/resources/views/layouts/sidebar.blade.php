@@ -24,7 +24,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($title==='Pengaturan')?'active':'' }}">
+            <a href="{{route('pengaturan.index')}}" class="nav-link {{ ($title==='Pengaturan')?'active':'' }}">
               <i class="nav-icon fas fa-cogs"></i>
               <p>
                 Pengaturan
