@@ -1,16 +1,21 @@
 <?php
 
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Absensi;
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsPegawai;
 use Illuminate\Support\Facades\Route;
+use App\Notifications\TeleNotification;
+use App\Http\Controllers\AutoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AbsenController;
-use App\Http\Controllers\AutoController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\DashboardPegawaiController;
 use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\LiburnasionalController;
+use Illuminate\Support\Facades\Notification;
 use App\Http\Controllers\PengaturanController;
-use App\Http\Middleware\IsPegawai;
+use App\Http\Controllers\LiburnasionalController;
+use App\Http\Controllers\DashboardPegawaiController;
 
 Route::controller(LoginController::class)->group(function(){
     Route::get('/', 'index')->name('login');
@@ -81,3 +86,41 @@ Route::controller(AutoController::class)->group(function () {
     Route::get('/autoMinggu',  'minggu');
     Route::get('/autoLibur',  'libur');
 });
+
+// Route::get('/not',function(){
+//     return view('notification');
+// });
+Route::get('/kirimnotifikasi',function(){
+    $tanggal=Carbon::now();
+    $user=User::select('id','name')
+                        ->where('role','user')->get()->toArray();
+    foreach($user as $us){
+        $absensi=Absensi::select('jam_masuk')->where('user_id',$us['id'])->whereDate('created_at',$tanggal)->get();
+        // dd($absensi,$us['name'],$tanggal);
+        if(blank($absensi)){
+            $nama[]=$us['name'];
+        }
+    }
+    $data['title']="Yang Belum Absen Masuk";
+    $data['nama']=$nama;
+    // dd($data);
+    Notification::route('telegram','1218209645')->notify(new TeleNotification ($data));
+})->name('kirimnotifikasi');
+Route::get('/kirimnotifikasipulang',function(){
+    $tanggal=Carbon::now();
+    $user=User::select('id','name')
+                        ->where('role','user')->get()->toArray();
+    foreach($user as $us){
+        $absensi=Absensi::select('jam_pulang')->where('user_id',$us['id'])->whereDate('created_at',$tanggal)->get()->toArray();
+        // dd($absensi[0]->jam_pulang,$us['name'],$tanggal);
+        if(blank($absensi)){
+            $nama[]=$us['name'];
+        }elseif($absensi[0]['jam_pulang']=='0'){
+            $nama[]=$us['name'];
+        }
+    }
+    $data['title']="Yang Belum Absen Pulang";
+    $data['nama']=$nama;
+    // dd($data);
+    Notification::route('telegram','1218209645')->notify(new TeleNotification ($data));
+})->name('kirimnotifikasipulang');
