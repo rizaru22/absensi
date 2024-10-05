@@ -40,7 +40,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($title==='Libur Nasional')?'active':'' }}">
+            <a href="{{route('liburnasional.index')}}" class="nav-link {{ ($title==='Libur Nasional')?'active':'' }}">
               <i class="nav-icon fas fa-thumbs-up"></i>
               <p>
                 Libur Nasional

@@ -13,20 +13,20 @@
         }
     </style>
 @endsection
-@section('namaHalaman','Daftar Pegawai')
+@section('namaHalaman','Daftar Hari Libur')
 @section('konten')
 <div class="card">
     <div class="card-header">
-    <a href="{{route('pengguna.create')}}"  class="btn btn-md btn-success float-right"> <i class="fas fa-user-plus"></i> Tambah Data</a>
+    <a href="{{route('liburnasional.create')}}"  class="btn btn-md btn-success float-right"> <i class="fas fa-user-plus"></i> Tambah Data</a>
     </div>
     <div class="card-body">
     <table id="example1" class="table table-bordered table-striped ">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama</th>
-                        <th>NIP</th>
-                        <th>Username</th>
+                        <th>Tanggal</th>
+                        <th>Kode</th>
+                        <th>Keterangan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -35,17 +35,22 @@
                     @foreach($data as $dt)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $dt->name }}</td>
-                        <td>{{ $dt->nip }}</td>
-                        <td>{{ $dt->username }}</td>
+                        <td>{{ $dt->tanggal }}</td>
+                        <td>{{ $dt->kode }}</td>
+                        <td>{{ $dt->keterangan }}</td>
                         <td>
                             <div class="btn-group">
-                                <a type="button" class="btn btn-sm btn-warning btn-flat" href="{{route('pengguna.edit',$dt->id)}}">
+                                <a type="button" class="btn btn-sm btn-warning btn-flat" href="{{route('liburnasional.edit',$dt->id)}}">
                                     <i class=" fas fa-edit"></i>
                                 </a>
-                                <a type="button" class="btn btn-sm btn-danger btn-flat" href="{{route('reset',$dt->id)}}">
-                                    <i class=" fas fa-key"></i>
-                                </a>
+                                <form action="{{route('liburnasional.destroy',$dt->id)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger btn-flat"> <i class="fas fa-trash"></i>
+                                    
+                                </button>
+                                </form>
+                              
                             </div>
                         </td>
                     </tr>

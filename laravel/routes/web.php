@@ -8,6 +8,7 @@ use App\Http\Controllers\AutoController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardPegawaiController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LiburnasionalController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Middleware\IsPegawai;
 
@@ -46,6 +47,7 @@ Route::middleware(['auth',IsAdmin::class])->group(function () {
     });
 
     Route::resource('/pengaturan',PengaturanController::class)->only(['index','update']);
+    Route::resource('/liburnasional',LiburnasionalController::class)->except('show');
 
 });
 

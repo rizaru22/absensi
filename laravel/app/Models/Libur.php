@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Libur extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'tanggal',
+        'kode',
+        'keterangan'
+    ];
 }
