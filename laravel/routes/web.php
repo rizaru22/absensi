@@ -17,7 +17,7 @@ use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\LiburnasionalController;
 use App\Http\Controllers\DashboardPegawaiController;
 
-Route::controller(LoginController::class)->group(function(){
+Route::controller(LoginController::class)->group(function () {
     Route::get('/', 'index')->name('login');
     Route::post('/login', 'authenticate')->name('postlogin');
     Route::post('/logout',  'logout')->name('logout');
@@ -28,10 +28,10 @@ Route::get('/restricted', function () {
 })->name('restricted');
 
 
-Route::middleware(['auth',IsAdmin::class])->group(function () {
-    
-    Route::resource('/pengguna', UserController::class)->except('detroy','show');
-    Route::get('/reset/{id}',[UserController::class,'reset'])->name('reset');
+Route::middleware(['auth', IsAdmin::class])->group(function () {
+
+    Route::resource('/pengguna', UserController::class)->except('detroy', 'show');
+    Route::get('/reset/{id}', [UserController::class, 'reset'])->name('reset');
 
     Route::get('/admin', function () {
         return view('admin.dashboard', [
@@ -39,24 +39,22 @@ Route::middleware(['auth',IsAdmin::class])->group(function () {
         ]);
     })->name('admin');
 
-    Route::controller(LaporanController::class)->group(function(){
-        Route::get('/pilihtanggallh','pilihTanggalLH')->name('pilihtanggallh');
-        Route::post('/laporanharian','laporanHarian')->name('laporanharian');
-    
-        Route::get('/pilihtanggallm','pilihTanggalLM')->name('pilihtanggallm');
-        Route::post('/laporanmingguan','laporanMingguan')->name('laporanmingguan');
-        
-        Route::get('/pilihbulantahun','pilihBulanTahun')->name('pilihbulantahun');
-        Route::post('/laporanbulanan','laporanBulanan')->name('laporanbulanan');
-    
+    Route::controller(LaporanController::class)->group(function () {
+        Route::get('/pilihtanggallh', 'pilihTanggalLH')->name('pilihtanggallh');
+        Route::post('/laporanharian', 'laporanHarian')->name('laporanharian');
+
+        Route::get('/pilihtanggallm', 'pilihTanggalLM')->name('pilihtanggallm');
+        Route::post('/laporanmingguan', 'laporanMingguan')->name('laporanmingguan');
+
+        Route::get('/pilihbulantahun', 'pilihBulanTahun')->name('pilihbulantahun');
+        Route::post('/laporanbulanan', 'laporanBulanan')->name('laporanbulanan');
     });
 
-    Route::resource('/pengaturan',PengaturanController::class)->only(['index','update']);
-    Route::resource('/liburnasional',LiburnasionalController::class)->except('show');
-
+    Route::resource('/pengaturan', PengaturanController::class)->only(['index', 'update']);
+    Route::resource('/liburnasional', LiburnasionalController::class)->except('show');
 });
 
-Route::middleware(['auth',IsPegawai::class])->group(function () {
+Route::middleware(['auth', IsPegawai::class])->group(function () {
     Route::controller(DashboardPegawaiController::class)->group(function () {
         Route::get('/pegawai',  'index')->name('pegawai');
         Route::get('/faq',  'faq')->name('faq');
@@ -87,40 +85,42 @@ Route::controller(AutoController::class)->group(function () {
     Route::get('/autoLibur',  'libur');
 });
 
-// Route::get('/not',function(){
-//     return view('notification');
-// });
-Route::get('/kirimnotifikasi',function(){
-    $tanggal=Carbon::now();
-    $user=User::select('id','name')
-                        ->where('role','user')->get()->toArray();
-    foreach($user as $us){
-        $absensi=Absensi::select('jam_masuk')->where('user_id',$us['id'])->whereDate('created_at',$tanggal)->get();
+
+Route::get('/kirimnotifikasi', function () {
+    $tanggal = Carbon::now();
+    $user = User::select('id', 'name')
+        ->where('role', 'user')->orderBy('name')
+        ->get()->toArray();
+    foreach ($user as $us) {
+        $absensi = Absensi::select('jam_masuk')->where('user_id', $us['id'])->whereDate('created_at', $tanggal)->get();
         // dd($absensi,$us['name'],$tanggal);
-        if(blank($absensi)){
-            $nama[]=$us['name'];
+        if (blank($absensi)) {
+            $nama[] = $us['name'];
         }
     }
-    $data['title']="Yang Belum Absen Masuk";
-    $data['nama']=$nama;
+    $data['title'] = "Yang Belum Absen Masuk";
+    $data['nama'] = $nama;
     // dd($data);
-    Notification::route('telegram','1218209645')->notify(new TeleNotification ($data));
+    Notification::route('telegram', '1218209645')->notify(new TeleNotification($data));
 })->name('kirimnotifikasi');
-Route::get('/kirimnotifikasipulang',function(){
-    $tanggal=Carbon::now();
-    $user=User::select('id','name')
-                        ->where('role','user')->get()->toArray();
-    foreach($user as $us){
-        $absensi=Absensi::select('jam_pulang')->where('user_id',$us['id'])->whereDate('created_at',$tanggal)->get()->toArray();
+
+
+Route::get('/kirimnotifikasipulang', function () {
+    $tanggal = Carbon::now();
+    $user = User::select('id', 'name')
+        ->where('role', 'user')->orderBy('name')
+        ->get()->toArray();
+    foreach ($user as $us) {
+        $absensi = Absensi::select('jam_pulang')->where('user_id', $us['id'])->whereDate('created_at', $tanggal)->get()->toArray();
         // dd($absensi[0]->jam_pulang,$us['name'],$tanggal);
-        if(blank($absensi)){
-            $nama[]=$us['name'];
-        }elseif($absensi[0]['jam_pulang']=='0'){
-            $nama[]=$us['name'];
+        if (blank($absensi)) {
+            $nama[] = $us['name'];
+        } elseif ($absensi[0]['jam_pulang'] == '0') {
+            $nama[] = $us['name'];
         }
     }
-    $data['title']="Yang Belum Absen Pulang";
-    $data['nama']=$nama;
+    $data['title'] = "Yang Belum Absen Pulang";
+    $data['nama'] = $nama;
     // dd($data);
-    Notification::route('telegram','1218209645')->notify(new TeleNotification ($data));
+    Notification::route('telegram', '1218209645')->notify(new TeleNotification($data));
 })->name('kirimnotifikasipulang');
