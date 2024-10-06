@@ -88,6 +88,7 @@ Route::controller(AutoController::class)->group(function () {
 
 Route::get('/kirimnotifikasi', function () {
     $tanggal = Carbon::now();
+    $nama=array();
     $user = User::select('id', 'name')
         ->where('role', 'user')->orderBy('name')
         ->get()->toArray();
@@ -107,6 +108,7 @@ Route::get('/kirimnotifikasi', function () {
 
 Route::get('/kirimnotifikasipulang', function () {
     $tanggal = Carbon::now();
+    $nama=array();
     $user = User::select('id', 'name')
         ->where('role', 'user')->orderBy('name')
         ->get()->toArray();

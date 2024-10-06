@@ -39,7 +39,7 @@ class TeleNotification extends Notification
      */
     public function toTelegram(object $notifiable)
     {
-      
+    //   dd($this->data);
         try{           
             return TelegramMessage::create()->to('1218209645')->content('Yang Belum Absen Hari Ini')
             ->view('notification',[
