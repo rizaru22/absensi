@@ -17,7 +17,8 @@
 @section('konten')
 <div class="card">
     <div class="card-header">
-    <a href="{{route('pengguna.create')}}"  class="btn btn-md btn-success float-right"> <i class="fas fa-user-plus"></i> Tambah Data</a>
+    <a href="{{route('uploadexcel')}}"  class="btn btn-md btn-success float-right  "> <i class="fas fa-file-excel"></i> Import Data</a>
+    <a href="{{route('pengguna.create')}}"  class="btn btn-md btn-primary float-right mr-5"> <i class="fas fa-user-plus"></i> Tambah Data</a>
     </div>
     <div class="card-body">
     <table id="example1" class="table table-bordered table-striped ">

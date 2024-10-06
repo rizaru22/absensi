@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\LiburnasionalController;
 use App\Http\Controllers\DashboardPegawaiController;
+use App\Http\Controllers\ImportUserController;
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/', 'index')->name('login');
@@ -32,6 +33,8 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
 
     Route::resource('/pengguna', UserController::class)->except('detroy', 'show');
     Route::get('/reset/{id}', [UserController::class, 'reset'])->name('reset');
+    Route::get('/uploadxlsx',[ImportUserController::class,'index'])->name('uploadexcel');
+    Route::post('/uploadfile',[ImportUserController::class,'import'])->name('uploadfile');
 
     Route::get('/admin', function () {
         return view('admin.dashboard', [
