@@ -39,8 +39,7 @@ class AutoController extends Controller
         //cari tanggal hari ini di tabel libur
         $libur=Libur::select('kode')->whereDate('tanggal',$dt)->get();
         //jika ketemu
-        if (!blank($libur)) { // cek apakah hari minggu
-
+        if (!blank($libur)) { 
             //ambil data dari user
             $User_Ids = User::select('id')
                 ->where('role', 'user')

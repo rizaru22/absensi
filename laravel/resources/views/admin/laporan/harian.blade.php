@@ -35,7 +35,7 @@
                     <td>{{ $subdah['jam_masuk'] }}</td>
                     <td>{{$subdah['jam_pulang']}}</td>
                     <td>
-                        @if($subdah['foto_masuk']=='-' or $subdah['foto_masuk']=='0')
+                        @if($subdah['foto_masuk']=='-' or $subdah['foto_masuk']=='0' or $subdah['foto_masuk']=='')
                         @else
                         <img src="{{asset('storage/'.$subdah['foto_masuk'])}}" width="150" alt="Foto Masuk" style="border: 2px solid green; ">
                         @endif
