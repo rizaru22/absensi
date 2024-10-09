@@ -41,7 +41,7 @@ class TeleNotification extends Notification
     {
     //   dd($this->data);
         try{           
-            return TelegramMessage::create()->to('1218209645')->content('Yang Belum Absen Hari Ini')
+            return TelegramMessage::create()->content('Yang Belum Absen Hari Ini')
             ->view('notification',[
                 'data'=>$this->data['nama'],
                 'title'=>$this->data['title']
