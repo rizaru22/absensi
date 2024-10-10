@@ -1,18 +1,12 @@
 <?php
-
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Absensi;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsPegawai;
 use Illuminate\Support\Facades\Route;
-use App\Notifications\TeleNotification;
 use App\Http\Controllers\AutoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AbsenController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LaporanController;
-use Illuminate\Support\Facades\Notification;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\LiburnasionalController;
 use App\Http\Controllers\DashboardPegawaiController;
@@ -33,8 +27,8 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
 
     Route::resource('/pengguna', UserController::class)->except('detroy', 'show');
     Route::get('/reset/{id}', [UserController::class, 'reset'])->name('reset');
-    Route::get('/uploadxlsx',[ImportUserController::class,'index'])->name('uploadexcel');
-    Route::post('/uploadfile',[ImportUserController::class,'import'])->name('uploadfile');
+    Route::get('/uploadxlsx', [ImportUserController::class, 'index'])->name('uploadexcel');
+    Route::post('/uploadfile', [ImportUserController::class, 'import'])->name('uploadfile');
 
     Route::get('/admin', function () {
         return view('admin.dashboard', [
@@ -89,11 +83,7 @@ Route::controller(AutoController::class)->group(function () {
 });
 
 
-Route::get('/kirimnotifikasi', function () {
-
-})->name('kirimnotifikasi');
+Route::get('/kirimnotifikasi', function () {})->name('kirimnotifikasi');
 
 
-Route::get('/kirimnotifikasipulang', function () {
-
-})->name('kirimnotifikasipulang');
+Route::get('/kirimnotifikasipulang', function () {})->name('kirimnotifikasipulang');
