@@ -11,6 +11,7 @@ use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\LiburnasionalController;
 use App\Http\Controllers\DashboardPegawaiController;
 use App\Http\Controllers\ImportUserController;
+use App\Http\Controllers\SendNotificationController;
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/', 'index')->name('login');
@@ -82,8 +83,7 @@ Route::controller(AutoController::class)->group(function () {
     Route::get('/autoLibur',  'libur');
 });
 
-
-Route::get('/kirimnotifikasi', function () {})->name('kirimnotifikasi');
-
-
-Route::get('/kirimnotifikasipulang', function () {})->name('kirimnotifikasipulang');
+Route::controller(SendNotificationController::class)->group(function(){
+    Route::get('/kirimnotifikasi','notifikasiMasuk')->name('kirimnotifikasi');
+    Route::get('/kirimnotifikasipulang', 'notifikasiPulang')->name('kirimnotifikasipulang');
+});
