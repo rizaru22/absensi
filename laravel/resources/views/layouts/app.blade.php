@@ -14,7 +14,13 @@
   @yield('style')
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
-
+  <link rel="icon" href="{{asset('img/favicon.ico')}}">
+  <style>
+  .text-logo {
+      color: #00A693;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <!--
 `body` tag options:

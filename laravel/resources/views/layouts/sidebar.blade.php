@@ -1,8 +1,7 @@
 <aside class="main-sidebar elevation-4 sidebar-light-olive">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-      <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Teacher Attendance</span>
+      <img src="{{ asset('img/favicon-32x32.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">Hadir<span class="brand-text text-logo">In</span>
     </a>
 
     <!-- Sidebar -->

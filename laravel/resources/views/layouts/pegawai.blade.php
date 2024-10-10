@@ -11,6 +11,7 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/fotomasuk.css') }}">
+<link rel="icon" href="{{asset('img/favicon.ico')}}">
 @yield('style')
     <title>@yield('title')</title>
 </head>

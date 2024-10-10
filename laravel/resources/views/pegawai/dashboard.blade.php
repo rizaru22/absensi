@@ -13,6 +13,7 @@
     <!-- Toastr -->
     <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="icon" href="{{asset('img/favicon.ico')}}">
     <title>Absensi Pegawai</title>
 </head>
 
