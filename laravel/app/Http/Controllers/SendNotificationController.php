@@ -51,7 +51,7 @@ class SendNotificationController extends Controller
     public function apiPesan($pesan)
     {
         Http::post('https://api.telegram.org/bot7241376794:AAHTp6dr5SywEgFVktN5LB3UPm2apn7hmqQ/sendMessage?', [
-            'chat_id' => '-4527049150',
+            'chat_id' => '-4590820619',
             'text' => $pesan
         ]);
     }
