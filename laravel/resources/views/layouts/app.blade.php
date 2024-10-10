@@ -15,6 +15,8 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
   <link rel="icon" href="{{asset('img/favicon.ico')}}">
+  <link rel="shortcut icon" href="{{asset('img/icon3.ico')}}">
+  <link rel="apple-touch-icon" href="{{asset('img/apple-touch-icon.png')}}" />
   <style>
   .text-logo {
       color: #00A693;
