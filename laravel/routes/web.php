@@ -87,3 +87,7 @@ Route::controller(SendNotificationController::class)->group(function(){
     Route::get('/kirimnotifikasi','notifikasiMasuk')->name('kirimnotifikasi');
     Route::get('/kirimnotifikasipulang', 'notifikasiPulang')->name('kirimnotifikasipulang');
 });
+
+Route::get('/cekbrowser',function(){
+    return view('cekbrowser');
+});

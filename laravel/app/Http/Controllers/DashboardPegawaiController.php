@@ -21,6 +21,7 @@ class DashboardPegawaiController extends Controller
         $pengaturan= Pengaturan::limit(1)->get();
         // $date=Carbon::now('Asia/Jakarta');
         $period = CarbonPeriod::create(Carbon::now('Asia/Jakarta')->startOfWeek(Carbon::SUNDAY), Carbon::now('Asia/Jakarta')->endOfWeek(Carbon::SATURDAY));
+        // dd($period);
         $jamKerjaPerHari=0;
         $jamKerjaPerMinggu=0;
         foreach ($period as $date) {
@@ -31,10 +32,9 @@ class DashboardPegawaiController extends Controller
                 ->toArray();
                 // $a=json_decode($data);
                 // dd($data);
-
                 if($data==null){
                     $data=array([
-                        'created_at'=>$date->toISOString(),
+                        'created_at'=>$date->toDateTimeString(),
                         'jam_masuk'=>'0',
                         'jam_pulang'=>'0',
                     ]);
@@ -48,7 +48,7 @@ class DashboardPegawaiController extends Controller
                 }
             $dataAbsen[]=$data;
             $jamKerjaPerMinggu=$jamKerjaPerMinggu+$jamKerjaPerHari;
-
+            // dd($dataAbsen);
         }
         // $jamKerjaPerMinggu=strtotime('12:15:30')-strtotime('07:30:20');
         $jam=(int) floor($jamKerjaPerMinggu/3600);
