@@ -90,42 +90,10 @@ Route::controller(AutoController::class)->group(function () {
 
 
 Route::get('/kirimnotifikasi', function () {
-    $tanggal = Carbon::now();
-    $nama=array();
-    $user = User::select('id', 'name')
-        ->where('role', 'user')->orderBy('name')
-        ->get()->toArray();
-    foreach ($user as $us) {
-        $absensi = Absensi::select('jam_masuk')->where('user_id', $us['id'])->whereDate('created_at', $tanggal)->get();
-        // dd($absensi,$us['name'],$tanggal);
-        if (blank($absensi)) {
-            $nama[] = $us['name'];
-        }
-    }
-    $data['title'] = "Yang Belum Absen Masuk";
-    $data['nama'] = $nama;
-    // dd($data);
-    Notification::route('telegram', '1218209645')->notify(new TeleNotification($data));
+
 })->name('kirimnotifikasi');
 
 
 Route::get('/kirimnotifikasipulang', function () {
-    $tanggal = Carbon::now();
-    $nama=array();
-    $user = User::select('id', 'name')
-        ->where('role', 'user')->orderBy('name')
-        ->get()->toArray();
-    foreach ($user as $us) {
-        $absensi = Absensi::select('jam_pulang')->where('user_id', $us['id'])->whereDate('created_at', $tanggal)->get()->toArray();
-        // dd($absensi[0]->jam_pulang,$us['name'],$tanggal);
-        if (blank($absensi)) {
-            $nama[] = $us['name'];
-        } elseif ($absensi[0]['jam_pulang'] == '0') {
-            $nama[] = $us['name'];
-        }
-    }
-    $data['title'] = "Yang Belum Absen Pulang";
-    $data['nama'] = $nama;
-    // dd($data);
-    Notification::route('telegram', '1218209645')->notify(new TeleNotification($data));
+
 })->name('kirimnotifikasipulang');
