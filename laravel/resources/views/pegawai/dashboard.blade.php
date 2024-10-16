@@ -16,7 +16,7 @@
     <link rel="icon" href="{{asset('img/favicon.ico')}}">
     <link rel="shortcut icon" href="{{asset('img/icon3.ico')}}">
     <link rel="apple-touch-icon" href="{{asset('img/apple-touch-icon.png')}}" />
-    <title>Absensi Pegawai</title>
+    <title>HadirIn</title>
 </head>
 
 <body onload="startAll()">

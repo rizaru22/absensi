@@ -28,7 +28,7 @@
       font-weight: bold;
     }
   </style>
-  <title>Login</title>
+  <title>Login Hadirin</title>
 </head>
 
 <body class="hold-transition login-page">
