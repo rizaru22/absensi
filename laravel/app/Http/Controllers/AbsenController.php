@@ -77,8 +77,15 @@ class AbsenController extends Controller
         $validasi["foto_pulang"] = "";
 
 
+        $cekAbsensi = Absensi::select("id")
+            ->where('user_id', '=', Auth::user()->id)
+            ->whereDate('created_at', Carbon::today())
+            ->get();
 
-        Absensi::create($validasi);
+        if (blank($cekAbsensi)) {
+            Absensi::create($validasi);
+        }
+
         return redirect()->route('pegawai')->with('success', 'Anda berhasil melakukan absensi');
     }
 
@@ -112,19 +119,19 @@ class AbsenController extends Controller
                     ->get();
                 //jika record sudah ada maka lakukan update di fotopulang
                 if (!blank($cekAbsensi)) {
-                    $jamPulang=Absensi::select('jam_pulang')
-                                                        ->whereDate('created_at',Carbon::today())
-                                                         ->where('user_id',Auth::user()->id)
-                                                        ->get();
-                    if($jamPulang[0]->jam_pulang!=0){
-                        return redirect()->route('pegawai')->with('error',"Anda sudah mengajukan cuti");
-                    }else {
-                        return redirect()->route('fotopulang');   
+                    $jamPulang = Absensi::select('jam_pulang')
+                        ->whereDate('created_at', Carbon::today())
+                        ->where('user_id', Auth::user()->id)
+                        ->get();
+                    if ($jamPulang[0]->jam_pulang != 0) {
+                        return redirect()->route('pegawai')->with('error', "Anda sudah mengajukan cuti");
+                    } else {
+                        return redirect()->route('fotopulang');
                     }
                 }
                 //jika record belum ada maka  kirim pesan error
                 else {
-                    return redirect()->route('pegawai')->with('error','Anda belum melakukan absen masuk');
+                    return redirect()->route('pegawai')->with('error', 'Anda belum melakukan absen masuk');
                 }
             } else {
                 return redirect()->route('pegawai')->with('error', 'Anda berada di luar area sekolah');
@@ -177,8 +184,8 @@ class AbsenController extends Controller
 
         if ($request->file('foto_izin')) {
             $validasi['foto_izin'] = $request->file('foto_izin')->store('fotoizin');
-        }else{
-            $validasi['foto_izin']='-';
+        } else {
+            $validasi['foto_izin'] = '-';
         }
 
         $validasi["user_id"] = Auth::user()->id;
@@ -195,25 +202,25 @@ class AbsenController extends Controller
         return redirect()->route('pegawai')->with('success', 'Anda berhasil melakukan izin cuti');
     }
 
-    public function lihatAkun():View
+    public function lihatAkun(): View
     {
-        $dataUser=User::select('name','nip','username','email')->where('id',Auth::user()->id)->get();
+        $dataUser = User::select('name', 'nip', 'username', 'email')->where('id', Auth::user()->id)->get();
         // dd($dataUser[0]);
-        return view('pegawai.akun',[
-            "data"=>$dataUser[0]
+        return view('pegawai.akun', [
+            "data" => $dataUser[0]
         ]);
     }
 
-    public function updateAkun(Request $request):RedirectResponse
+    public function updateAkun(Request $request): RedirectResponse
     {
-        $validasi=$request->validate([
-            "password"=>"required"
+        $validasi = $request->validate([
+            "password" => "required"
         ]);
 
-        $validasi['password']=Hash::make($validasi['password']);
-        User::where('id',Auth::user()->id)->update($validasi);
+        $validasi['password'] = Hash::make($validasi['password']);
+        User::where('id', Auth::user()->id)->update($validasi);
 
-        
+
         return redirect()->route('pegawai')->with('success', 'Password telah diubah');
     }
-} 
+}
