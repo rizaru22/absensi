@@ -190,12 +190,29 @@
 
 
         function getLocation() {
+            // alert('getlocation');
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
+                navigator.geolocation.getCurrentPosition(showPosition,showError);
             } else {
                 alert("Geolocation is not supported by this browser.");
             }
         }
+        function showError(error) {
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+      alert("Peramban yang anda gunakan tidak mengizinkan deteksi lokasi.");
+      break;
+    case error.POSITION_UNAVAILABLE:
+      alert("Informasi Lokasi tidak tersedia");
+      break;
+    case error.TIMEOUT:
+      alert("Permintaan untuk mendapatkan lokasi pengguna telah habis waktunya.");
+      break;
+    case error.UNKNOWN_ERROR:
+      alert("Error tidak diketahui");
+      break;
+  }
+}
 
         function showPosition(position) {
             latitude = position.coords.latitude;
