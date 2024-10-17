@@ -1,11 +1,20 @@
 @extends('layouts.pegawai')
+@section('style')
+<style>
+    .card-header .btn-link{
+        text-decoration: none !important;
+        color: white;
+        font-weight: 500;
+        border: none !important;
+    }
+</style>
+@endsection
 @section('title','FAQ')
-
 @section('konten')
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h2>Penting Untuk Dibaca</h2>
+            <h2>FAQ</h2>
         </div>
     </div>
     <div class="row">
@@ -14,30 +23,41 @@
                 <div class="card">
                     <div class="card-header" id="headingOne">
                         <h2 class="mb-0">
-                            <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Titik Pusat Kordinat dan Radius
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Dimana titip pusat lokasi yang menjadi acuan?
                             </button>
                         </h2>
                     </div>
 
                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                        <div class="card-body">
-                            <ol>
-                                <li>Titik pusat kordinat sekolah yang menjadi acuan absen cek <a href="https://www.google.com/maps/?q={{ $data['0']->latitude }},{{ $data[0]->longitude }}" target="_blank" >di sini</a></li>
-                                <li>Jarak maksimal absensi dalam radius <b>{{$data[0]->jarak_maksimal}} meter </b></li>
-                            </ol>
+                        <div class="card-body embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3196.0232018970546!2d{{ $data[0]->longitude }}!3d{{ $data['0']->latitude }}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNMKwMjInMjguOCJOIDk4wrAwNSczNS41IkU!5e1!3m2!1sen!2sid!4v1729162820164!5m2!1sen!2sid"  style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-header" id="headingTwo">
                         <h2 class="mb-0">
-                            <button class="btn btn-success collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Absens Masuk dan Pulang
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Berapa jarak maksimum yang diperbolehkan dari titik pusan lokasi?
                             </button>
                         </h2>
                     </div>
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                        Jarak maksimum absensi dalam radius <b>{{$data[0]->jarak_maksimal}} meter </b>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Bagaimana rincian ketentuan saat melakukan absen?
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                         <div class="card-body">
                             <ol>
                                 <li>Absen masuk dapat dilakukan pada pukul <b> {{$data[0]->jam_masuk}} sampai dengan {{$data[0]->jam_maksimal_masuk}} </b></li>
@@ -50,14 +70,14 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-header" id="headingThree">
+                    <div class="card-header" id="headingFour">
                         <h2 class="mb-0">
-                            <button class="btn btn-success collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                 Jika terdapat error pada aplikasi
                             </button>
                         </h2>
                     </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
                         <div class="card-body">
                             <p>Jika terjadi error dapat melakukan tangkap layar dan mengirimkannya ke tim pengembang melalui <a href="https://wa.me/6285221274876" target="_blank" >wa.me</a></p>
                         </div>
