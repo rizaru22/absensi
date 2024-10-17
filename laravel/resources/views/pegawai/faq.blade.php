@@ -24,7 +24,7 @@
                     <div class="card-header" id="headingOne">
                         <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Dimana titip pusat lokasi yang menjadi acuan?
+                                Dimana titik pusat lokasi yang menjadi acuan?
                             </button>
                         </h2>
                     </div>
