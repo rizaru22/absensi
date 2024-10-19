@@ -21,7 +21,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success float-right">Lihat</button>
+                <button type="submit" class="btn btn-success float-right">><i class="fas fa-eye"></i> Lihat</button>
       </form>
     </div>
     
