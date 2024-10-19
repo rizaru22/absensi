@@ -12,9 +12,8 @@ class SendNotificationController extends Controller
     //
     public function notifikasiMasuk()
     {
-
+        $nama2='';
         $tanggal = Carbon::now();
-        $this->apiPesan("BELUM ABSEN MASUK " . $tanggal->isoFormat('DD MMMM Y'));
         $user = User::select('id', 'name')
             ->where('role', 'user')->orderBy('name')
             ->get()->toArray();
@@ -22,16 +21,23 @@ class SendNotificationController extends Controller
             $absensi = Absensi::select('jam_masuk')->where('user_id', $us['id'])->whereDate('created_at', $tanggal)->get();
             if (blank($absensi)) {
                 $nama = $us['name'];
-                $this->apiPesan($nama);
+            }
+            if ($nama2==''){
+                $nama2.=$nama;
+            }else{
+                $nama2 =$nama2.' -- '.$nama;
             }
         }
-        $this->apiPesan("===============================");
+    
+        $this->apiPesan("Belum Absen Masuk " . $tanggal->isoFormat('DD MMMM Y').': '.$nama2);
+
     }
 
     public function notifikasiPulang()
     {
+        $nama2='';
         $tanggal = Carbon::now();
-        $this->apiPesan("BELUM ABSEN PULANG " . $tanggal->isoFormat('DD MMMM Y'));
+       
         $user = User::select('id', 'name')
             ->where('role', 'user')->orderBy('name')
             ->get()->toArray();
@@ -43,9 +49,15 @@ class SendNotificationController extends Controller
             } elseif ($absensi[0]['jam_pulang'] == '0') {
                 $nama = $us['name'];
             }
-            $this->apiPesan($nama);
+            //concat string nama
+            if ($nama2==''){
+                $nama2.=$nama;
+            }else{
+                $nama2 =$nama2.' -- '.$nama;
+            }
+            
         }
-        $this->apiPesan("===============================");
+        $this->apiPesan("Belum Absen Pulang " . $tanggal->isoFormat('DD MMMM Y').': '.$nama2);
     }
 
     public function apiPesan($pesan)
