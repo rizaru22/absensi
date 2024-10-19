@@ -8,10 +8,13 @@ use App\Models\Absensi;
 use Illuminate\View\View;
 use App\Models\Pengaturan;
 use Illuminate\Http\Request;
+// use Intervention\Image\Image;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class AbsenController extends Controller
 {
@@ -62,19 +65,30 @@ class AbsenController extends Controller
 
     public function kirimfotomasuk(Request $request): RedirectResponse
     {
+        // dd(public_path(''));
 
         $validasi = $request->validate([
             "foto_masuk" => "image|file|max:3072"
         ]);
 
         if ($request->file('foto_masuk')) {
-            $validasi['foto_masuk'] = $request->file('foto_masuk')->store('fotomasuk');
+            // $validasi['foto_masuk'] = $request->file('foto_masuk')->store('fotomasuk');
+            $image=$request->file('foto_masuk');
+            $filename=uniqid().'.'.$request->file('foto_masuk')->extension();
+            $img=Image::make($image->path());
+            $img->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->rotate(-90);
+            $img->encode('jpg',100);
+            Storage::disk('public')->put('fotomasuk/'.$filename,$img);
         }
 
         $validasi["user_id"] = Auth::user()->id;
         $validasi["jam_masuk"] = Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
         $validasi["jam_pulang"] = "0";
         $validasi["foto_pulang"] = "";
+        $validasi['foto_masuk']='fotomasuk/'.$filename;
 
 
         $cekAbsensi = Absensi::select("id")
@@ -149,11 +163,21 @@ class AbsenController extends Controller
         ]);
 
         if ($request->file('foto_pulang')) {
-            $validasi['foto_pulang'] = $request->file('foto_pulang')->store('fotopulang');
+            // $validasi['foto_pulang'] = $request->file('foto_pulang')->store('fotopulang');
+            $image=$request->file('foto_pulang');
+            $filename=uniqid().'.'.$request->file('foto_pulang')->extension();
+            $img=Image::make($image->path());
+            $img->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->rotate(-90);
+            $img->encode('jpg',100);
+            Storage::disk('public')->put('fotopulang/'.$filename,$img);
         }
 
         $validasi["user_id"] = Auth::user()->id;
         $validasi["jam_pulang"] = Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
+        $validasi['foto_pulang']='fotopulang/'.$filename;
 
         Absensi::where('user_id', Auth::user()->id)->whereDate('created_at', Carbon::today())->update($validasi);
 
