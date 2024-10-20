@@ -12,6 +12,7 @@ class SendNotificationController extends Controller
     //
     public function notifikasiMasuk()
     {
+        $nama='';
         $nama2='';
         $tanggal = Carbon::now();
         $user = User::select('id', 'name')
@@ -35,6 +36,7 @@ class SendNotificationController extends Controller
 
     public function notifikasiPulang()
     {
+        $nama='';
         $nama2='';
         $tanggal = Carbon::now();
        
