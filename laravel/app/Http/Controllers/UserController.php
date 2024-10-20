@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 class UserController extends Controller
 {
     public function index(){
-        $user=User::where('role','user')->get();
+        $user=User::where('role','user')->orderBy('name')->get();
         return view('admin.user.index',[
             "title"=>"Pegawai",
             "data"=>$user
