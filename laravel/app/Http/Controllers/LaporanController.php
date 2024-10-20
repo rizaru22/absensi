@@ -25,13 +25,13 @@ class LaporanController extends Controller
     public function laporanHarian(Request $request): View
     {
         $tanggal = Carbon::parse($request['tanggal']);
-        // dd($tanggal);
+       
         $allUsers = User::select('id', 'name', 'nip')
             ->where('role', 'user')
             ->orderBy('name')
             ->get()
             ->toArray();
-        // dd($allUsers[0]['id']);
+      
         foreach ($allUsers as $au) {
 
             if (!blank($this->ambilDataAbsenHarian($au['id'], $tanggal))) {
@@ -50,11 +50,7 @@ class LaporanController extends Controller
                 $dataAbsenHarian[] = array($dataBlank);
             }
         }
-        // dd($dataAbsenHarian);
-
-        // $stringTitle=$tanggal->isoFormat('D MMMM Y');
-        // dd($stringTitle);
-
+  
         return view('admin.laporan.harian', [
             "title" => "Laporan Harian :".$tanggal->isoFormat('D MMMM Y'),
             "dataAbsenHarian" => $dataAbsenHarian,

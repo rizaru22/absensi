@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AutoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AbsenController;
+use App\Http\Controllers\DashboardAdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PengaturanController;
@@ -31,11 +32,9 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/uploadxlsx', [ImportUserController::class, 'index'])->name('uploadexcel');
     Route::post('/uploadfile', [ImportUserController::class, 'import'])->name('uploadfile');
 
-    Route::get('/admin', function () {
-        return view('admin.dashboard', [
-            "title" => "Dashboard"
-        ]);
-    })->name('admin');
+    Route::get('/admin', [DashboardAdminController::class,'index'])->name('admin');
+    Route::get('/ubah-pass',[DashboardAdminController::class,'ubahPassword'])->name('ubah_password_admin');
+    Route::put('/update-pass',[DashboardAdminController::class,'updatePassword'])->name('updatePassword');
 
     Route::controller(LaporanController::class)->group(function () {
         Route::get('/pilihtanggallh', 'pilihTanggalLH')->name('pilihtanggallh');
