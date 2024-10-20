@@ -63,7 +63,7 @@
                                 <li>Absen masuk dapat dilakukan pada pukul <b> {{$data[0]->jam_masuk}} sampai dengan {{$data[0]->jam_maksimal_masuk}} </b></li>
                                 <li>Absen pulang dapat dilakukan pada pukul <b>{{$data[0]->jam_pulang}} sampai dengan {{$data[0]->jam_maksimal_pulang}}</b></li>
                                 <li>Tidak bisa melakukan absen pulang jika belum melakukan absen masuk</li>
-                                <li>Foto Absen dilakukan dengan latar belakang sekolah, jika sedang ada jam mengajar maka lakukan di dalam kelas atau lab/bengkel. Jika tidak ada jam mengajar lakukan di tempat yang menandakan bahwa anda berada di lingkungan sekolah</li>
+                                <li>Lakukan Foto Absen pada tempat yang menandakan bahwa anda berada di lingkungan sekolah</li>
                                 <li>Notifikasi belum absen bisa dilihat di <a href="https://t.me/+ViL3ZuEe0Lo3ZDdl" target="_blank">Grup Telegram</a></li>
                             </ol>
                         </div>
