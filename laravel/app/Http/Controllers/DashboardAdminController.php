@@ -17,6 +17,7 @@ class DashboardAdminController extends Controller
     {
         $sudahAbsen=0;
         $belumAbsen=0;
+        $dataAbsenHarian=[];
         $tanggal = Carbon::now();
        
         $allUsers = User::select('id', 'name', 'nip')
