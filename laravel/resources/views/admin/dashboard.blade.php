@@ -9,14 +9,14 @@
 @section('namaHalaman','Dashboard')
 @section('konten')
 <div class="row">
-          <div class="col-6">
+          <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="info-box">
               <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check-square"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Sudah Absen</span>
+                <span class="info-box-text">Sudah Absen Masuk</span>
                 <span class="info-box-number">
-                  {{ $sudah }}
+                  {{ $sudahAbsenMasuk }}
                 </span>
               </div>
               <!-- /.info-box-content -->
@@ -24,13 +24,41 @@
             <!-- /.info-box -->
           </div>
           <!-- /.col -->
-          <div class="col-6">
+          <div class="col-lg-3 col-md-6 col-sm-12">
             <div class="info-box mb-3">
               <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times-circle"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Belum Absen</span>
-                <span class="info-box-number">{{ $belum }}</span>
+                <span class="info-box-text">Belum Absen Masuk</span>
+                <span class="info-box-number">{{ $belumAbsenMasuk }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="info-box">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check-square"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Sudah Absen Pulang</span>
+                <span class="info-box-number">
+                  {{ $sudahAbsenPulang }}
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times-circle"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Belum Absen Pulang</span>
+                <span class="info-box-number">{{ $belumAbsenPulang }}</span>
               </div>
               <!-- /.info-box-content -->
             </div>

@@ -12,11 +12,16 @@ use Illuminate\Support\Facades\Hash;
 
 class DashboardAdminController extends Controller
 {
+    protected $totalPegawai=0;
+    protected $sudahAbsenMasuk=0;
+    protected $belumAbsenMasuk=0;
+    protected $sudahAbsenPulang=0;
+    protected $belumAbsenPulang=0;
     //
     public function index():View
     {
-        $sudahAbsen=0;
-        $belumAbsen=0;
+        $this->hitungYangSudahAbsen();
+       
         $dataAbsenHarian=[];
         $tanggal = Carbon::now();
        
@@ -30,7 +35,7 @@ class DashboardAdminController extends Controller
 
             if (!blank($this->ambilDataAbsenHarian($au['id'], $tanggal))) {
                 $dataAbsenHarian[] = $this->ambilDataAbsenHarian($au['id'], $tanggal);
-                $sudahAbsen+=1;
+                
             } else {
                 $dataBlank = array(
                     "id" => $au['id'],
@@ -43,7 +48,7 @@ class DashboardAdminController extends Controller
                     "foto_izin" => "0"
                 );
                 $dataAbsenHarian[] = array($dataBlank);
-                $belumAbsen+=1;
+             
             }
         }
   
@@ -52,8 +57,10 @@ class DashboardAdminController extends Controller
             "title" => "Dashboard",
             "dataAbsenHarian" => $dataAbsenHarian,
             "tanggal" => $tanggal->isoFormat('dddd,D MMMM Y'),
-            "sudah"=>$sudahAbsen,
-            "belum"=>$belumAbsen
+            "sudahAbsenMasuk"=>$this->sudahAbsenMasuk,
+            "belumAbsenMasuk"=>$this->belumAbsenMasuk,
+            "sudahAbsenPulang"=>$this->sudahAbsenPulang,
+            "belumAbsenPulang"=>$this->belumAbsenPulang
         ]);
     }
 
@@ -92,4 +99,15 @@ class DashboardAdminController extends Controller
         return redirect()->route('admin');
     }
     
+public function hitungYangSudahAbsen()
+{
+    $tanggal=Carbon::now();
+    $this->totalPegawai=User::where('role','user')->count();
+    $this->sudahAbsenMasuk=Absensi::whereDate('created_at',$tanggal)->count('user_id');
+    $this->belumAbsenMasuk=$this->totalPegawai-$this->sudahAbsenMasuk;
+    $this->sudahAbsenPulang=Absensi::whereDate('created_at',$tanggal)->where('jam_pulang','<>','0')->count('user_id');
+    $this->belumAbsenPulang=$this->totalPegawai-$this->sudahAbsenPulang;
+
+}
+
 }
