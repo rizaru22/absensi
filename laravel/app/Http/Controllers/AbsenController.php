@@ -76,10 +76,10 @@ class AbsenController extends Controller
             $image=$request->file('foto_masuk');
             $filename=uniqid().'.'.$request->file('foto_masuk')->extension();
             $img=Image::make($image->path());
-            $img->resize(300, null, function ($constraint) {
+            $img->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
+                $constraint->upsize();
             });
-            $img->rotate(-90);
             $img->encode('jpg',100);
             Storage::disk('public')->put('fotomasuk/'.$filename,$img);
         }
@@ -167,10 +167,10 @@ class AbsenController extends Controller
             $image=$request->file('foto_pulang');
             $filename=uniqid().'.'.$request->file('foto_pulang')->extension();
             $img=Image::make($image->path());
-            $img->resize(300, null, function ($constraint) {
+            $img->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
+                $constraint->upsize();
             });
-            $img->rotate(-90);
             $img->encode('jpg',100);
             Storage::disk('public')->put('fotopulang/'.$filename,$img);
         }
