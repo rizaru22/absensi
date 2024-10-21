@@ -9,62 +9,65 @@
 @section('namaHalaman','Dashboard')
 @section('konten')
 <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="info-box">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check-square"></i></span>
+<div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{{$sudahAbsenMasuk}}</h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Sudah Absen Masuk</span>
-                <span class="info-box-number">
-                  {{ $sudahAbsenMasuk }}
-                </span>
+                <p>Sudah Absen Masuk</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-code-download"></i>
+              </div>
+   
             </div>
-            <!-- /.info-box -->
           </div>
-          <!-- /.col -->
-          <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times-circle"></i></span>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Belum Absen Masuk</span>
-                <span class="info-box-number">{{ $belumAbsenMasuk }}</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="info-box">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check-square"></i></span>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{{ $belumAbsenMasuk }}</h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Sudah Absen Pulang</span>
-                <span class="info-box-number">
-                  {{ $sudahAbsenPulang }}
-                </span>
+                <p>Belum Absen Masuk</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-close-circled"></i>
+              </div>
+ 
             </div>
-            <!-- /.info-box -->
           </div>
-          <!-- /.col -->
-          <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-times-circle"></i></span>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>{{ $sudahAbsenPulang }}</h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Belum Absen Pulang</span>
-                <span class="info-box-number">{{ $belumAbsenPulang }}</span>
+                <p>Sudah Absen Pulang</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-arrow-up-a"></i>
+              </div>
+ 
             </div>
-            <!-- /.info-box -->
           </div>
-          <!-- /.col -->
+  
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{{ $belumAbsenPulang }}</h3>
+
+                <p>Belum Absen Pulang</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-load-a"></i>
+              </div>
+ 
+            </div>
+          </div>
+  
 
 
 
@@ -83,7 +86,7 @@
         
     </div>
     <div class="card-body">
-        <table id="example2" class="table table-bordered table-hover">
+        <table id="example2" class="table table-bordered table-striped dataTable dtr-inline collapsed table-hover">
             <thead>
                 <tr>
                     <th>No</th>
