@@ -13,22 +13,19 @@ class SendNotificationController extends Controller
     public function notifikasiMasuk()
     {
         $no=1;
-        $nama='';
         $nama2='';
         $tanggal = Carbon::now();
         $user = User::select('id', 'name')
             ->where('role', 'user')->orderBy('name')
             ->get()->toArray();
         foreach ($user as $us) {
+            $nama='';
             $absensi = Absensi::select('jam_masuk')->where('user_id', $us['id'])->whereDate('created_at', $tanggal)->get();
             if (blank($absensi)) {
-                $nama ="[".$no."]".$us['name'];
+                $nama ="\r\n".$us['name'];
             }
-            if ($nama2==''){
-                $nama2.=$nama;
-            }else{
-                $nama2 =$nama2.' -- '.$nama;
-            }
+
+            $nama2.=$nama;
             $no++;
         }
 
@@ -39,7 +36,6 @@ class SendNotificationController extends Controller
     public function notifikasiPulang()
     {
         $no=1;
-        $nama='';
         $nama2='';
         $tanggal = Carbon::now();
        
@@ -47,19 +43,16 @@ class SendNotificationController extends Controller
             ->where('role', 'user')->orderBy('name')
             ->get()->toArray();
         foreach ($user as $us) {
+            $nama='';
             $absensi = Absensi::select('jam_pulang')->where('user_id', $us['id'])->whereDate('created_at', $tanggal)->get()->toArray();
             // dd($absensi[0]->jam_pulang,$us['name'],$tanggal);
             if (blank($absensi)) {
-                $nama = "[".$no."]".$us['name'];
+                $nama ="\r\n".$us['name'];
             } elseif ($absensi[0]['jam_pulang'] == '0') {
-                $nama ="[".$no."]".$us['name'];
+                $nama ="\r\n".$us['name'];
             }
-            //concat string nama
-            if ($nama2==''){
-                $nama2.=$nama;
-            }else{
-                $nama2 =$nama2.' -- '.$nama;
-            }
+            
+            $nama2.=$nama;
             $no++;
             
         }
