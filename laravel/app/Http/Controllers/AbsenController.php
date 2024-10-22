@@ -68,7 +68,7 @@ class AbsenController extends Controller
         // dd(public_path(''));
 
         $validasi = $request->validate([
-            "foto_masuk" => "image|file|max:3072"
+            "foto_masuk" => "image|file|max:5120"
         ]);
 
         if ($request->file('foto_masuk')) {
@@ -159,7 +159,7 @@ class AbsenController extends Controller
     {
 
         $validasi = $request->validate([
-            "foto_pulang" => "image|file|max:3072"
+            "foto_pulang" => "image|file|max:5120"
         ]);
 
         if ($request->file('foto_pulang')) {
@@ -202,7 +202,7 @@ class AbsenController extends Controller
     public function kirimizin(Request $request): RedirectResponse
     {
         $validasi = $request->validate([
-            "foto_izin" => "image|file|max:3072",
+            "foto_izin" => "image|file|max:5120",
             "jam_masuk" => "required"
         ]);
 
