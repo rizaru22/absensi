@@ -28,7 +28,8 @@ class UserSeeder extends Seeder
             'username'=>'adminks',
             'email'=>'smkn1kb@gmail.com',
             'password'=>Hash::make('ks10107158'),
-            'nip'=>'-'
+            'nip'=>'-',
+            'role'=>'admin'
         ]);
         
     }

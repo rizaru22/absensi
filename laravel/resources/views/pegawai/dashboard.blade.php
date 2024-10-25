@@ -31,7 +31,21 @@
                     </p>
                 </div>
             </div>
-
+            @if ($errors->any())
+            <div class="row d-flex mb-5">
+            <div class="col-12">
+                <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <strong>Aduh!</strong> Data lokasi yang dikirim bermasalah.<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+            @endif
             <div class="row d-flex">
                 <div class="col-sm-12 ml-3 info">
                     <h2 class="">
@@ -52,6 +66,7 @@
 
                 </div>
             </div>
+
         </div>
     </header>
     <main>
