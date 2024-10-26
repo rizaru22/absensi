@@ -138,7 +138,7 @@ class AbsenController extends Controller
                         ->where('user_id', Auth::user()->id)
                         ->get();
                     if ($jamPulang[0]->jam_pulang != 0) {
-                        return redirect()->route('pegawai')->with('error', "Anda sudah mengajukan cuti");
+                        return redirect()->route('pegawai')->with('error', "Anda sudah melakukan absen pulang atau mengajukan cuti");
                     } else {
                         return redirect()->route('fotopulang');
                     }
