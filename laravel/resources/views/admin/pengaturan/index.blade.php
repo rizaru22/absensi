@@ -38,11 +38,11 @@
             </div>
             <div class="form-group">
                 <label for="nip">Latitude:</label>
-                <input type="number" class="form-control" id="latitude" name="latitude" value="{{$data->latitude}}">
+                <input type="number" class="form-control" id="latitude" name="latitude" value="{{$data->latitude}}" step="any">
             </div>
             <div class="form-group">
                 <label for="nip">Longitude:</label>
-                <input type="number" class="form-control" id="longitude" name="longitude" value="{{$data->longitude}}">
+                <input type="number" class="form-control" id="longitude" name="longitude" value="{{$data->longitude}}" step="any">
             </div>
             <div class="form-group">
                 <label for="nip">Jarak Maksimal (meter):</label>
