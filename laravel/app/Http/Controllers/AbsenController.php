@@ -24,7 +24,7 @@ class AbsenController extends Controller
         $request->validate([
             "inputJarak" => "required"
         ],[
-            'inputJarak.required'=>"Lokasi masih kosong, silahkan aktifkan GPS, tutup aplikasi kemudian jalankan lagi"
+            'inputJarak.required'=>"Data lokasi masih kosong, silahkan aktifkan GPS, pastikan anda sudah berada di dalam area absensi dengan membuka Maps. Tutup aplikasi HadirIn kemudian jalankan kembali aplikasi HadirIn. Lalu coba kembali lakukan proses Absensi."
         ]);
         $jarak = $request->inputJarak;
 
@@ -113,7 +113,7 @@ class AbsenController extends Controller
         $request->validate([
             "inputJarakPulang" => "required"
         ],[
-            "inputJarakPulang.required"=>"Lokasi masih kosong, silahkan aktifkan GPS, tutup aplikasi kemudian jalankan lagi"
+            "inputJarakPulang.required"=>"Data lokasi masih kosong, silahkan aktifkan GPS, pastikan anda sudah berada di dalam area absensi dengan membuka Maps. Tutup aplikasi HadirIn kemudian jalankan kembali aplikasi HadirIn. Lalu coba kembali lakukan proses Absensi."
         ]);
         $jarak = $request->inputJarakPulang;
         //query mengambil data setingan

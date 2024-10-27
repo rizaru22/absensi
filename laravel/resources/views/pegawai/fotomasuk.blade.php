@@ -20,22 +20,6 @@
 <body>
     <div class="container">
 
-        @if ($errors->any())
-        <div class="row pb-5">
-            <div class="col-12">
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <strong>Aduh!</strong> Terdapat kesalahan dari data yang dikirimkan.<br><br>
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-        @endif
-
         <div class="row">
             <div class="col-12">
                 <div class="card mt-4">
@@ -57,13 +41,40 @@
             </div>
         </div>
     </div>
-
+            <!-- Modal -->
+            <div class="modal fade " id="ModalError" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content bg-danger">
+      <div class="modal-header">
+        <h5 class="modal-title text-light" >Terdapat kesalahan dari foto yang dikirimkan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-light">
+      <ul>
+         @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+         @endforeach
+       </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 
 
-
+<script>
+    @if ($errors->any())
+        $('#ModalError').modal('show');
+    @endif
+</script>
 </body>
 
 </html>

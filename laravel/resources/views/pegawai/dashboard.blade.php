@@ -16,6 +16,8 @@
     <link rel="icon" href="{{asset('img/favicon.ico')}}">
     <link rel="shortcut icon" href="{{asset('img/icon3.ico')}}">
     <link rel="apple-touch-icon" href="{{asset('img/apple-touch-icon.png')}}" />
+
+
     <title>HadirIn</title>
 </head>
 
@@ -31,21 +33,32 @@
                     </p>
                 </div>
             </div>
-            @if ($errors->any())
-            <div class="row d-flex mb-5">
-            <div class="col-12">
-                <div class="alert alert-danger alert-dismissible">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <strong>Aduh!</strong> Data lokasi yang dikirim bermasalah.<br><br>
-                    <ul>
-                        @foreach ($errors->all() as $error)
+      
+
+            <!-- Modal -->
+<div class="modal fade " id="ModalError" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content bg-danger">
+      <div class="modal-header">
+        <h5 class="modal-title" >Data lokasi yang dikirim bermasalah</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <ul>
+         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-        </div>
-            @endif
+         @endforeach
+       </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
             <div class="row d-flex">
                 <div class="col-sm-12 ml-3 info">
                     <h2 class="">
@@ -147,12 +160,13 @@
             <div class="col-sm-12 text-center">
                 <div class="keterangan" id="keterangan">
                     <a href="{{route('faq')}}" class="btn btn-sm btn-outline-success"><i class="fas fa-question-circle mr-1"></i>FAQ</a>
+                    <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-book mr-1"></i>Petunjuk</a>
                 </div>
             </div>
         </div>
             </div>
         </div>
-
+        
     </main>
     </div>
   
@@ -268,6 +282,10 @@
             toastr.error("{{ $message}}");
         @elseif($message = Session::get('success'))
             toastr.success("{{ $message}}");
+        @endif
+
+        @if ($errors->any())
+            $('#ModalError').modal('show');
         @endif
     </script>
 
