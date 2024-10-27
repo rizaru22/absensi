@@ -107,7 +107,34 @@ public function hitungYangSudahAbsen()
     $this->belumAbsenMasuk=$this->totalPegawai-$this->sudahAbsenMasuk;
     $this->sudahAbsenPulang=Absensi::whereDate('created_at',$tanggal)->where('jam_pulang','<>','0')->count('user_id');
     $this->belumAbsenPulang=$this->totalPegawai-$this->sudahAbsenPulang;
+}
 
+public function summarySudahAbsenMasuk(){
+
+}
+
+public function summaryBelumAbsenMasuk(){
+
+}
+
+public function summarySudahAbsenPulang(){
+
+}
+
+public function summaryBelumAbsenPulang(){
+
+}
+
+public function summaryIzin(){
+
+}
+
+public function summarySakit(){
+
+}
+
+public function summaryDinasLuar(){
+    
 }
 
 }
