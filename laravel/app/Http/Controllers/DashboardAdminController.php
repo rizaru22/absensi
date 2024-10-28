@@ -160,7 +160,7 @@ public function summaryBelumHadir(){
     $pegawaiBH=array();
     $allUser=User::select('id','name')->where('role','user')->get();
     foreach($allUser as $au){
-        $data=Absensi::where('user_id',$au['id'])->get();
+        $data=Absensi::where('user_id',$au['id'])->whereDate('created_at',$tanggal)->get();
         if(blank($data)){
             $pegawaiBH[]=$au['name'];
         }
