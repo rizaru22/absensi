@@ -11,6 +11,7 @@
                     Pilih Jenis Izin dan Kirim Bukti Dukung
                 </div>
                 <div class="card-body">
+                      <img id="foto" src="{{ asset('img/doc.jpg') }}" style="width:82vw;" class="mb-3">
 
                     <form action="{{ route('kirimizin') }}" method="post" enctype="multipart/form-data">
                         @csrf
@@ -71,5 +72,12 @@
     @if ($errors->any())
         $('#ModalError').modal('show');
     @endif
+
+            foto_izin.onchange = evt => {
+            const [file] = foto_izin.files
+            if (file) {
+                foto.src = URL.createObjectURL(file)
+            }
+        }
 </script>
 @endsection

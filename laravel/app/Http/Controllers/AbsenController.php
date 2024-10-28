@@ -70,9 +70,7 @@ class AbsenController extends Controller
         // dd(public_path(''));
 
         $validasi = $request->validate([
-            "foto_masuk" => "image|file|max:5120"
-        ],[
-            "foto_masuk.max"=>"Ukuran foto terlalu besar, ukuran foto Maksimal adalah 5MB"
+            "foto_masuk" => "required|image"
         ]);
 
         if ($request->file('foto_masuk')) {
@@ -165,9 +163,7 @@ class AbsenController extends Controller
     {
 
         $validasi = $request->validate([
-            "foto_pulang" => "image|file|max:5120"
-        ],[
-              "foto_pulang.max"=>"Ukuran foto terlalu besar, ukuran foto Maksimal adalah 5MB"
+            "foto_pulang" => "required|image"
         ]);
 
         if ($request->file('foto_pulang')) {
@@ -210,10 +206,8 @@ class AbsenController extends Controller
     public function kirimizin(Request $request): RedirectResponse
     {
         $validasi = $request->validate([
-            "foto_izin" => "image|file|max:5120",
+            "foto_izin" =>"required|image",
             "jam_masuk" => "required"
-        ],[
-            "foto_izin.max"=>"Ukuran foto terlalu besar, ukuran foto Maksimal adalah 5MB"
         ]);
 
         if ($request->file('foto_izin')) {
