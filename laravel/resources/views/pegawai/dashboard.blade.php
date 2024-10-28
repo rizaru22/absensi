@@ -160,7 +160,7 @@
             <div class="col-sm-12 text-center">
                 <div class="keterangan" id="keterangan">
                     <a href="{{route('faq')}}" class="btn btn-sm btn-outline-success"><i class="fas fa-question-circle mr-1"></i>FAQ</a>
-                    <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-book mr-1"></i>Petunjuk</a>
+                    {{-- <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-book mr-1"></i>Petunjuk</a> --}}
                 </div>
             </div>
         </div>

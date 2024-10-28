@@ -17,7 +17,7 @@
             <h2>FAQ</h2>
         </div>
     </div>
-    <div class="row">
+    <div class="row pb-3">
         <div class="col-12">
             <div class="accordion" id="accordionExample">
                 <div class="card">
@@ -86,7 +86,7 @@
             </div>
         </div>
     </div>
-    <div class="row pt-5">
+    <div class="row pb-5">
         <div class="col-12 text-center">
             <a href="{{route('pegawai')}}" class="btn btn-sm btn-outline-success"><i class="fas fa-home"></i> Dashboard</a>
         </div>
