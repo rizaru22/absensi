@@ -6,22 +6,22 @@
 <link rel="stylesheet" href="{{asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endsection
-@section('namaHalaman','Dashboard')
+@section('namaHalaman','Dashboard : '. $tanggal)
 @section('konten')
 <div class="row">
-<div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>{{$sudahAbsenMasuk}}</h3>
+          <div class="col-lg-3 col-6">
+                      <!-- small box -->
+                      <div class="small-box bg-info">
+                        <div class="inner">
+                          <h3>{{$sudahAbsenMasuk}}</h3>
 
-                <p>Sudah Absen Masuk</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-code-download"></i>
-              </div>
-   
-            </div>
+                          <p>Sudah Absen Masuk</p>
+                        </div>
+                        <div class="icon">
+                          <i class="ion ion-code-download"></i>
+                        </div>
+            
+                      </div>
           </div>
 
           <div class="col-lg-3 col-6">
@@ -72,8 +72,145 @@
 
 
           <!-- /.col -->
+</div>
+<div class="row">
+  <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header bg-primary">
+        <h1 class="card-title">Hadir</h1>
         </div>
-
+        <div class="card-body">
+        <table id="daftarHadir" class="table table-bordered table-striped dataTable dtr-inline collapsed table-hover" >
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+            </tr>
+          </thead>
+          <tbody>
+          @foreach($daftarNamaHadir as $dnh)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td> {{ $dnh->user->name }}</td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+        </div>
+      </div>
+  </div>
+  <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header bg-danger">
+        <h1 class="card-title">Belum Hadir</h1>
+        </div>
+        <div class="card-body">
+        <table id="daftarBelumHadir" class="table table-bordered table-striped dataTable dtr-inline collapsed table-hover" >
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+            </tr>
+          </thead>
+          <tbody>
+          @foreach($daftarNamaBelumHadir as $dnbh)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td> {{ $dnbh}}</td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+        </div>
+      </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-4">
+      <div class="card card-outline card-warning">
+        <div class="card-header">
+        <h1 class="card-title">Izin</h1>
+        </div>
+        <div class="card-body">
+        <table id="daftarIzin" class="table table-bordered table-striped dataTable dtr-inline collapsed table-hover" >
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+            </tr>
+          </thead>
+          <tbody>
+          @foreach($daftarNamaIzin as $dni)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td> {{ $dni->user->name }}</td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+      
+             
+           
+        </div>
+      </div>
+  </div>
+  <div class="col-lg-4">
+      <div class="card card-outline card-success">
+        <div class="card-header">
+        <h1 class="card-title">Dinas Luar</h1>
+        </div>
+        <div class="card-body">
+        <table id="daftarDL" class="table table-bordered table-striped dataTable dtr-inline collapsed table-hover" >
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+            </tr>
+          </thead>
+          <tbody>
+          @foreach($daftarNamaDL as $dnd)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td> {{ $dnd->user->name }}</td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+      
+             
+           
+        </div>
+      </div>
+  </div>
+  <div class="col-lg-4">
+      <div class="card card-outline card-primary">
+        <div class="card-header">
+        <h1 class="card-title">Sakit</h1>
+        </div>
+        <div class="card-body">
+        <table id="daftarSakit" class="table table-bordered table-striped dataTable dtr-inline collapsed table-hover" >
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama</th>
+            </tr>
+          </thead>
+          <tbody>
+          @foreach($daftarNamaSakit as $dns)
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td> {{ $dns->user->name }}</td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+      
+             
+           
+        </div>
+      </div>
+  </div>
+</div>
 <div class="row">
     <div class="col-12">
     <div class="card ">
@@ -177,6 +314,63 @@
             "autoWidth": false,
             "responsive": true,
         });
+        $('#daftarHadir').DataTable({
+          "responsive":true,
+          "lengthChange":false,
+          "paging":false,
+          "scrollY":200,
+          "scrollCollapse":true,
+          "scroller":true,
+          "searching":false,
+          "info":false
+
+        });
+        $('#daftarDL').DataTable({
+          "responsive":true,
+          "lengthChange":false,
+          "paging":false,
+          "scrollY":200,
+          "scrollCollapse":true,
+          "scroller":true,
+          "searching":false,
+          "info":false
+
+        });
+        $('#daftarIzin').DataTable({
+          "responsive":true,
+          "lengthChange":false,
+          "paging":false,
+          "scrollY":200,
+          "scrollCollapse":true,
+          "scroller":true,
+          "searching":false,
+          "info":false
+
+        });
+        $('#daftarSakit').DataTable({
+          "responsive":true,
+          "lengthChange":false,
+          "paging":false,
+          "scrollY":200,
+          "scrollCollapse":true,
+          "scroller":true,
+          "searching":false,
+          "info":false
+
+        });
+        $('#daftarBelumHadir').DataTable({
+          "responsive":true,
+          "lengthChange":false,
+          "paging":false,
+          "scrollY":200,
+          "scrollCollapse":true,
+          "scroller":true,
+          "searching":false,
+          "info":false
+
+        });
     });
+
+    
 </script>
 @endsection

@@ -21,7 +21,7 @@ class DashboardAdminController extends Controller
     public function index():View
     {
         $this->hitungYangSudahAbsen();
-       
+
         $dataAbsenHarian=[];
         $tanggal = Carbon::now();
        
@@ -60,7 +60,13 @@ class DashboardAdminController extends Controller
             "sudahAbsenMasuk"=>$this->sudahAbsenMasuk,
             "belumAbsenMasuk"=>$this->belumAbsenMasuk,
             "sudahAbsenPulang"=>$this->sudahAbsenPulang,
-            "belumAbsenPulang"=>$this->belumAbsenPulang
+            "belumAbsenPulang"=>$this->belumAbsenPulang,
+            "daftarNamaHadir"=>$this->summaryHadir(),
+            "daftarNamaDL"=>$this->summaryDinasLuar(),
+            "daftarNamaIzin"=>$this->summaryIzin(),
+            "daftarNamaSakit"=>$this->summarySakit(),
+            "daftarNamaBelumHadir"=>$this->summaryBelumHadir()
+
         ]);
     }
 
@@ -109,32 +115,57 @@ public function hitungYangSudahAbsen()
     $this->belumAbsenPulang=$this->totalPegawai-$this->sudahAbsenPulang;
 }
 
-public function summarySudahAbsenMasuk(){
-
-}
-
-public function summaryBelumAbsenMasuk(){
-
-}
-
-public function summarySudahAbsenPulang(){
-
-}
-
-public function summaryBelumAbsenPulang(){
-
+public function summaryHadir(){
+    $tanggal=Carbon::now();
+    $pegawaiHadir=Absensi::select('user_id')
+                                ->whereRaw('LENGTH(jam_masuk)>3')
+                                ->whereDate('created_at',$tanggal)
+                                ->get();
+    // dd($pegawaiHadir);                                
+    return $pegawaiHadir;
 }
 
 public function summaryIzin(){
-
+    $tanggal=Carbon::now();
+    $pegawaiIzin=Absensi::select('user_id')
+                                ->where('jam_masuk','I')
+                                ->whereDate('created_at',$tanggal)
+                                ->get();
+    
+    return $pegawaiIzin;
 }
 
 public function summarySakit(){
-
+    $tanggal=Carbon::now();
+    $pegawaiSakit=Absensi::select('user_id')
+                                ->where('jam_masuk','S')
+                                ->whereDate('created_at',$tanggal)
+                                ->get();
+    
+    return $pegawaiSakit;
 }
 
 public function summaryDinasLuar(){
+    $tanggal=Carbon::now();
+    $pegawaiDL=Absensi::select('user_id')
+                                ->where('jam_masuk','DL')
+                                ->whereDate('created_at',$tanggal)
+                                ->get();
     
+    return $pegawaiDL;
+}
+
+public function summaryBelumHadir(){
+    $tanggal=Carbon::now();
+    $pegawaiBH=array();
+    $allUser=User::select('id','name')->where('role','user')->get();
+    foreach($allUser as $au){
+        $data=Absensi::where('user_id',$au['id'])->get();
+        if(blank($data)){
+            $pegawaiBH[]=$au['name'];
+        }
+    }
+    return $pegawaiBH;
 }
 
 }
