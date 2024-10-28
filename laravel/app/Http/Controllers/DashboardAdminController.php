@@ -158,7 +158,7 @@ public function summaryDinasLuar(){
 public function summaryBelumHadir(){
     $tanggal=Carbon::now();
     $pegawaiBH=array();
-    $allUser=User::select('id','name')->where('role','user')->get();
+    $allUser=User::select('id','name')->where('role','user')->orderBy('name')->get();
     foreach($allUser as $au){
         $data=Absensi::where('user_id',$au['id'])->whereDate('created_at',$tanggal)->get();
         if(blank($data)){
