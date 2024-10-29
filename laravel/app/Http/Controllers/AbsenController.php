@@ -206,8 +206,10 @@ class AbsenController extends Controller
     public function kirimizin(Request $request): RedirectResponse
     {
         $validasi = $request->validate([
-            "foto_izin" =>"required|image",
+            "foto_izin" =>"image|file|max:10240",
             "jam_masuk" => "required"
+        ],[
+            "foto_izin.max"=>"Ukuran Foto Maksimal adalah 10MB"
         ]);
 
         if ($request->file('foto_izin')) {
