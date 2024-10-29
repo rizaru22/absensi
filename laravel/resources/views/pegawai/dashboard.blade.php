@@ -110,12 +110,12 @@
                     <div class="text pt-3">
                         <h4>Rekap absen pekan ini</h4>
                     </div>
-                    <table id="example2" class="table table-bordered table-hover dataTable dtr-inline" aria-describedby="example2_info">
+                    <table class="table table-bordered table-dark table"-responsive"-sm " >
                         <thead>
                             <tr>
-                                <th class="">Hari</th>
-                                <th class="">Jam Masuk</th>
-                                <th class="">Jam Pulang</th>
+                                <th class="align-middle">Hari</th>
+                                <th class="align-middle">Jam Masuk</th>
+                                <th class="align-middle">Jam Pulang</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -137,19 +137,19 @@
                     <tr>
                     
                     
-                    <td>{{ $daftar_hari[date('l',strtotime($subItem['created_at']))] }}</td>
+                    <td class="align-middle">{{ $daftar_hari[date('l',strtotime($subItem['created_at']))] }}</td>
                
 
-                        <td>{{ $subItem['jam_masuk'] }}</td>
-                        <td>{{ $subItem['jam_pulang'] }}</td>
+                        <td class="align-middle">{{ $subItem['jam_masuk'] }}</td>
+                        <td class="align-middle">{{ $subItem['jam_pulang'] }}</td>
             
                     </tr>
                    
                 @endforeach
                 @endforeach
                 <tr>
-                        <td>Total Jam Per Minggu</td>
-                        <td colspan="2">{{ $jamKerjaPerMinggu }} </td>
+                        <td class="align-middle">Total Jam Per Minggu</td>
+                        <td colspan="2" class="align-middle">{{ $jamKerjaPerMinggu }} </td>
                     </tr>
                         </tbody>
                     </table>
