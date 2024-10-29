@@ -59,6 +59,30 @@
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalInfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content text-muted">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Info Lokasi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="Latitude">Latitude</p>
+        <p id="Longitude">Longitude</p>
+        <p id="Jarak">Jarak</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
             <div class="row d-flex">
                 <div class="col-sm-12 ml-3 info">
                     <h2 class="">
@@ -159,8 +183,10 @@
             <div class="row mt-2 pb-2">
             <div class="col-sm-12 text-center">
                 <div class="keterangan" id="keterangan">
-                    <a href="{{route('faq')}}" class="btn btn-sm btn-outline-success"><i class="fas fa-question-circle mr-1"></i>FAQ</a>
-                    {{-- <a href="#" class="btn btn-sm btn-outline-success"><i class="fas fa-book mr-1"></i>Petunjuk</a> --}}
+                    <a href="{{route('faq')}}" class="btn btn-sm btn-outline-success mr-2"><i class="fas fa-question-circle mr-1"></i>FAQ</a>
+
+                    <button type="button" class="btn btn-sm btn-outline-success" data-toggle="modal" data-target="#modalInfo"><i class="fas fa-map-marker-alt mr-1"></i>Lokasi</button>
+                    
                 </div>
             </div>
         </div>
@@ -247,6 +273,8 @@
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
             // alert(latitude+'-'+longitude);
+            document.getElementById('Latitude').innerHTML="Latitude: " +latitude
+            document.getElementById('Longitude').innerHTML="Longitude: " +longitude
             hitungjarak(latSMK1, longSMK1, latitude, longitude);
         }
 
@@ -264,7 +292,8 @@
             }
             inputJarak.value=jarak;
             inputJarakPulang.value=jarak;
-            console.log(jarak)
+            document.getElementById('Jarak').innerHTML="Jarak: " +jarak+" meter"
+            // console.log(jarak)
             // var url = "{{route('masuk',':jarak')}}";
             // url = url.replace(':jarak', jarak);
             // window.location.href = url;
