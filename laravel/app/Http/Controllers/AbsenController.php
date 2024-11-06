@@ -78,7 +78,7 @@ class AbsenController extends Controller
             $image=$request->file('foto_masuk');
             $filename=uniqid().'.'.$request->file('foto_masuk')->extension();
             $img=Image::make($image->path());
-            $img->resize(300, 300, function ($constraint) {
+            $img->resize(900, 900, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
@@ -171,7 +171,7 @@ class AbsenController extends Controller
             $image=$request->file('foto_pulang');
             $filename=uniqid().'.'.$request->file('foto_pulang')->extension();
             $img=Image::make($image->path());
-            $img->resize(300, 300, function ($constraint) {
+            $img->resize(900, 900, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });
