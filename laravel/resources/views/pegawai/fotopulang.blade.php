@@ -25,26 +25,28 @@
     <div class="container">
 
         <div class="row">
-            <div class="col-12">
-                <div class="card mt-4">
-                    <div class="card-header">
-                        Kirimkan swafoto anda (foto selfie)
+            <div class="col-12 justify-content-center">
+                <div class="peringatan text-center alert alert-success mt-2">
+                    <h5>Foto harus menampilkan wajah dan latar belakang sekolah</h5>
+                </div>
+
+                <form action="{{ route('kirimfotopulang') }}" method="post" name="kirim_foto" id="kirim_foto" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="foto_pulang" id="foto_pulang" class="image-tag" required>
+                    <div class="form-group">
                     </div>
-                    <div class="card-body">
-                        <img id="foto" src="{{ asset('img/blank-user.png') }}" style="width:82vw;" class="mb-3">
-
-                        <form action="{{ route('kirimfotopulang') }}" method="post" enctype="multipart/form-data">
-                            @csrf
-
-                            <input type="file" id="foto_pulang" name="foto_pulang" accept="image/*" capture="user" required />
-
-                            <div class="card-footer text-right mt-4">
-
-                                <button type="submit" class="btn btn-success"><i class="fas fa-envelope"></i>
-                                    Kirim</button>
-                        </form>
+                </form>
+                <div class="text-center mx-auto">
+                    <div class="webcam-capture-body text-center mt-2 mx-auto">
+                        <div id="my_camera" class="webcam-capture"></div>
                     </div>
                 </div>
+                <!-- <div id="results" class="webcam-capture" style="width: 590px; height:460px">Foto Anda</div> -->
+                <div class="text-center mx-auto">
+
+                    <button type="button" class="btn btn-success btn-lg rounded-circle shadow mb-3 p-3 rouded pt-3 pb-3 border-dark rounded-lg" onclick="ambil_foto()"><i class="fas fa-camera fa-2x"></i></button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -63,7 +65,7 @@
                 <div class="modal-body text-light">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                        <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -82,19 +84,36 @@
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
     </script>
 
+    <script src="{{asset('dist/js/webcam.js')}}"></script>
+    <script language="JavaScript">
+        Webcam.set({
+            width: 460,
+            height: 590,
+            image_format: 'jpeg',
+            jpeg_quality: 100,
+            flip_horiz: true
+        });
 
-    <script>
-        @if ($errors->any())
-            $('#ModalError').modal('show');
-        @endif
+        Webcam.attach('.webcam-capture');
 
-        foto_pulang.onchange = evt => {
-            const [file] = foto_pulang.files
-            if (file) {
-                foto.src = URL.createObjectURL(file)
-            }
+        function ambil_foto() {
+            var shutter = new Audio();
+            shutter.autoplay = false;
+            shutter.src = navigator.userAgent.match(/Firefox/) ? 'shutter.ogg' : 'shutter.mp3';
+
+            Webcam.snap(function(data_uri) {
+                shutter.play();
+                $(".image-tag").val(data_uri);
+                document.kirim_foto.submit();
+            });
         }
+
+        @if($errors->any())
+        $('#ModalError').modal('show');
+        @endif
     </script>
+
+
 </body>
 
 </html>

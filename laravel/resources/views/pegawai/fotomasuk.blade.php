@@ -15,6 +15,7 @@
     <link rel="icon" href="{{ asset('img/favicon.ico') }}">
     <link rel="shortcut icon" href="{{ asset('img/icon3.ico') }}">
     <link rel="apple-touch-icon" href="{{ asset('img/apple-touch-icon.png') }}" />
+
     <title>Absensi Pegawai</title>
 </head>
 
@@ -22,72 +23,91 @@
     <div class="container">
 
         <div class="row">
-            <div class="col-12">
-                <div class="card mt-4">
-                    <div class="card-header">
-                        Kirimkan swafoto anda (foto selfie)
-                    </div>
-                    <div class="card-body">
-                        <img id="foto" src="{{ asset('img/blank-user.png') }}" style="width:82vw;" class="mb-3">
-
-                        <form action="{{ route('kirimfotomasuk') }}" method="post" enctype="multipart/form-data">
-                            @csrf
-
-                            <input type="file" id="foto_masuk" name="foto_masuk" accept="image/*" capture="user"                             required />
-
-                            <div class="card-footer text-right mt-4">
-                                <button type="submit" class="btn btn-success"><i class="fas fa-envelope"></i>
-                                    Kirim</button>
-                        </form>
-                    </div>
+            <div class="col-12 justify-content-center">
+                <div class="peringatan text-center alert alert-success mt-2">
+                    <h5>Foto harus menampilkan wajah dan latar belakang sekolah</h5>
                 </div>
+
+                <form action="{{ route('kirimfotomasuk') }}" method="post" name="kirim_foto" id="kirim_foto" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="foto_masuk" id="foto_masuk" class="image-tag" required>
+                    <div class="form-group">
+            </div>
+                </form>
+                <div class="text-center mx-auto">
+                <div class="webcam-capture-body text-center mt-2 mx-auto">
+                    <div id="my_camera" class="webcam-capture"></div>
+                </div>
+                </div>
+                <!-- <div id="results" class="webcam-capture" style="width: 590px; height:460px">Foto Anda</div> -->
+                 <div class="text-center mx-auto">
+
+                     <button type="button" class="btn btn-success btn-lg rounded-circle shadow mb-3 p-3 rouded pt-3 pb-3 border-dark rounded-lg" onclick="ambil_foto()"><i class="fas fa-camera fa-2x"></i></button>
+                 </div>
+
+
+
             </div>
         </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade " id="ModalError" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog ">
-            <div class="modal-content bg-danger">
-                <div class="modal-header">
-                    <h5 class="modal-title text-light">Terdapat kesalahan dari foto yang dikirimkan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body text-light">
-                    <ul>
-                        @foreach ($errors->all() as $error)
+        <!-- Modal -->
+        <div class="modal fade " id="ModalError" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content bg-danger">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-light">Terdapat kesalahan dari foto yang dikirimkan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-light">
+                        <ul>
+                            @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
-    </script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+            
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
+        </script>
+        <script src="{{asset('dist/js/webcam.js')}}"></script>
+        <script language="JavaScript">
+            Webcam.set({
+                width: 460,
+                height: 590,
+                image_format: 'jpeg',
+                jpeg_quality: 100,
+                flip_horiz: true
+            });
 
+            Webcam.attach('.webcam-capture');
 
-    <script>
-        @if ($errors->any())
-            $('#ModalError').modal('show');
-        @endif
+            function ambil_foto() {
+                var shutter = new Audio();
+                shutter.autoplay = false;
+                shutter.src = navigator.userAgent.match(/Firefox/) ? 'shutter.ogg' : 'shutter.mp3';
 
-        foto_masuk.onchange = evt => {
-            const [file] = foto_masuk.files
-            if (file) {
-                foto.src = URL.createObjectURL(file)
+                Webcam.snap(function(data_uri) {
+                    shutter.play();
+                    $(".image-tag").val(data_uri);
+                    document.kirim_foto.submit();
+                });
             }
-        }
-    </script>
-</body>
 
+            @if($errors->any())
+            $('#ModalError').modal('show');
+            @endif
+        </script>
+
+</body>
 </html>

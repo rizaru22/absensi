@@ -65,27 +65,28 @@ class AbsenController extends Controller
         // dd(public_path(''));
 
         $validasi = $request->validate([
-            "foto_masuk" => "required|image"
+            "foto_masuk" => "required"
         ]);
 
-        if ($request->file('foto_masuk')) {
-            // $validasi['foto_masuk'] = $request->file('foto_masuk')->store('fotomasuk');
-            $image=$request->file('foto_masuk');
-            $filename=uniqid().'.'.$request->file('foto_masuk')->extension();
-            $img=Image::make($image->path());
-            $img->resize(900, 900, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            $img->encode('jpg',100);
-            Storage::disk('public')->put('fotomasuk/'.$filename,$img);
+        if(base64_decode($validasi['foto_masuk'])){
+            $imageParts=explode(";base64,",$validasi['foto_masuk']);
+            $imageTypeAux=explode("image/",$imageParts[0]);
+            $imageType=$imageTypeAux[1];
+
+            $imageBase64=base64_decode($imageParts[1]);
+            $fileName=uniqid().'.'.$imageType;
+            Storage::disk('public')->put('fotomasuk/'.$fileName,$imageBase64);
+           
+        }else{
+            return redirect()->route('pegawai')->with('error', 'Anda mengirimkan data yang tidak diizinkan');
         }
+
 
         $validasi["user_id"] = Auth::user()->id;
         $validasi["jam_masuk"] = Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
         $validasi["jam_pulang"] = "0";
         $validasi["foto_pulang"] = "";
-        $validasi['foto_masuk']='fotomasuk/'.$filename;
+        $validasi['foto_masuk']='fotomasuk/'.$fileName;
 
 
         if ($this->cekAbsensi()==true) {
@@ -152,25 +153,26 @@ class AbsenController extends Controller
     {
 
         $validasi = $request->validate([
-            "foto_pulang" => "required|image"
+            "foto_pulang" => "required"
         ]);
 
-        if ($request->file('foto_pulang')) {
-            // $validasi['foto_pulang'] = $request->file('foto_pulang')->store('fotopulang');
-            $image=$request->file('foto_pulang');
-            $filename=uniqid().'.'.$request->file('foto_pulang')->extension();
-            $img=Image::make($image->path());
-            $img->resize(900, 900, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            $img->encode('jpg',100);
-            Storage::disk('public')->put('fotopulang/'.$filename,$img);
+        
+        if(base64_decode($validasi['foto_pulang'])){
+            $imageParts=explode(";base64,",$validasi['foto_pulang']);
+            $imageTypeAux=explode("image/",$imageParts[0]);
+            $imageType=$imageTypeAux[1];
+
+            $imageBase64=base64_decode($imageParts[1]);
+            $fileName=uniqid().'.'.$imageType;
+            Storage::disk('public')->put('fotopulang/'.$fileName,$imageBase64);
+           
+        }else{
+            return redirect()->route('pegawai')->with('error', 'Anda mengirimkan data yang tidak diizinkan');
         }
 
         $validasi["user_id"] = Auth::user()->id;
         $validasi["jam_pulang"] = Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
-        $validasi['foto_pulang']='fotopulang/'.$filename;
+        $validasi['foto_pulang']='fotopulang/'.$fileName;
 
 
      
