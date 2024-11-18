@@ -9,7 +9,7 @@
             <h5>Foto harus menampilkan wajah dan latar belakang sekolah</h5>
         </div>
 
-        <form action="{{ route('kirimfotomasuk') }}" method="post" name="kirim_foto" id="kirim_foto" enctype="multipart/form-data">
+        <form action="{{ route('kirimfotomasuk') }}" method="post" name="kirim_foto" id="kirim_foto">
             @csrf
             <input type="hidden" name="foto_masuk" id="foto_masuk" class="image-tag" required>
             <div class="form-group">
@@ -58,12 +58,28 @@
 @section('script')
 <script src="{{asset('dist/js/webcam.js')}}"></script>
 <script language="JavaScript">
+
+var cameras = new Array(); //create empty array to later insert available devices
+navigator.mediaDevices
+  .enumerateDevices() // get the available devices found in the machine
+  .then(function (devices) {
+    devices.forEach(function (device) {
+      var i = 0;
+      if (device.kind === "videoinput") {
+        //filter video devices only
+        cameras[i] = device.deviceId; // save the camera id's in the camera array
+        i++;
+      }
+    });
+  });
             Webcam.set({
                 width: 460,
                 height: 590,
                 image_format: 'jpeg',
                 jpeg_quality: 100,
-                flip_horiz: true
+                flip_horiz: true,
+                fps:30,
+                sourceId:cameras[0]
             });
 
             Webcam.attach('.webcam-capture');

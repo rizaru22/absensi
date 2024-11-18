@@ -58,12 +58,28 @@
 @section('script')
 <script src="{{asset('dist/js/webcam.js')}}"></script>
 <script language="JavaScript">
+    var cameras = new Array(); //create empty array to later insert available devices
+navigator.mediaDevices
+  .enumerateDevices() // get the available devices found in the machine
+  .then(function (devices) {
+    devices.forEach(function (device) {
+      var i = 0;
+      if (device.kind === "videoinput") {
+        //filter video devices only
+        cameras[i] = device.deviceId; // save the camera id's in the camera array
+        i++;
+      }
+    });
+  });
+
         Webcam.set({
             width: 460,
             height: 590,
             image_format: 'jpeg',
             jpeg_quality: 100,
-            flip_horiz: true
+            flip_horiz: true,
+            fps:30,
+            sourceId:cameras[0]
         });
 
         Webcam.attach('.webcam-capture');
