@@ -9,7 +9,7 @@
     }
 </style>
 @endsection
-@section('title','FAQ')a
+@section('title','FAQ')
 @section('konten')
 <div class="container">
     <div class="row">
