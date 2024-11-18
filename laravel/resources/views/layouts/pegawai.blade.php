@@ -12,10 +12,12 @@
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/fotomasuk.css') }}">
 <link rel="icon" href="{{asset('img/favicon.ico')}}">
+<link rel="shortcut icon" href="{{ asset('img/icon3.ico') }}">
+<link rel="apple-touch-icon" href="{{ asset('img/apple-touch-icon.png') }}" />
 @yield('style')
     <title>@yield('title')</title>
 </head>
-
+ 
 <body>
 @yield('konten') 
 
