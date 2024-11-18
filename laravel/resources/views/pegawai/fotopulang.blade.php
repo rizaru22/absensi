@@ -9,7 +9,7 @@
             <h5>Foto harus menampilkan wajah dan latar belakang sekolah</h5>
         </div>
 
-        <form action="{{ route('kirimfotopulang') }}" method="post" name="kirim_foto" id="kirim_foto" enctype="multipart/form-data">
+        <form action="{{ route('kirimfotopulang') }}" method="post" name="kirim_foto" id="kirim_foto">
             @csrf
             <input type="hidden" name="foto_pulang" id="foto_pulang" class="image-tag" required>
             <div class="form-group">
