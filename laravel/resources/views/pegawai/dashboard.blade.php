@@ -85,9 +85,7 @@
 
             <div class="row d-flex">
                 <div class="col-sm-12 ml-3 info">
-                    <h2 class="">
-                        {{ Auth::user()->name }}
-                    </h2>
+                    <h2 >{{ Auth::user()->name }}</h2>
                     <p class="nip">{{Auth::user()->nip}}</p>
 
                 </div>

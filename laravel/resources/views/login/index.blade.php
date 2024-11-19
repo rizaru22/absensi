@@ -8,13 +8,13 @@
   <meta http-equiv="refresh" content="300">
 
   <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="{{asset('css/font.css')}}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
   <!-- icheck bootstrap -->
   <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('dist/css/adminlte.css') }}">
+  <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
   <link rel="icon" href="{{asset('img/favicon.ico')}}">
   <link rel="shortcut icon" href="{{asset('img/icon3.ico')}}">
   <link rel="apple-touch-icon" href="{{asset('img/apple-touch-icon.png')}}" />
@@ -37,10 +37,10 @@
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-      <h3> <img src="{{asset('img/android-chrome-512x512.png')}}" alt="" width="50px"> Hadir<span class="text-logo">In</span></h3>
+      <h3> <img src="{{asset('img/apple-touch-icon.png')}}" alt="" width="50px"> Hadir<span class="text-logo">In</span></h3>
       </div>
       <div class="card-body login-card-body">
-        <p class="login-box-msg">Login untuk menggunakan aplikasi</p>
+      <p class="login-box-msg">Login untuk menggunakan aplikasi</p>
         @if(session()->has('loginError'))
         <div class="alert alert-danger alert-dismissible">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
