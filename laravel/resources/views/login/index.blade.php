@@ -23,9 +23,14 @@
       background-color: #00A693 !important;
       border-color: #00A693 !important;
     }
+
     .text-logo {
       color: #00A693;
       font-weight: bold;
+    }
+
+    .card-primary.card-outline {
+      border-top: 3px solid #00A693 !important;
     }
   </style>
   <title>Login Hadirin</title>
@@ -37,10 +42,10 @@
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-      <h3> <img src="{{asset('img/apple-touch-icon.png')}}" alt="" width="50px"> Hadir<span class="text-logo">In</span></h3>
+        <h3> <img src="{{asset('img/apple-touch-icon.png')}}" alt="" width="50px"> Hadir<span class="text-logo">In</span></h3>
       </div>
       <div class="card-body login-card-body">
-      <p class="login-box-msg">Login untuk menggunakan aplikasi</p>
+        <p class="login-box-msg">Login untuk menggunakan aplikasi</p>
         @if(session()->has('loginError'))
         <div class="alert alert-danger alert-dismissible">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
