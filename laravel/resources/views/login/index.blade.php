@@ -5,7 +5,6 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="refresh" content="300">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="{{asset('css/font.css')}}">
@@ -42,10 +41,10 @@
     <!-- /.login-logo -->
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <h3> <img src="{{asset('img/apple-touch-icon.png')}}" alt="" width="50px"> Hadir<span class="text-logo">In</span></h3>
+        <h3> <img src="{{asset('img/apple-touch-icon.png')}}" alt="" width="50" height="50"> Hadir<span class="text-logo">In</span></h3>
       </div>
       <div class="card-body login-card-body">
-        <p class="login-box-msg">Login untuk menggunakan aplikasi</p>
+      
         @if(session()->has('loginError'))
         <div class="alert alert-danger alert-dismissible">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
