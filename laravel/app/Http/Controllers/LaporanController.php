@@ -12,6 +12,12 @@ use Illuminate\Http\Request;
 class LaporanController extends Controller
 {
     //
+
+    protected $totalPegawai=0;
+    protected $sudahAbsenMasuk=0;
+    protected $belumAbsenMasuk=0;
+    protected $sudahAbsenPulang=0;
+    protected $belumAbsenPulang=0;
     public function ambilDataAbsenHarian($id, $tanggal)
     {
         $data = Absensi::select('users.id', 'users.name', 'users.nip', 'absensis.jam_masuk', 'absensis.jam_pulang', 'absensis.foto_masuk', 'absensis.foto_pulang', 'absensis.foto_izin')
@@ -25,7 +31,7 @@ class LaporanController extends Controller
     public function laporanHarian(Request $request): View
     {
         $tanggal = Carbon::parse($request['tanggal']);
-       
+        $this->hitungYangSudahAbsen($tanggal);
         $allUsers = User::select('id', 'name', 'nip')
             ->where('role', 'user')
             ->orderBy('name')
@@ -54,7 +60,17 @@ class LaporanController extends Controller
         return view('admin.laporan.harian', [
             "title" => "Laporan Harian :".$tanggal->isoFormat('D MMMM Y'),
             "dataAbsenHarian" => $dataAbsenHarian,
-            "tanggal" => $tanggal->isoFormat('dddd,D MMMM Y')
+            "tanggal" => $tanggal->isoFormat('dddd,D MMMM Y'),
+            "sudahAbsenMasuk"=>$this->sudahAbsenMasuk,
+            "belumAbsenMasuk"=>$this->belumAbsenMasuk,
+            "sudahAbsenPulang"=>$this->sudahAbsenPulang,
+            "belumAbsenPulang"=>$this->belumAbsenPulang,
+            "daftarNamaHadir"=>$this->summaryHadir($tanggal),
+            "daftarNamaDL"=>$this->summaryDinasLuar($tanggal),
+            "daftarNamaIzin"=>$this->summaryIzin($tanggal),
+            "daftarNamaSakit"=>$this->summarySakit($tanggal),
+            "daftarNamaBelumHadir"=>$this->summaryBelumHadir($tanggal)
+
         ]);
     }
 
@@ -197,4 +213,67 @@ class LaporanController extends Controller
             "data"=>$seluruh_data
         ]);
     }
+
+    public function hitungYangSudahAbsen($tanggal)
+{
+
+    $this->totalPegawai=User::where('role','user')->count();
+    $this->sudahAbsenMasuk=Absensi::whereDate('created_at',$tanggal)->count('user_id');
+    $this->belumAbsenMasuk=$this->totalPegawai-$this->sudahAbsenMasuk;
+    $this->sudahAbsenPulang=Absensi::whereDate('created_at',$tanggal)->where('jam_pulang','<>','0')->count('user_id');
+    $this->belumAbsenPulang=$this->totalPegawai-$this->sudahAbsenPulang;
+}
+
+public function summaryHadir($tanggal){
+    
+    $pegawaiHadir=Absensi::select('user_id')
+                                ->whereRaw('LENGTH(jam_masuk)>3')
+                                ->whereDate('created_at',$tanggal)
+                                ->get();
+    // dd($pegawaiHadir);                                
+    return $pegawaiHadir;
+}
+
+public function summaryIzin($tanggal){
+
+    $pegawaiIzin=Absensi::select('user_id')
+                                ->where('jam_masuk','I')
+                                ->whereDate('created_at',$tanggal)
+                                ->get();
+    
+    return $pegawaiIzin;
+}
+
+public function summarySakit($tanggal){
+
+    $pegawaiSakit=Absensi::select('user_id')
+                                ->where('jam_masuk','S')
+                                ->whereDate('created_at',$tanggal)
+                                ->get();
+    
+    return $pegawaiSakit;
+}
+
+public function summaryDinasLuar($tanggal){
+
+    $pegawaiDL=Absensi::select('user_id')
+                                ->where('jam_masuk','DL')
+                                ->whereDate('created_at',$tanggal)
+                                ->get();
+    
+    return $pegawaiDL;
+}
+
+public function summaryBelumHadir($tanggal){
+
+    $pegawaiBH=array();
+    $allUser=User::select('id','name')->where('role','user')->orderBy('name')->get();
+    foreach($allUser as $au){
+        $data=Absensi::where('user_id',$au['id'])->whereDate('created_at',$tanggal)->get();
+        if(blank($data)){
+            $pegawaiBH[]=$au['name'];
+        }
+    }
+    return $pegawaiBH;
+}
 }

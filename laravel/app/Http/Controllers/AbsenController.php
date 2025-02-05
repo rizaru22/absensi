@@ -37,15 +37,10 @@ class AbsenController extends Controller
         $waktuMaksimalMasuk = $Pengaturan[0]->jam_maksimal_masuk;
         $jam_sekarang = Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
 
-        //query untuk mengambil data user apakah sudah pernah melakukan absensi masuk hari ini
-        $cekAbsensi = Absensi::select("id")
-            ->where('user_id', '=', Auth::user()->id)
-            ->whereDate('created_at', Carbon::today())
-            ->get();
-        //mengecek absensi apakah sudah melakukan absensi masuk pada hari ini
-        if (!blank($cekAbsensi)) {
+        if ($this->cekAbsensi()==false) {
             return redirect()->route('pegawai')->with('error', 'Anda sudah melakukan absensi/cuti');
         }
+
         //cek apakah waktu abseni berada dalam rentang waktu yang diizinkan untuk absen masuk
 
         $jam_sekarang = strtotime($jam_sekarang);
@@ -70,39 +65,37 @@ class AbsenController extends Controller
         // dd(public_path(''));
 
         $validasi = $request->validate([
-            "foto_masuk" => "required|image"
+            "foto_masuk" => "required"
         ]);
 
-        if ($request->file('foto_masuk')) {
-            // $validasi['foto_masuk'] = $request->file('foto_masuk')->store('fotomasuk');
-            $image=$request->file('foto_masuk');
-            $filename=uniqid().'.'.$request->file('foto_masuk')->extension();
-            $img=Image::make($image->path());
-            $img->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            $img->encode('jpg',100);
-            Storage::disk('public')->put('fotomasuk/'.$filename,$img);
+        if(base64_decode($validasi['foto_masuk'])){
+            $imageParts=explode(";base64,",$validasi['foto_masuk']);
+            $imageTypeAux=explode("image/",$imageParts[0]);
+            $imageType=$imageTypeAux[1];
+
+            $imageBase64=base64_decode($imageParts[1]);
+            $fileName=uniqid().'.'.$imageType;
+            Storage::disk('public')->put('fotomasuk/'.$fileName,$imageBase64);
+           
+        }else{
+            return redirect()->route('pegawai')->with('error', 'Anda mengirimkan data yang tidak diizinkan');
         }
+
 
         $validasi["user_id"] = Auth::user()->id;
         $validasi["jam_masuk"] = Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
         $validasi["jam_pulang"] = "0";
         $validasi["foto_pulang"] = "";
-        $validasi['foto_masuk']='fotomasuk/'.$filename;
+        $validasi['foto_masuk']='fotomasuk/'.$fileName;
 
 
-        $cekAbsensi = Absensi::select("id")
-            ->where('user_id', '=', Auth::user()->id)
-            ->whereDate('created_at', Carbon::today())
-            ->get();
-
-        if (blank($cekAbsensi)) {
+        if ($this->cekAbsensi()==true) {
             Absensi::create($validasi);
+            return redirect()->route('pegawai')->with('success', 'Anda berhasil melakukan absensi');
+        }else{
+            return redirect()->route('pegawai')->with('error', 'Anda sudah melakukan absensi/cuti');
         }
 
-        return redirect()->route('pegawai')->with('success', 'Anda berhasil melakukan absensi');
     }
 
     public function pulang(Request $request): RedirectResponse
@@ -131,12 +124,9 @@ class AbsenController extends Controller
             //cek apakah berada dalam lingkup area yang diizinkan untuk absen
             if ($jarak <= $jarakMaksimal) {
                 //cek tabel absensi
-                $cekAbsensi = Absensi::select("id")
-                    ->where('user_id', '=', Auth::user()->id)
-                    ->whereDate('created_at', Carbon::today())
-                    ->get();
+                
                 //jika record sudah ada maka lakukan update di fotopulang
-                if (!blank($cekAbsensi)) {
+                if ($this->cekAbsensi()==false) {
                     $jamPulang = Absensi::select('jam_pulang')
                         ->whereDate('created_at', Carbon::today())
                         ->where('user_id', Auth::user()->id)
@@ -163,41 +153,46 @@ class AbsenController extends Controller
     {
 
         $validasi = $request->validate([
-            "foto_pulang" => "required|image"
+            "foto_pulang" => "required"
         ]);
 
-        if ($request->file('foto_pulang')) {
-            // $validasi['foto_pulang'] = $request->file('foto_pulang')->store('fotopulang');
-            $image=$request->file('foto_pulang');
-            $filename=uniqid().'.'.$request->file('foto_pulang')->extension();
-            $img=Image::make($image->path());
-            $img->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            $img->encode('jpg',100);
-            Storage::disk('public')->put('fotopulang/'.$filename,$img);
+        
+        if(base64_decode($validasi['foto_pulang'])){
+            $imageParts=explode(";base64,",$validasi['foto_pulang']);
+            $imageTypeAux=explode("image/",$imageParts[0]);
+            $imageType=$imageTypeAux[1];
+
+            $imageBase64=base64_decode($imageParts[1]);
+            $fileName=uniqid().'.'.$imageType;
+            Storage::disk('public')->put('fotopulang/'.$fileName,$imageBase64);
+           
+        }else{
+            return redirect()->route('pegawai')->with('error', 'Anda mengirimkan data yang tidak diizinkan');
         }
 
         $validasi["user_id"] = Auth::user()->id;
         $validasi["jam_pulang"] = Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
-        $validasi['foto_pulang']='fotopulang/'.$filename;
-
-        Absensi::where('user_id', Auth::user()->id)->whereDate('created_at', Carbon::today())->update($validasi);
+        $validasi['foto_pulang']='fotopulang/'.$fileName;
 
 
-        // Absensi::create($validasi);
-        return redirect()->route('pegawai')->with('success', 'Anda berhasil melakukan absensi');
+     
+
+        $cekAbsensi = Absensi::select("jam_pulang")
+        ->where('user_id', '=', Auth::user()->id)
+        ->whereDate('created_at', Carbon::today())
+        ->get();
+        if($cekAbsensi[0]->jam_pulang!=0){
+            return redirect()->route('pegawai')->with('error', 'Anda sudah melakukan absensi pulang');
+        }else{
+            Absensi::where('user_id', Auth::user()->id)->whereDate('created_at', Carbon::today())->update($validasi);
+            return redirect()->route('pegawai')->with('success', 'Anda berhasil melakukan absensi');
+        }
+
     }
     public function izin()
     {
-        //query untuk mengambil data user apakah sudah pernah melakukan absensi masuk hari ini
-        $cekAbsensi = Absensi::select("id")
-            ->where('user_id', '=', Auth::user()->id)
-            ->whereDate('created_at', Carbon::today())
-            ->get();
-        //mengecek absensi apakah sudah melakukan absensi masuk pada hari ini
-        if (!blank($cekAbsensi)) {
+  
+        if ($this->cekAbsensi()==false) {
             return redirect()->route('pegawai')->with('error', 'Anda sudah melakukan absensi/cuti');
         }
         return view('pegawai.cuti');
@@ -224,10 +219,9 @@ class AbsenController extends Controller
         $validasi["foto_pulang"] = '-';
 
         // dd($validasi);
-
-
-
-
+        if ($this->cekAbsensi()==false) {
+            return redirect()->route('pegawai')->with('error', 'Anda sudah melakukan absensi/cuti');
+        }
         Absensi::create($validasi);
         return redirect()->route('pegawai')->with('success', 'Anda berhasil melakukan izin cuti');
     }
@@ -252,5 +246,21 @@ class AbsenController extends Controller
 
 
         return redirect()->route('pegawai')->with('success', 'Password telah diubah');
+    }
+
+    public function cekAbsensi()
+    {
+         //query untuk mengambil data user apakah sudah pernah melakukan absensi masuk hari ini
+        $cekAbsensi = Absensi::select("id")
+        ->where('user_id', '=', Auth::user()->id)
+        ->whereDate('created_at', Carbon::today())
+        ->get();
+
+        //mengecek absensi apakah sudah melakukan absensi masuk pada hari ini
+        if (!blank($cekAbsensi)) {
+            return false;
+        }else{
+            return true;
+        }
     }
 }

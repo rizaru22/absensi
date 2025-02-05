@@ -82,3 +82,22 @@ main{
     color: var(--warna1);
     border-color: var(--warna1);
 }
+
+.table-dark{
+    color: var(--warna2);
+    background-color: var(--warna1);
+    border-color:var(--warna2) !important;
+    text-align: center;
+   
+}
+
+table.table-bordered{
+    border:1px solid var(--warna2);
+    margin-top:20px;
+  }
+table.table-bordered > thead > tr > th{
+    border:1px solid var(--warna2);
+}
+table.table-bordered > tbody > tr > td{
+    border:1px solid var(--warna2);
+}
