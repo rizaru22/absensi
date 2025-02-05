@@ -73,8 +73,8 @@ navigator.mediaDevices
   });
 
         Webcam.set({
-            width: 460,
-            height: 590,
+            width: 450,
+            height: 600,
             image_format: 'jpeg',
             jpeg_quality: 100,
             flip_horiz: true,

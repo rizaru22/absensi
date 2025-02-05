@@ -38,7 +38,7 @@ input[type=file]::file-selector-button {
     color: var(--warna1);
   }
 
-.card-header{
+.colorize-card-header{
     background-color: var(--warna1);
     border: 2px solid var(--warna1);
     color: var(--warna2);

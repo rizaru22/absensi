@@ -2,7 +2,7 @@
 @section('title','Ubah Password')
 
 @section('konten')
-<div class="container">
+<div class="container spasi-bawah">
     <div class="row">
         <div class="col-12">
             <div class="card mt-4">
@@ -47,11 +47,13 @@
 
 
 
-                        <div class="card-footer text-right mt-4">
-                            <a href="{{route('pegawai')}}" class="btn btn-warning float-left"><i class="fas fa-window-close"></i> Batal</a>
-                            <button type="submit" class="btn btn-danger"><i class="fas fa-edit"></i> Ubah</button>
-                    </form>
+              
                 </div>
+                <div class="card-footer text-end mt-4">
+                            <a href="{{route('pegawai')}}" class="btn btn-warning float-start"><i class="fas fa-window-close"></i> Batal</a>
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-edit"></i> Ubah</button>
+                        </div>
+                    </form>
             </div>
         </div>
     </div>

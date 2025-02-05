@@ -7,8 +7,10 @@
   } */
 
 :root{
-    --warna1:#00A693;
-    --warna2:#fff;
+    --warna-hijau:#00A693;
+    --warna-putih:#fff;
+    --warna-biru:#0069a6;
+    --warna-merah:#a61900;
 }
 
 /* html{
@@ -20,52 +22,27 @@ body{
     font-family: "Roboto",sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #ECECEC;
 }
 
 header{
-    height: 35vh;
-    background-color: var(--warna1);
-    color:var(--warna2);
+    height: 25vh;
+    background-color: var(--warna-hijau);
+    color:var(--warna-putih);
 }
 
 .jam{
-    border: var(--warna2);
+    border: var(--warna-putih);
     border-radius: 3px;
-    background-color: var(--warna2);
-    color:var(--warna1);
+    background-color: var(--warna-putih);
+    color:var(--warna-hijau);
 
 }
 
 .nip{
     margin-top: -4px;
 }
-
-.menu{
-    height: 14vh;
-    margin-top: -7vh;
-    color:var(--warna1);
-    background-color: var(--warna2);
-    border-radius: 15px;
-    box-shadow: 1px 2px 30px rgba(0,0,0,.2);
-
-}
-
-.item button{
-    color: var(--warna1);
-    border-color: var(--warna1);
-}
-
-.menu .item{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    color: var(--warna1);
-
-}
-
-
-
-.menu a{
+a{
     text-decoration: none;
 }
 
@@ -74,30 +51,130 @@ main{
 }
 
 .logout button{
-    color: var(--warna2);
-    border-color: var(--warna2);
+    color: var(--warna-putih);
+    border-color: var(--warna-putih);
 }
 
 .btn-outline-success{
-    color: var(--warna1);
-    border-color: var(--warna1);
+    color: var(--warna-hijau);
+    border-color: var(--warna-hijau);
 }
 
-.table-dark{
-    color: var(--warna2);
-    background-color: var(--warna1);
-    border-color:var(--warna2) !important;
+table.table-dark{
+    
+    --bs-table-bg: var(--warna-hijau) !important;
+    --bs-table-accent-bg: var(--warna-hijau) !important;
     text-align: center;
-   
 }
+
+
 
 table.table-bordered{
-    border:1px solid var(--warna2);
-    margin-top:20px;
+    border:1px solid var(--warna-putih);
+    /* margin-top:20px; */
   }
 table.table-bordered > thead > tr > th{
-    border:1px solid var(--warna2);
+    border:1px solid var(--warna-putih);
 }
 table.table-bordered > tbody > tr > td{
-    border:1px solid var(--warna2);
+    border:1px solid var(--warna-putih);
+}
+
+
+footer {
+    margin-top: 2vh;
+    /* padding-top: 2vh; */
+    /* padding-bottom: 2vh; */
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--warna-putih);
+    color: var(--warna-hijau);
+    text-align: center;
+  }
+  footer a{
+    color: var(--warna-hijau);
+    text-decoration: none;
+  }
+
+  .wrapper{
+    min-height: 100%;
+    position: relative;
+  }
+
+  .spasi-bawah{
+padding-bottom: 15vh;
+  }
+
+  .text-black{
+    color:black;
+  }
+
+  .card-borderless{
+    border:none !important;
+    box-shadow: 1px 2px 30px rgba(0,0,0,.2);
+    /* padding-top: 5vh;
+    padding-bottom: 5vh; */
+  }
+
+  .text-red{
+    color:var(--warna-merah);
+  }
+
+  .text-light{
+    color:var(--warna-putih);
+  }
+
+  .text-bold{
+    font-weight: 700;
+  }
+  .overlap{
+    margin-top: -10vh;
+  }
+
+  .not-bold{
+    font-weight: 300;
+  }
+
+  .card-header-center{
+    text-align: center;
+    justify-content: center;
+  }
+
+  .card-header-light{
+    background-color: var(--warna-putih);
+    /* color: var(--warna-hijau);
+    font-weight: 400; */
+  }
+
+  .text-green{
+    color:var(--warna-hijau)
+  }
+
+.card-red{
+    background-color: var(--warna-merah);
+    
+}
+.btn-red{
+    background-color: var(--warna-merah);
+    color: var(--warna-putih);
+}
+
+.card-blue{
+    background-color: var(--warna-biru);
+}
+.btn-blue{
+    background-color: var(--warna-biru);
+    color: var(--warna-putih);
+}
+.btn-green{
+    background-color: var(--warna-hijau);
+    color: var(--warna-putih);
+}
+.accordion {
+	--bs-accordion-btn-color: ghostwhite;
+	--bs-accordion-btn-bg: var(--warna-hijau);
+	--bs-accordion-active-color:var(--warna-putih);
+	--bs-accordion-active-bg: var(--warna-biru);
 }

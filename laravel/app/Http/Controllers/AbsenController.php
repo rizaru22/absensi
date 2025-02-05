@@ -195,7 +195,9 @@ class AbsenController extends Controller
         if ($this->cekAbsensi()==false) {
             return redirect()->route('pegawai')->with('error', 'Anda sudah melakukan absensi/cuti');
         }
-        return view('pegawai.cuti');
+        return view('pegawai.cuti',[
+        "pengaturan"=> Pengaturan::limit(1)->get()
+        ]);
     }
 
     public function kirimizin(Request $request): RedirectResponse
@@ -231,7 +233,8 @@ class AbsenController extends Controller
         $dataUser = User::select('name', 'nip', 'username', 'email')->where('id', Auth::user()->id)->get();
         // dd($dataUser[0]);
         return view('pegawai.akun', [
-            "data" => $dataUser[0]
+            "data" => $dataUser[0],
+            "pengaturan"=> Pengaturan::limit(1)->get()
         ]);
     }
 

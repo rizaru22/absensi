@@ -73,7 +73,7 @@ class DashboardPegawaiController extends Controller
         $data=Pengaturan::all();
 
         return view('pegawai.faq',[
-            "data"=>$data
+            "pengaturan"=>$data
         ]);
     }
 }
