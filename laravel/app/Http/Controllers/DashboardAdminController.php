@@ -17,6 +17,9 @@ class DashboardAdminController extends Controller
     protected $belumAbsenMasuk=0;
     protected $sudahAbsenPulang=0;
     protected $belumAbsenPulang=0;
+    protected $yang_sakit;
+    protected $yang_dinas_luar;
+    protected $yang_izin;
     //
     public function index():View
     {
@@ -107,12 +110,16 @@ class DashboardAdminController extends Controller
     
 public function hitungYangSudahAbsen()
 {
-    $tanggal=Carbon::now();
-    $this->totalPegawai=User::where('role','user')->count();
-    $this->sudahAbsenMasuk=Absensi::whereDate('created_at',$tanggal)->count('user_id');
-    $this->belumAbsenMasuk=$this->totalPegawai-$this->sudahAbsenMasuk;
-    $this->sudahAbsenPulang=Absensi::whereDate('created_at',$tanggal)->where('jam_pulang','<>','0')->count('user_id');
-    $this->belumAbsenPulang=$this->totalPegawai-$this->sudahAbsenPulang;
+    $tanggal = Carbon::now();
+    $this->yang_sakit = Absensi::where('jam_masuk', 'S')->whereDate('created_at', $tanggal)->count('user_id');
+    $this->yang_dinas_luar = Absensi::where('jam_masuk', 'DL')->whereDate('created_at', $tanggal)->count('user_id');
+    $this->yang_izin = Absensi::where('jam_masuk', 'I')->whereDate('created_at', $tanggal)->count('user_id');
+    // dd($this->yang_sakit,$this->yang_dinas_luar,$this->yang_izin);
+    $this->totalPegawai = User::where('role', 'user')->count();
+    $this->sudahAbsenMasuk = Absensi::whereDate('created_at', $tanggal)->whereRaw('LENGTH(jam_masuk) > 3')->count('user_id');
+    $this->belumAbsenMasuk = $this->totalPegawai - ($this->sudahAbsenMasuk + $this->yang_sakit + $this->yang_dinas_luar + $this->yang_izin);
+    $this->sudahAbsenPulang = Absensi::whereDate('created_at', $tanggal)->where('jam_pulang', '<>', '0')->count('user_id');
+    $this->belumAbsenPulang = $this->totalPegawai - $this->sudahAbsenPulang;
 }
 
 public function summaryHadir(){

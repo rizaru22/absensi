@@ -21,15 +21,18 @@ class LaporanController extends Controller
     protected $belumAbsenPulang=0;
     public function ambilDataAbsenHarian($id, $tanggal)
     {
-        // $data = Absensi::select('absensis.id','users.id', 'users.name', 'users.nip', 'absensis.jam_masuk', 'absensis.jam_pulang', 'absensis.foto_masuk', 'absensis.foto_pulang', 'absensis.foto_izin')
-        //     ->join('users', 'absensis.user_id', '=', 'users.id')
-        //     ->whereDate('absensis.created_at', $tanggal)
-        //     ->where('user_id', $id)
-        //     ->get()->toArray();
-        $data=Absensi::with('user')
-                    ->where('user_id',$id)
-                    ->whereDate('created_at',$tanggal)
-                    ->get()->toArray();
+        $data = Absensi::select('absensis.id as idabsen','users.id', 'users.name', 'users.nip', 'absensis.jam_masuk', 'absensis.jam_pulang', 'absensis.foto_masuk', 'absensis.foto_pulang', 'absensis.foto_izin')
+            ->join('users', 'absensis.user_id', '=', 'users.id')
+            ->whereDate('absensis.created_at', $tanggal)
+            ->where('user_id', $id)
+            ->get()->toArray();
+
+        // $data=Absensi::with('user')
+        //             ->where('user_id',$id)
+        //             ->whereDate('created_at',$tanggal)
+        //             ->get()->toArray();
+        // dd($data);
+        
         return $data;
     }
     public function laporanHarian(Request $request): View
@@ -48,6 +51,7 @@ class LaporanController extends Controller
                 $dataAbsenHarian[] = $this->ambilDataAbsenHarian($au['id'], $tanggal);
             } else {
                 $dataBlank = array(
+                    "idabsen"=>null,
                     "id" => $au['id'],
                     "name" => $au['name'],
                     "nip" => $au['nip'],

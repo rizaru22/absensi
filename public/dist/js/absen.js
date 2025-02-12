@@ -55,7 +55,7 @@ function showPosition(position) {
 }
 
 function hitungjarak(lat1, long1, lat2, long2, unit = "kilometers") {
-  typeWriter("Mencari Lokasi Anda...", 0);
+  // typeWriter("Mencari Lokasi Anda...", 0);
   console.log(lat1, long1, lat2, long2, unit);
   let theta = long1 - long2;
   let distance =60 *1.1515 *(180 / Math.PI) *Math.acos(

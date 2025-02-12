@@ -31,6 +31,8 @@ class PengaturanController extends Controller
         $pengaturan->jam_maksimal_masuk=$request->jam_maksimal_masuk;
         $pengaturan->jam_pulang=$request->jam_pulang;
         $pengaturan->jam_maksimal_pulang=$request->jam_maksimal_pulang;
+        $pengaturan->group_wa_id=$request->group_wa_id;
+        $pengaturan->token=$request->token;
         $pengaturan->save();
         return redirect()->route('pengaturan.index')->with('success', 'Berhasil ubah data ');
     }

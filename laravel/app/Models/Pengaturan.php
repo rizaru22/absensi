@@ -16,7 +16,9 @@ class Pengaturan extends Model
         'jam_pulang',
         'jam_maksimal_masuk',
         'jam_maksimal_pulang',
-        'jarak_maksimal'
+        'jarak_maksimal',
+        'group_wa_id',
+        'token'
     ];
 
 }

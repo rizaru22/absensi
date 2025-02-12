@@ -230,16 +230,20 @@
                         </tr>
                     </thead> 
                     <tbody>
-                        @php
-                        $i=1;
-                        @endphp
-                    
+                     
+           
                         @foreach ($dataAbsenHarian as $dah)
+                     
                         @foreach($dah as $subdah)
-                       
+                      
                         <tr>
-                            <td>{{ $i }}</td>
-                            <td>{{ $subdah['user']['name'] }} <br>NIP.{{$subdah['user']['nip']}} <br> <a href="{{ route('editabsen',$subdah['id']) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i>Edit Absen</a></td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $subdah['name'] }} <br>NIP.{{$subdah['nip']}} <br> 
+                            @if(!empty($subdah['idabsen']))
+      
+                            <a href="{{ route('editabsen',$subdah['idabsen']) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i>Edit Absen</a>
+                            @endif
+                          </td>
                             <td>{{ $subdah['jam_masuk'] }}</td>
                             <td>{{$subdah['jam_pulang']}}</td>
                             <td>
@@ -261,9 +265,7 @@
    
                         </tr>
                         @endforeach
-                        @php
-                        $i++
-                        @endphp
+            
                         @endforeach
         
                     </tbody>

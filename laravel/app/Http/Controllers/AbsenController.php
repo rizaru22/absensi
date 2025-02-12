@@ -95,7 +95,7 @@ class AbsenController extends Controller
 
 
         $validasi["user_id"] = Auth::user()->id;
-        $validasi["jam_masuk"] = Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
+        $validasi["jam_masuk"] = Carbon::now('Asia/Jakarta')->isoFormat('HH:mm:ss');
         $validasi["jam_pulang"] = "0";
         $validasi["foto_pulang"] = "";
         $validasi['foto_masuk'] = 'fotomasuk/' . $fileName;
