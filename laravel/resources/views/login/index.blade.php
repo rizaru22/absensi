@@ -3,8 +3,16 @@
 
 <head>
   <!-- Required meta tags -->
+  <meta name="theme-color" content="#00A693">
+  <meta name="msapplication-TileColor" content="#00A693">
+  <meta name="msapplication-navbutton-color" content="#00A693">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#00A693">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name=”robots” content="index, follow">
+  <meta name="keywords" content="Aplikasi Absensi Online, Absensi Online, Absensi, Absensi SMK, Absensi SMK Negeri 1 Karang Baru, Absensi SMK Negeri 1 Karang Baru">
+  <meta name="description" content="Aplikasi Absensi Online SMK Negeri 1 Karang Baru">
+  <meta name="author" content="SAFRIZAL">
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="{{asset('css/font.css')}}">
@@ -44,7 +52,7 @@
         <h3> <img src="{{asset('img/apple-touch-icon.png')}}" alt="" width="50" height="50"> Hadir<span class="text-logo">In</span></h3>
       </div>
       <div class="card-body login-card-body">
-      
+
         @if(session()->has('loginError'))
         <div class="alert alert-danger alert-dismissible">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -71,15 +79,18 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-8">
+          <div class="form-group">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="showpassword" name="showpassword" onclick="showPassword()">
+              <label class="form-check-label">Lihat Password</label>
+            </div>
 
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fas fa-user-check"></i> Sign In</button>
             </div>
-            <!-- /.col -->
-            <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-user-check"></i> Sign In</button>
-            </div>
-            <!-- /.col -->
+
           </div>
         </form>
 
@@ -100,6 +111,16 @@
   <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <!-- AdminLTE App -->
   <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+  <script>
+    function showPassword() {
+      var x = document.getElementById("password");
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+    }
+  </script>
 </body>
 
 </html>
