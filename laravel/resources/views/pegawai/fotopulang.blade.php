@@ -1,33 +1,64 @@
 @extends('layouts.pegawai')
 @section('title','Absen Pulang')
-
+@section('style')
+<link rel="stylesheet" href="{{ asset('css/fotomasuk.css') }}">
+@endsection
 @section('konten')
-<div class="container">
-<div class="row">
-    <div class="col-12 justify-content-center">
-        <div class="peringatan text-center alert alert-success mt-2">
-            <h5>Foto harus menampilkan wajah dan latar belakang sekolah</h5>
-        </div>
 
-        <form action="{{ route('kirimfotopulang') }}" method="post" name="kirim_foto" id="kirim_foto">
-            @csrf
-            <input type="hidden" name="foto_pulang" id="foto_pulang" class="image-tag" required>
-            <div class="form-group">
-            </div>
-        </form>
-        <div class="text-center mx-auto">
-            <div class="webcam-capture-body text-center mt-2 mx-auto">
-                <div id="my_camera" class="webcam-capture"></div>
-            </div>
-        </div>
-        <!-- <div id="results" class="webcam-capture" style="width: 590px; height:460px">Foto Anda</div> -->
-        <div class="text-center mx-auto">
-
-            <button type="button" class="btn btn-success btn-lg rounded-circle shadow mb-3 p-3 rouded pt-3 pb-3 border-dark rounded-lg" onclick="ambil_foto()"><i class="fas fa-camera fa-2x"></i></button>
-        </div>
-
+<div class="loading" id="loading">
+    <div class="loader"></div> 
+    <div class="flex-break"></div>
+    <div class="text">
+        <h1>Mohon Menunggu!</h1>
     </div>
 </div>
+<div class="container mb-5 pb-5 konten" id="konten">
+    <div class="row">
+        <div class="col-12 justify-content-center">
+            <div class="peringatan text-center alert alert-success mt-2">
+                <h5>Foto harus menampilkan wajah dan latar belakang sekolah</h5>
+            </div>
+
+            <form action="{{ route('kirimfotopulang') }}" method="post" name="kirim_foto" id="kirim_foto">
+                @csrf
+                <input type="hidden" name="foto_pulang" id="foto_pulang" class="image-tag" required>
+                <div class="form-group">
+                </div>
+            </form>
+            <div class="text-center mx-auto">
+                <div class="webcam-capture-body text-center mt-2 mx-auto">
+                <h5>Absen Pulang</h5>
+                    <div id="my_camera" class="webcam-capture"></div>
+                </div>
+            </div>
+            <!-- <div id="results" class="webcam-capture" style="width: 590px; height:460px">Foto Anda</div> -->
+            <div class="text-center mx-auto">
+
+                <button type="button" class="btn btn-success btn-lg rounded-circle shadow mb-3 p-3 rouded pt-3 pb-3 border-dark rounded-lg" onclick="ambil_foto()"><i class="fas fa-camera fa-2x"></i></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="luar-jarak container mb-5 pb-5 mt-5" id="luar-jarak">
+    <div class="jarak">
+        <div class="jarak-terlalu-jauh">
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Anda terlalu jauh dari sekolah!</h4>
+                <p>Anda harus berada dalam jarak {{$pengaturan[0]->jarak_maksimal}} meter dari sekolah, saat ini GPS menunjukkan anda berada <strong> <span id="jarak"></span> meter </strong>dari sekolah</p>
+                <hr>
+                <ol>
+                    <li>Pastikan GPS Anda aktif</li>
+                    <li>Periksa kembali lokasi anda  <a href="https://www.google.com/maps/?q={{ $pengaturan[0]->latitude }},{{ $pengaturan[0]->longitude }}"  target="_blank" class="btn btn-sm btn-primary">DISINI</a></li>
+                    <li>Setelah memastikan lokasi anda pada GPS, silahkan <a href="{{route('pegawai')}}" class="btn btn-sm btn-success">ULANGI</a> lagi proses Absen </li>
+                    <li>Periksa kembali jaringan internet anda</li>
+                    <li>Jika masalah masih berlanjut, coba restart perangkat anda</li>
+                </ol>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Modal -->
 
@@ -54,47 +85,15 @@
             </div>
         </div>
     </div>
+ 
 @endsection
 @section('script')
 <script src="{{asset('dist/js/webcam.js')}}"></script>
+<script src="{{asset('dist/js/absen.js')}}"></script>
 <script language="JavaScript">
-    var cameras = new Array(); //create empty array to later insert available devices
-navigator.mediaDevices
-  .enumerateDevices() // get the available devices found in the machine
-  .then(function (devices) {
-    devices.forEach(function (device) {
-      var i = 0;
-      if (device.kind === "videoinput") {
-        //filter video devices only
-        cameras[i] = device.deviceId; // save the camera id's in the camera array
-        i++;
-      }
-    });
-  });
-
-        Webcam.set({
-            width: 450,
-            height: 600,
-            image_format: 'jpeg',
-            jpeg_quality: 100,
-            flip_horiz: true,
-            fps:30,
-            sourceId:cameras[0]
-        });
-
-        Webcam.attach('.webcam-capture');
-
-        function ambil_foto() {
-            var shutter = new Audio();
-            shutter.autoplay = false;
-            shutter.src = navigator.userAgent.match(/Firefox/) ? 'shutter.ogg' : 'shutter.mp3';
-
-            Webcam.snap(function(data_uri) {
-                shutter.play();
-                $(".image-tag").val(data_uri);
-                document.kirim_foto.submit();
-            });
-        }
+       let latSMK1 = {{$pengaturan[0]->latitude}};
+       let longSMK1 = {{$pengaturan[0]->longitude}};
+       let jarak_maksimal={{$pengaturan[0]->jarak_maksimal}}
 
         @if($errors->any())
         $('#ModalError').modal('show');

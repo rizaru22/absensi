@@ -5,9 +5,9 @@
 <div class="container spasi-bawah">
     <div class="row">
         <div class="col-12">
-            <div class="card mt-4">
-                <div class="card-header">
-                    Formulir Ubah Passsword
+            <div class="card mt-4 ">
+                <div class="card-header text-bg-success">
+                    Formulir Ubah Password
                     @if ($errors->any())
                     <div class="alert alert-danger">
                         <strong>Ada yang salah</strong> Input yang anda masukkan ada yang salah<br><br>

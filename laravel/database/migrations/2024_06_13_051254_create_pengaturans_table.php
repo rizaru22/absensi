@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('jam_maksimal_masuk',length:20);
             $table->string('jam_maksimal_pulang',length:20);
             $table->double('jarak_maksimal');
+            $table->string('group_wa_id')->nullable();
+            $table->string('token')->nullable();
 
             $table->timestamps();
         });

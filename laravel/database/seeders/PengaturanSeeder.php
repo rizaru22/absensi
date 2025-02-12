@@ -22,7 +22,9 @@ class PengaturanSeeder extends Seeder
             'jam_pulang'=>'12:30:00',
             'jam_maksimal_masuk'=>'10:30:00',
             'jam_maksimal_pulang'=>'18:30:00',
-            'jarak_maksimal'=>'170'
+            'jarak_maksimal'=>'170',
+            'group_wa_id' => '120363046893925773@g.us',
+            'token' => 'QoHLhWA837o5m5RHGJnM'
         ]);
     }
 }

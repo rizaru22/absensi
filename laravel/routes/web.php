@@ -1,6 +1,7 @@
 <?php
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsPegawai;
+use App\Models\Pengaturan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AutoController;
 use App\Http\Controllers\UserController;
@@ -45,6 +46,9 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
 
         Route::get('/pilihbulantahun', 'pilihBulanTahun')->name('pilihbulantahun');
         Route::post('/laporanbulanan', 'laporanBulanan')->name('laporanbulanan');
+
+        Route::get('/editabsen/{id}', 'edit_absen')->name('editabsen');
+        Route::put('/updateabsen/{id}', 'update_absen')->name('updateabsen');
     });
 
     Route::resource('/pengaturan', PengaturanController::class)->only(['index', 'update']);
@@ -55,10 +59,14 @@ Route::middleware(['auth', IsPegawai::class])->group(function () {
     Route::controller(DashboardPegawaiController::class)->group(function () {
         Route::get('/pegawai',  'index')->name('pegawai');
         Route::get('/faq',  'faq')->name('faq');
+        Route::get('/akun', 'lihatAkun')->name('akun');
+        Route::put('/updateAkun', 'updateAkun')->name('updateAkun');
     });
 
     Route::get('/fotomasuk', function () {
-        return view('pegawai.fotomasuk');
+        return view('pegawai.fotomasuk',[
+            "pengaturan"=>Pengaturan::all()
+        ]);
     })->name('fotomasuk');
 
     Route::get('/fotopulang', function () {
@@ -68,12 +76,10 @@ Route::middleware(['auth', IsPegawai::class])->group(function () {
     Route::controller(AbsenController::class)->group(function () {
         Route::post('/kirimfotomasuk', 'kirimfotomasuk')->name('kirimfotomasuk');
         Route::post('/kirimfotopulang', 'kirimfotopulang')->name('kirimfotopulang');
-        Route::post('/masuk', 'masuk')->name('masuk');
-        Route::post('/pulang',  'pulang')->name('pulang');
+        Route::get('/absen',  'absen')->name('absen');
         Route::get('/izin',  'izin')->name('izin');
         Route::post('/kirimizin', 'kirimizin')->name('kirimizin');
-        Route::get('/akun', 'lihatAkun')->name('akun');
-        Route::put('/updateAkun', 'updateAkun')->name('updateAkun');
+
     });
 });
 

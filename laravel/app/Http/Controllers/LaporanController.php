@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Absensi;
 use Carbon\CarbonPeriod;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 
@@ -20,12 +21,15 @@ class LaporanController extends Controller
     protected $belumAbsenPulang=0;
     public function ambilDataAbsenHarian($id, $tanggal)
     {
-        $data = Absensi::select('users.id', 'users.name', 'users.nip', 'absensis.jam_masuk', 'absensis.jam_pulang', 'absensis.foto_masuk', 'absensis.foto_pulang', 'absensis.foto_izin')
-            ->join('users', 'absensis.user_id', '=', 'users.id')
-            ->whereDate('absensis.created_at', $tanggal)
-            ->where('user_id', $id)
-            ->get()->toArray();
-
+        // $data = Absensi::select('absensis.id','users.id', 'users.name', 'users.nip', 'absensis.jam_masuk', 'absensis.jam_pulang', 'absensis.foto_masuk', 'absensis.foto_pulang', 'absensis.foto_izin')
+        //     ->join('users', 'absensis.user_id', '=', 'users.id')
+        //     ->whereDate('absensis.created_at', $tanggal)
+        //     ->where('user_id', $id)
+        //     ->get()->toArray();
+        $data=Absensi::with('user')
+                    ->where('user_id',$id)
+                    ->whereDate('created_at',$tanggal)
+                    ->get()->toArray();
         return $data;
     }
     public function laporanHarian(Request $request): View
@@ -56,7 +60,7 @@ class LaporanController extends Controller
                 $dataAbsenHarian[] = array($dataBlank);
             }
         }
-  
+        // dd($dataAbsenHarian);
         return view('admin.laporan.harian', [
             "title" => "Laporan Harian :".$tanggal->isoFormat('D MMMM Y'),
             "dataAbsenHarian" => $dataAbsenHarian,
@@ -276,4 +280,42 @@ public function summaryBelumHadir($tanggal){
     }
     return $pegawaiBH;
 }
+
+public function edit_absen($id):View
+{
+    $data=Absensi::with('user')
+                    ->where('id',$id)
+                    ->get();
+    // dd($data);
+    return view('admin.laporan.editabsen',[
+         "title" => "Ubah Absen",
+        "data"=>$data,
+        "id"=>$id
+    ]);
+}
+
+public function update_absen(Request $request,$id):RedirectResponse
+{
+    $validasi=$request->validate([
+        "jam_masuk"=>"required",
+        "jam_pulang"=>"required",
+        "foto_masuk"=>"image|file|max:10240",
+        "foto_pulang"=>"image|file|max:10240"
+    ],[
+        "foto_masuk.max"=>"Ukuran Foto Maksimal adalah 10MB",
+        "foto_pulang.max"=>"Ukuran Foto Maksimal adalah 10MB"
+    ]);
+
+    if($request->file('foto_masuk')){
+        $validasi['foto_masuk']=$request->file('foto_masuk')->store('fotomasuk');
+    }
+
+    if($request->file('foto_pulang')){
+        $validasi['foto_pulang']=$request->file('foto_pulang')->store('fotopulang');
+    }
+
+    Absensi::where('id',$id)->update($validasi);
+    return redirect()->route('pilihtanggallh')->with('success','Data Absen Berhasil Diubah');
+}
+
 }

@@ -10,17 +10,13 @@
 
 
 
-
-
-
-<body onload="startAll()">
     <div id="body">
         <header>
             <div class="container-fluid">
                 <div class="row d-flex">
                     <div class="col-sm-12 text-end">
                         <p class="pt-2 pr-2">
-                            <span class="pr-2">{{ $tanggal }}</span>
+                            <span class="pr-2 ">{{ $tanggal }}</span>
                             <span class="jam pl-2 pr-2" id="waktu"></span>
                         </p>
                     </div>
@@ -47,7 +43,7 @@
                                 <div class="d-flex flex-row justify-content-center">
 
                                     <div class="ps-3 pe-3">
-                                        <a href="#" class="d-flex flex-column align-items-center">
+                                        <a href="{{ route('absen') }}" class="d-flex flex-column align-items-center">
                                             <button class="btn btn-danger btn-red btn-lg">
                                                 <i class="fas fa-camera"></i>
                                             </button>
@@ -81,13 +77,13 @@
                     <div class="col">
                         <div class="card card-red card-borderless pt-3 pb-3 text-light card-header-center">
                             Absen Masuk
-                            <h5>00:00:00</h5>
+                            <h5>{{ $jamMasukHariIni }}</h5>
                         </div>
                     </div>
                     <div class="col">
                         <div class="card card-blue card-borderless pt-3 pb-3 text-light card-header-center">
                             Absen Pulang
-                            <h5>00:00:00</h5>
+                            <h5>{{ $jamPulangHariIni }}</h5>
                         </div>
                     </div>
                 </div>
@@ -153,14 +149,7 @@
         </main>
     </div>
 
-    <form action="{{ route('masuk') }}" method="POST" name="formJarak">
-        @csrf
-        <input type="hidden" name="inputJarak" id="inputJarak">
-    </form>
-    <form action="{{ route('pulang') }}" method="POST" name="formJarakPulang">
-        @csrf
-        <input type="hidden" name="inputJarakPulang" id="inputJarakPulang">
-    </form>
+
     @endsection
     @section('script')
 
@@ -169,20 +158,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         // const x = document.getElementById("keterangan");
-
-        var inputJarak = document.getElementById("inputJarak");
-        var inputJarakPulang = document.getElementById("inputJarakPulang");
-        let latitude;
-        let longitude;
-        var jarak;
-        let latSMK1 = {{$pengaturan[0]->latitude}};
-        let longSMK1 = {{$pengaturan[0]->longitude}};
-
-        function startAll() {
-            startTime();
-            getLocation();
-        }
-
+        window.onload=startTime;
         function startTime() {
             const today = new Date();
             let h = today.getHours();
@@ -202,80 +178,10 @@
         }
 
 
-
-        function getLocation() {
-            // alert('getlocation');
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        }
-
-        function showError(error) {
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    alert("Peramban yang anda gunakan tidak mengizinkan deteksi lokasi.");
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    alert("Informasi Lokasi tidak tersedia");
-                    break;
-                case error.TIMEOUT:
-                    alert("Permintaan untuk mendapatkan lokasi pengguna telah habis waktunya.");
-                    break;
-                case error.UNKNOWN_ERROR:
-                    alert("Error tidak diketahui");
-                    break;
-            }
-        }
-
-        function showPosition(position) {
-            latitude = position.coords.latitude;
-            longitude = position.coords.longitude;
-            // alert(latitude+'-'+longitude);
-            // document.getElementById('Latitude').innerHTML="Latitude: " +latitude
-            // document.getElementById('Longitude').innerHTML="Longitude: " +longitude
-            hitungjarak(latSMK1, longSMK1, latitude, longitude);
-        }
-
-        function hitungjarak(lat1, long1, lat2, long2, unit = 'kilometers') {
-            console.log(lat1, long1, lat2, long2, unit);
-            let theta = long1 - long2;
-            let distance = 60 * 1.1515 * (180 / Math.PI) * Math.acos(
-                Math.sin(lat1 * (Math.PI / 180)) * Math.sin(lat2 * (Math.PI / 180)) + Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.cos(theta * (Math.PI / 180))
-            );
-            if (unit == 'miles') {
-                jarak = Math.round(distance);
-
-            } else if (unit == 'kilometers') {
-                jarak = Math.round(distance * 1.609344 * 1000);
-            }
-            inputJarak.value = jarak;
-            inputJarakPulang.value = jarak;
-
-            // document.getElementById('Jarak').innerHTML="Jarak: " +inputJarakPulang.value+" meter"
-            // console.log(jarak)
-            // var url = "{{route('masuk',':jarak')}}";
-            // url = url.replace(':jarak', jarak);
-            // window.location.href = url;
-        }
-
-        function submitForm() {
-            document.formJarak.submit();
-        }
-
-        function submitFormPulang() {
-            document.formJarakPulang.submit();
-        }
-
         @if($message = Session::get('error'))
         toastr.error("{{ $message}}");
         @elseif($message = Session::get('success'))
         toastr.success("{{ $message}}");
-        @endif
-
-        @if($errors->any())
-        $('#ModalError').modal('show');
         @endif
     </script>
 

@@ -7,7 +7,7 @@
   } */
 
 :root{
-    --warna1:#00A693;
+    --warna1:#00a693;
     --warna2:#fff;
 }
 
@@ -21,6 +21,68 @@ body{
     margin: 0;
     padding: 0;
     height: 100%;
+}
+
+footer{
+  display:none;
+}
+
+.konten{
+  display:none;
+}
+
+.luar-jarak{
+  display: none;
+}
+
+.loading {
+  display: flex;
+  flex-wrap: wrap;
+  position: fixed;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,166,147,0.9);
+  align-items: center;
+  justify-content: center;
+  gap: 0%;
+
+}
+
+.loading h1 {
+  color: #fff;
+  font-size: 30px;
+}
+
+.flex-break {
+  width: 100%;
+  height: 0;
+
+
+}
+
+.text{
+  margin-bottom: 70%;
+}
+.loader {
+margin-top: 70%;
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-radius: 50%;
+  border-top: 16px solid var(--warna1); /* Blue */
+  border-bottom: 16px solid var(--warna1); /* Blue */
+  width: 100px;
+  height: 100px;
+  animation: spin 2s linear infinite;
+}
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 input[type=file]::file-selector-button {
@@ -64,17 +126,27 @@ input[type=file]::file-selector-button {
   display: inline-block;
   text-align: center;
   margin: auto;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  border: solid 1px #eeeeee;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .webcam-capture,
 .webcam-capture video {
   display: inline-block;
   width: 100% !important;
-  height: auto !important;
+  height: 100% !important;
   margin: auto;
   text-align: center;
   border-radius: 15px;
   overflow: hidden;
+  background: #eeeeee;
 }
 
 

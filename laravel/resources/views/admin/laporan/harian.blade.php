@@ -226,17 +226,20 @@
                             <th>Masuk</th>
                             <th>Pulang</th>
                             <th>Foto (<span style="color: green;">Masuk</span> || <span style="color: blue;">Pulang</span> || <span style="color: yellow;">Izin</span>)</th>
+                     
                         </tr>
-                    </thead>
+                    </thead> 
                     <tbody>
                         @php
                         $i=1;
                         @endphp
+                    
                         @foreach ($dataAbsenHarian as $dah)
                         @foreach($dah as $subdah)
+                       
                         <tr>
                             <td>{{ $i }}</td>
-                            <td>{{ $subdah['name'] }} <br>NIP.{{$subdah['nip']}}</td>
+                            <td>{{ $subdah['user']['name'] }} <br>NIP.{{$subdah['user']['nip']}} <br> <a href="{{ route('editabsen',$subdah['id']) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i>Edit Absen</a></td>
                             <td>{{ $subdah['jam_masuk'] }}</td>
                             <td>{{$subdah['jam_pulang']}}</td>
                             <td>
@@ -255,7 +258,7 @@
                                 <img src="{{asset('storage/'.$subdah['foto_izin'])}}" width="150" alt="Foto Izin" style="border: 2px solid yellow; ">
                                 @endif
                             </td>
-        
+   
                         </tr>
                         @endforeach
                         @php

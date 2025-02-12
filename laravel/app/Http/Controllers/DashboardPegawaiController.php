@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Absensi;
-use App\Models\Pengaturan;
 use Carbon\Carbon;
-use Carbon\CarbonImmutable;
+use App\Models\User;
+use App\Models\Absensi;
 use Carbon\CarbonPeriod;
+use Illuminate\View\View;
+use App\Models\Pengaturan;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 
 class DashboardPegawaiController extends Controller
 {
@@ -16,12 +20,8 @@ class DashboardPegawaiController extends Controller
     public function index()
     {
         $tanggal = Carbon::now()->isoFormat('dddd,D MMMM Y');
-        // $tanggal = Carbon::parse('2024-09-20')->isoFormat('dddd,D MMMM Y');
-        // dd($tanggal);
         $pengaturan= Pengaturan::limit(1)->get();
-        // $date=Carbon::now('Asia/Jakarta');
         $period = CarbonPeriod::create(Carbon::now('Asia/Jakarta')->startOfWeek(Carbon::SUNDAY), Carbon::now('Asia/Jakarta')->endOfWeek(Carbon::SATURDAY));
-        // dd($period);
         $jamKerjaPerHari=0;
         $jamKerjaPerMinggu=0;
         foreach ($period as $date) {
@@ -30,8 +30,7 @@ class DashboardPegawaiController extends Controller
                 ->where('user_id', Auth::user()->id)
                 ->get()
                 ->toArray();
-                // $a=json_decode($data);
-                // dd($data);
+
                 if($data==null){
                     $data=array([
                         'created_at'=>$date->toDateTimeString(),
@@ -48,14 +47,40 @@ class DashboardPegawaiController extends Controller
                 }
             $dataAbsen[]=$data;
             $jamKerjaPerMinggu=$jamKerjaPerMinggu+$jamKerjaPerHari;
-            // dd($dataAbsen);
+         
         }
-        // $jamKerjaPerMinggu=strtotime('12:15:30')-strtotime('07:30:20');
+
         $jam=(int) floor($jamKerjaPerMinggu/3600);
         $menit=(int) floor(($jamKerjaPerMinggu-($jam*3600))/60);
         $detik=(int) $jamKerjaPerMinggu-(($jam*3600)+($menit*60));
         $stringJamKerjaPerMinggu=$jam.' Jam '.$menit.' menit '.$detik.' detik ';
-        // dd($stringJamKerjaPerMinggu);
+  
+
+        $jam_masuk_hari_ini=Absensi::select('jam_masuk')
+            ->whereDate('created_at', Carbon::now('Asia/Jakarta')->toDateString())
+            ->where('user_id', Auth::user()->id)
+            ->get()
+            ->toArray();
+
+            if(empty($jam_masuk_hari_ini) || $jam_masuk_hari_ini[0]['jam_masuk'] === '0'){
+                $jamMasukHariIni = 'Belum Absen';
+            } else {
+                $jamMasukHariIni = $jam_masuk_hari_ini[0]['jam_masuk'];
+            }
+
+
+        $jam_pulang_hari_ini = Absensi::select('jam_pulang')
+            ->whereDate('created_at', Carbon::now('Asia/Jakarta')->toDateString())
+            ->where('user_id', Auth::user()->id)
+            ->get()
+            ->toArray();
+
+        if(empty($jam_pulang_hari_ini) || $jam_pulang_hari_ini[0]['jam_pulang'] === '0'){
+            $jamPulangHariIni = 'Belum Absen';
+        } else {
+            $jamPulangHariIni = $jam_pulang_hari_ini[0]['jam_pulang'];
+        }
+
 
 
 
@@ -63,8 +88,9 @@ class DashboardPegawaiController extends Controller
             "tanggal" => $tanggal,
             "pengaturan" => $pengaturan,
             "dataAbsen" => $dataAbsen,
-            "jamKerjaPerMinggu"=>$stringJamKerjaPerMinggu
-        ]);
+            "jamKerjaPerMinggu"=>$stringJamKerjaPerMinggu,
+            "jamPulangHariIni" => $jamPulangHariIni,
+            "jamMasukHariIni" => $jamMasukHariIni]);
 
     }
 
@@ -75,5 +101,28 @@ class DashboardPegawaiController extends Controller
         return view('pegawai.faq',[
             "pengaturan"=>$data
         ]);
+    }
+
+    public function lihatAkun(): View
+    {
+        $dataUser = User::select('name', 'nip', 'username', 'email')->where('id', Auth::user()->id)->get();
+        // dd($dataUser[0]);
+        return view('pegawai.akun', [
+            "data" => $dataUser[0],
+            "pengaturan"=> Pengaturan::limit(1)->get()
+        ]);
+    }
+
+    public function updateAkun(Request $request): RedirectResponse
+    {
+        $validasi = $request->validate([
+            "password" => "required"
+        ]);
+
+        $validasi['password'] = Hash::make($validasi['password']);
+        User::where('id', Auth::user()->id)->update($validasi);
+
+
+        return redirect()->route('pegawai')->with('success', 'Password telah diubah');
     }
 }
