@@ -35,9 +35,9 @@ HadirIn adalah aplikasi absensi berbasis web yang menggunakan Laravel 11. Aplika
    ```
 4. **Konfigurasi env** di dalam file `.env`
    ```env
-    APP_LOCALE=id
-    APP_FALLBACK_LOCALE=id
-    
+   APP_LOCALE=id
+   APP_FALLBACK_LOCALE=id
+
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
    DB_PORT=3306
@@ -76,5 +76,5 @@ Jika ingin berkontribusi, silakan buat pull request atau hubungi kami melalui Gi
 ---
 
 **Penulis**: Safrizal  
-**Email**: rizaru.2.2@gmail.com.com  
+**Email**: rizaru.2.2@gmail.com
 **GitHub**: [rizaru22](https://github.com/rizaru22)
