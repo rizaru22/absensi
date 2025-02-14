@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\Hash;
 class LoginController extends Controller
 {
     //
-    public function index(){
+    public function index()
+    {
         return view('login.index');
     }
 
     public function authenticate(Request $request): RedirectResponse
     {
-        
+
         $credentials = $request->validate([
             'username' => ['required'],
             'password' => ['required'],
@@ -24,24 +25,20 @@ class LoginController extends Controller
 
         // dd(Auth::attempt($credentials)) ;
         if (Auth::attempt($credentials)) {
-            if(Auth::user()->role=='admin'){
+            if (Auth::user()->role == 'admin') {
                 $request->session()->regenerate();
                 // dd(Auth::user()->role);
                 return redirect()->intended('admin');
             }
-            if(Auth::user()->role=='user'){
-                if($request->password=='1234'){
-                    return redirect()->route('akun');
-                }else{
-                    return redirect()->route('pegawai');
-                }
+            if (Auth::user()->role == 'user') {
+                return redirect()->route('pegawai');
             }
         }
- 
-        return back()->with('loginError','Login Failed');
+
+        return back()->with('loginError', 'Login Failed');
     }
 
-    public function logout(Request $request):RedirectResponse
+    public function logout(Request $request): RedirectResponse
     {
         // dd($request);
         Auth::logout();
