@@ -23,7 +23,7 @@ HadirIn adalah aplikasi absensi berbasis web yang menggunakan Laravel 11. Aplika
 1. **Clone repositori**
    ```sh
    git clone https://github.com/rizaru22/absensi.git
-   cd AbsensiGPS
+   cd absensi/hadirin
    ```
 2. **Instal dependensi**
    ```sh
