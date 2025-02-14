@@ -33,14 +33,19 @@ HadirIn adalah aplikasi absensi berbasis web yang menggunakan Laravel 11. Aplika
    ```sh
    cp .env.example .env
    ```
-4. **Konfigurasi database** di dalam file `.env`
+4. **Konfigurasi env** di dalam file `.env`
    ```env
+    APP_LOCALE=id
+    APP_FALLBACK_LOCALE=id
+    
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
    DB_PORT=3306
    DB_DATABASE=hadirin
    DB_USERNAME=root
    DB_PASSWORD=
+
+   FILESYSTEM_DISK=public
    ```
 5. **Generate key dan migrasi database**
    ```sh
