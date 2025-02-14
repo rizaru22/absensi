@@ -126,7 +126,7 @@ input[type=file]::file-selector-button {
   display: inline-block;
   text-align: center;
   margin: auto;
-  width: 100%;
+  width: 90%;
   height: 100%;
   padding: 10px;
   background: #fff;

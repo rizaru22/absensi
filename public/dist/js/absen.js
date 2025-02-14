@@ -5,19 +5,29 @@ var jarak;
 
 window.onload = getLocation;
 
-function typeWriter(text, index) {
-  if (index < text.length) {
-      document.getElementById("keterangan").innerHTML += text.charAt(index);
-      setTimeout(function () {
-          typeWriter(text, index + 1);
-      }, 100); // Delay of 100ms
-  }
-}
+// function typeWriter(text, index) {
+//   if (index < text.length) {
+//       document.getElementById("keterangan").innerHTML += text.charAt(index);
+//       setTimeout(function () {
+//           typeWriter(text, index + 1);
+//       }, 100); // Delay of 100ms
+//   }
+// }
 
 // typeWriter(text, 0);
 
+function redirect(){
+  document.getElementById("keterangan").innerHTML="Timeout...";
+  setTimeout(reload,1500);
+}
+
+function reload(){
+  location.reload();
+}
+
 function getLocation() {
-  // alert('getlocation');
+  document.getElementById("keterangan").innerHTML ="Mendapatkan data dari GPS";
+  setTimeout(redirect,15000);
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -55,7 +65,7 @@ function showPosition(position) {
 }
 
 function hitungjarak(lat1, long1, lat2, long2, unit = "kilometers") {
-  // typeWriter("Mencari Lokasi Anda...", 0);
+
   console.log(lat1, long1, lat2, long2, unit);
   let theta = long1 - long2;
   let distance =60 *1.1515 *(180 / Math.PI) *Math.acos(

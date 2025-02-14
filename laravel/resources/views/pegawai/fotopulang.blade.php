@@ -8,8 +8,9 @@
 <div class="loading" id="loading">
     <div class="loader"></div> 
     <div class="flex-break"></div>
-    <div class="text">
+    <div class="text text-center">
         <h1>Mohon Menunggu!</h1>
+        <p id="keterangan" class="" style="color: white;"></p>
     </div>
 </div>
 <div class="container mb-5 pb-5 konten" id="konten">
