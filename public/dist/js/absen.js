@@ -16,18 +16,11 @@ window.onload = getLocation;
 
 // typeWriter(text, 0);
 
-function redirect(){
-  document.getElementById("keterangan").innerHTML="Timeout...";
-  setTimeout(reload,1500);
-}
 
-function reload(){
-  location.reload();
-}
 
 function getLocation() {
   document.getElementById("keterangan").innerHTML ="Mendapatkan data dari GPS";
-  setTimeout(redirect,15000);
+  setTimeout(redirect,25000);
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -81,8 +74,10 @@ function hitungjarak(lat1, long1, lat2, long2, unit = "kilometers") {
   }
   if(jarak<jarak_maksimal){
     // alert(jarak);
+    
     document.getElementById("konten").style.display = "block";
     document.getElementById("loading").style.display = "none";
+
   }else{
     document.getElementById("luar-jarak").style.display = "block";
     document.getElementById("loading").style.display = "none";
@@ -90,13 +85,6 @@ function hitungjarak(lat1, long1, lat2, long2, unit = "kilometers") {
   }
 }
 
-function submitForm() {
-  document.formJarak.submit();
-}
-
-function submitFormPulang() {
-  document.formJarakPulang.submit();
-}
 
 // Webcam
 var cameras = new Array(); //create empty array to later insert available devices
@@ -137,4 +125,19 @@ function ambil_foto() {
     $(".image-tag").val(data_uri);
     document.kirim_foto.submit();
   });
+}
+
+
+function redirect(){
+  if(jarak)
+    {
+      return;
+    }
+  document.getElementById("keterangan").innerHTML="Data GPS Anda bermasalah, Silahkan RESTART GPS Anda";
+  alert('Silahkan RESTART GPS Anda');
+  setTimeout(reload,2500);
+}
+
+function reload(){
+  location.reload();
 }
