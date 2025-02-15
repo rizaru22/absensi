@@ -20,7 +20,7 @@ window.onload = getLocation;
 
 function getLocation() {
   document.getElementById("keterangan").innerHTML ="Mendapatkan data dari GPS";
-  setTimeout(redirect,25000);
+  setTimeout(redirect,30000);
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -132,10 +132,12 @@ function redirect(){
   if(jarak)
     {
       return;
+    }else{
+
+      document.getElementById("keterangan").innerHTML="Data GPS Anda bermasalah, Silahkan RESTART GPS Anda";
+      alert('Silahkan RESTART GPS Anda');
+      setTimeout(reload,2500);
     }
-  document.getElementById("keterangan").innerHTML="Data GPS Anda bermasalah, Silahkan RESTART GPS Anda";
-  alert('Silahkan RESTART GPS Anda');
-  setTimeout(reload,2500);
 }
 
 function reload(){
