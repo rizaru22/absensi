@@ -81,8 +81,27 @@ class DashboardPegawaiController extends Controller
             $jamPulangHariIni = $jam_pulang_hari_ini[0]['jam_pulang'];
         }
 
+        
+        $waktuMasuk = $pengaturan[0]->jam_masuk;
+        $waktuMaksimalMasuk = $pengaturan[0]->jam_maksimal_masuk;
+        $waktuPulang = $pengaturan[0]->jam_pulang;
+        $waktuMaksimalPulang = $pengaturan[0]->jam_maksimal_pulang;
+        $jam_sekarang = Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
 
+        $jam_sekarang = strtotime($jam_sekarang);
+        $waktuMasuk = strtotime($waktuMasuk);
+        $waktuMaksimalMasuk = strtotime($waktuMaksimalMasuk);
+        $waktuPulang = strtotime($waktuPulang);
+        $waktuMaksimalPulang = strtotime($waktuMaksimalPulang);
 
+        if ($jam_sekarang > $waktuMasuk and $jam_sekarang < $waktuMaksimalMasuk) {
+            $nama_tombol="Masuk";
+        } elseif ($jam_sekarang > $waktuPulang and $jam_sekarang < $waktuMaksimalPulang) {
+            $nama_tombol="Pulang";
+           
+        } else{
+            $nama_tombol="Belum";
+        }
 
         return view('pegawai.dashboard', [
             "tanggal" => $tanggal,
@@ -90,7 +109,10 @@ class DashboardPegawaiController extends Controller
             "dataAbsen" => $dataAbsen,
             "jamKerjaPerMinggu"=>$stringJamKerjaPerMinggu,
             "jamPulangHariIni" => $jamPulangHariIni,
-            "jamMasukHariIni" => $jamMasukHariIni]);
+            "jamMasukHariIni" => $jamMasukHariIni,
+            "nama_tombol"=>$nama_tombol,
+        ]);
+            
 
     }
 
