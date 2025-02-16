@@ -47,7 +47,7 @@
                                             <button class="btn btn-danger btn-red btn-lg">
                                                 <i class="fas fa-camera"></i>
                                             </button>
-                                            <span class="text-black">Absen</span>
+                                            <span class="text-black">Absensi</span>
                                         </a>
                                     </div>
                                     <div class="ps-3 pe-3">
