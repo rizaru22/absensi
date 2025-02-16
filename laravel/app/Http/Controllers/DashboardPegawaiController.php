@@ -82,17 +82,12 @@ class DashboardPegawaiController extends Controller
         }
 
         //buat nama tombol aja ribetnya, gara-gara translate browser
-        $waktuMasuk = $pengaturan[0]->jam_masuk;
-        $waktuMaksimalMasuk = $pengaturan[0]->jam_maksimal_masuk;
-        $waktuPulang = $pengaturan[0]->jam_pulang;
-        $waktuMaksimalPulang = $pengaturan[0]->jam_maksimal_pulang;
-        $jam_sekarang = Carbon::now('Asia/Jakarta')->isoFormat('HH:mm:ss');
-
-        $jam_sekarang = strtotime($jam_sekarang);
-        $waktuMasuk = strtotime($waktuMasuk);
-        $waktuMaksimalMasuk = strtotime($waktuMaksimalMasuk);
-        $waktuPulang = strtotime($waktuPulang);
-        $waktuMaksimalPulang = strtotime($waktuMaksimalPulang);
+    
+        $jam_sekarang = strtotime(Carbon::now('Asia/Jakarta')->isoFormat('HH:mm:ss'));
+        $waktuMasuk = strtotime($pengaturan[0]->jam_masuk);
+        $waktuMaksimalMasuk = strtotime($pengaturan[0]->jam_maksimal_masuk);
+        $waktuPulang = strtotime($pengaturan[0]->jam_pulang);
+        $waktuMaksimalPulang = strtotime($pengaturan[0]->jam_maksimal_pulang);
 
         if ($jam_sekarang > $waktuMasuk and $jam_sekarang < $waktuMaksimalMasuk) {
             $nama_tombol="Masuk";
