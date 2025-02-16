@@ -132,7 +132,7 @@ class AbsenController extends Controller
         }
 
         $validasi["user_id"] = Auth::user()->id;
-        $validasi["jam_pulang"] = Carbon::now('Asia/Jakarta')->isoFormat('H:mm:ss');
+        $validasi["jam_pulang"] = Carbon::now('Asia/Jakarta')->isoFormat('HH:mm:ss');
         $validasi['foto_pulang'] = 'fotopulang/' . $fileName;
 
         // dd($validasi);
