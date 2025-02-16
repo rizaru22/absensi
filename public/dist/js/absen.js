@@ -105,7 +105,7 @@ Webcam.set({
   width: 450,
   height: 600,
   image_format: "jpeg",
-  jpeg_quality: 100,
+  jpeg_quality: 80,
   flip_horiz: true,
   fps: 30,
   sourceId: cameras[0],
