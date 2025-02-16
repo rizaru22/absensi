@@ -43,13 +43,7 @@
                 @endforeach
 
 
-                @php
-                $i=1;
-                @endphp
-
-                @php
-                $i++
-                @endphp
+ 
 
 
             </tbody>

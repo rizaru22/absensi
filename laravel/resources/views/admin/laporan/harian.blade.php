@@ -231,13 +231,15 @@
                     </thead> 
                     <tbody>
                      
-           
+           @php
+           $no=1;
+           @endphp
                         @foreach ($dataAbsenHarian as $dah)
                      
                         @foreach($dah as $subdah)
                       
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $no }}</td>
                             <td>{{ $subdah['name'] }} <br>NIP.{{$subdah['nip']}} <br> 
                             @if(!empty($subdah['idabsen']))
       
@@ -265,7 +267,9 @@
    
                         </tr>
                         @endforeach
-            
+                        @php
+                        $no++;
+                        @endphp
                         @endforeach
         
                     </tbody>
