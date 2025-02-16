@@ -37,7 +37,7 @@
                                 <li>Absen pulang dapat dilakukan pada pukul <b>{{$pengaturan[0]->jam_pulang}} sampai dengan {{$pengaturan[0]->jam_maksimal_pulang}}</b></li>
                                 <li>Tidak bisa melakukan absen pulang jika belum melakukan absen masuk</li>
                                 <li>Lakukan Foto Absen pada tempat yang menandakan bahwa anda berada di lingkungan sekolah</li>
-                                <li>Notifikasi belum absen bisa dilihat di <a href="https://t.me/+ViL3ZuEe0Lo3ZDdl" target="_blank">Grup Telegram</a></li>
+                                <li>Notifikasi belum absen bisa dilihat di Whatsapp</li>
                             </ol>
       </div>
     </div>
