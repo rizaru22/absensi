@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Libur;
 use App\Models\Absensi;
 use App\Models\Pengaturan;
+use Hamcrest\Type\IsBoolean;
 use Illuminate\Support\Facades\Http;
 
 class SendNotificationController extends Controller
@@ -31,7 +33,9 @@ class SendNotificationController extends Controller
            
         }
 
+        if ($this->cek_hari_libur()==false){
         $this->apiPesan("Belum Absen Masuk " . $tanggal->isoFormat('DD MMMM Y') . ': ' . $nama2);
+        }
     }
 
     public function notifikasiPulang()
@@ -59,7 +63,11 @@ class SendNotificationController extends Controller
             
         }
 
-        $this->apiPesan("Belum Absen Pulang " . $tanggal->isoFormat('DD MMMM Y') . ': ' . $nama2);
+        
+        if ($this->cek_hari_libur()==false){
+            $this->apiPesan("Belum Absen Pulang " . $tanggal->isoFormat('DD MMMM Y') . ': ' . $nama2);
+        }
+
     }
 
     public function apiPesan($pesan)
@@ -94,5 +102,18 @@ class SendNotificationController extends Controller
         $response = curl_exec($curl);
 
         curl_close($curl);
+        // return $response;
+    }
+
+    public function cek_hari_libur()
+    {
+        $hari_libur=Libur::whereDate('tanggal',Carbon::today())->get();
+        // dd($hari_libur);
+        if(!blank($hari_libur)){
+            return true;
+        }else
+        {
+            return false;
+        }
     }
 }

@@ -12,33 +12,32 @@ use Illuminate\Support\Facades\Hash;
 
 class DashboardAdminController extends Controller
 {
-    protected $totalPegawai=0;
-    protected $sudahAbsenMasuk=0;
-    protected $belumAbsenMasuk=0;
-    protected $sudahAbsenPulang=0;
-    protected $belumAbsenPulang=0;
+    protected $totalPegawai = 0;
+    protected $sudahAbsenMasuk = 0;
+    protected $belumAbsenMasuk = 0;
+    protected $sudahAbsenPulang = 0;
+    protected $belumAbsenPulang = 0;
     protected $yang_sakit;
     protected $yang_dinas_luar;
     protected $yang_izin;
     //
-    public function index():View
+    public function index(): View
     {
         $this->hitungYangSudahAbsen();
 
-        $dataAbsenHarian=[];
+        $dataAbsenHarian = [];
         $tanggal = Carbon::now();
-       
+
         $allUsers = User::select('id', 'name', 'nip')
             ->where('role', 'user')
             ->orderBy('name')
             ->get()
             ->toArray();
-      
+
         foreach ($allUsers as $au) {
 
             if (!blank($this->ambilDataAbsenHarian($au['id'], $tanggal))) {
                 $dataAbsenHarian[] = $this->ambilDataAbsenHarian($au['id'], $tanggal);
-                
             } else {
                 $dataBlank = array(
                     "id" => $au['id'],
@@ -51,24 +50,23 @@ class DashboardAdminController extends Controller
                     "foto_izin" => "0"
                 );
                 $dataAbsenHarian[] = array($dataBlank);
-             
             }
         }
-  
 
-        return view('admin.dashboard',[
+
+        return view('admin.dashboard', [
             "title" => "Dashboard",
             "dataAbsenHarian" => $dataAbsenHarian,
             "tanggal" => $tanggal->isoFormat('dddd,D MMMM Y'),
-            "sudahAbsenMasuk"=>$this->sudahAbsenMasuk,
-            "belumAbsenMasuk"=>$this->belumAbsenMasuk,
-            "sudahAbsenPulang"=>$this->sudahAbsenPulang,
-            "belumAbsenPulang"=>$this->belumAbsenPulang,
-            "daftarNamaHadir"=>$this->summaryHadir(),
-            "daftarNamaDL"=>$this->summaryDinasLuar(),
-            "daftarNamaIzin"=>$this->summaryIzin(),
-            "daftarNamaSakit"=>$this->summarySakit(),
-            "daftarNamaBelumHadir"=>$this->summaryBelumHadir()
+            "sudahAbsenMasuk" => $this->sudahAbsenMasuk,
+            "belumAbsenMasuk" => $this->belumAbsenMasuk,
+            "sudahAbsenPulang" => $this->sudahAbsenPulang,
+            "belumAbsenPulang" => $this->belumAbsenPulang,
+            "daftarNamaHadir" => $this->summaryHadir(),
+            "daftarNamaDL" => $this->summaryDinasLuar(),
+            "daftarNamaIzin" => $this->summaryIzin(),
+            "daftarNamaSakit" => $this->summarySakit(),
+            "daftarNamaBelumHadir" => $this->summaryBelumHadir()
 
         ]);
     }
@@ -84,19 +82,19 @@ class DashboardAdminController extends Controller
         return $data;
     }
 
-    public function ubahPassword():View
+    public function ubahPassword(): View
     {
         $dataUser = User::select('name', 'nip', 'username', 'email')->where('id', Auth::user()->id)->get();
 
-        return view('admin.akun',[
-                "title"=>"Update Account",
-                "data"=>$dataUser[0]
+        return view('admin.akun', [
+            "title" => "Update Account",
+            "data" => $dataUser[0]
         ]);
     }
 
     public function updatePassword(Request $request)
     {
-       
+
         $validasi = $request->validate([
             "password" => "required"
         ]);
@@ -107,72 +105,76 @@ class DashboardAdminController extends Controller
 
         return redirect()->route('admin');
     }
-    
-public function hitungYangSudahAbsen()
-{
-    $tanggal = Carbon::now();
-    $this->yang_sakit = Absensi::where('jam_masuk', 'S')->whereDate('created_at', $tanggal)->count('user_id');
-    $this->yang_dinas_luar = Absensi::where('jam_masuk', 'DL')->whereDate('created_at', $tanggal)->count('user_id');
-    $this->yang_izin = Absensi::where('jam_masuk', 'I')->whereDate('created_at', $tanggal)->count('user_id');
-    // dd($this->yang_sakit,$this->yang_dinas_luar,$this->yang_izin);
-    $this->totalPegawai = User::where('role', 'user')->count();
-    $this->sudahAbsenMasuk = Absensi::whereDate('created_at', $tanggal)->whereRaw('LENGTH(jam_masuk) > 3')->count('user_id');
-    $this->belumAbsenMasuk = $this->totalPegawai - ($this->sudahAbsenMasuk + $this->yang_sakit + $this->yang_dinas_luar + $this->yang_izin);
-    $this->sudahAbsenPulang = Absensi::whereDate('created_at', $tanggal)->where('jam_pulang', '<>', '0')->count('user_id');
-    $this->belumAbsenPulang = $this->totalPegawai - $this->sudahAbsenPulang;
-}
 
-public function summaryHadir(){
-    $tanggal=Carbon::now();
-    $pegawaiHadir=Absensi::select('user_id')
-                                ->whereRaw('LENGTH(jam_masuk)>3')
-                                ->whereDate('created_at',$tanggal)
-                                ->get();
-    // dd($pegawaiHadir);                                
-    return $pegawaiHadir;
-}
+    public function hitungYangSudahAbsen()
+    {
+        $tanggal = Carbon::now();
+        $this->yang_sakit = Absensi::where('jam_masuk', 'S')->whereDate('created_at', $tanggal)->count('user_id');
+        $this->yang_dinas_luar = Absensi::where('jam_masuk', 'DL')->whereDate('created_at', $tanggal)->count('user_id');
+        $this->yang_izin = Absensi::where('jam_masuk', 'I')->whereDate('created_at', $tanggal)->count('user_id');
 
-public function summaryIzin(){
-    $tanggal=Carbon::now();
-    $pegawaiIzin=Absensi::select('user_id')
-                                ->where('jam_masuk','I')
-                                ->whereDate('created_at',$tanggal)
-                                ->get();
-    
-    return $pegawaiIzin;
-}
-
-public function summarySakit(){
-    $tanggal=Carbon::now();
-    $pegawaiSakit=Absensi::select('user_id')
-                                ->where('jam_masuk','S')
-                                ->whereDate('created_at',$tanggal)
-                                ->get();
-    
-    return $pegawaiSakit;
-}
-
-public function summaryDinasLuar(){
-    $tanggal=Carbon::now();
-    $pegawaiDL=Absensi::select('user_id')
-                                ->where('jam_masuk','DL')
-                                ->whereDate('created_at',$tanggal)
-                                ->get();
-    
-    return $pegawaiDL;
-}
-
-public function summaryBelumHadir(){
-    $tanggal=Carbon::now();
-    $pegawaiBH=array();
-    $allUser=User::select('id','name')->where('role','user')->orderBy('name')->get();
-    foreach($allUser as $au){
-        $data=Absensi::where('user_id',$au['id'])->whereDate('created_at',$tanggal)->get();
-        if(blank($data)){
-            $pegawaiBH[]=$au['name'];
-        }
+        $this->totalPegawai = User::where('role', 'user')->count();
+        $this->sudahAbsenMasuk = Absensi::whereDate('created_at', $tanggal)->whereRaw('LENGTH(jam_masuk) > 3')->count('user_id') + $this->yang_sakit + $this->yang_dinas_luar + $this->yang_izin;
+        $this->belumAbsenMasuk = $this->totalPegawai - $this->sudahAbsenMasuk;
+        $this->sudahAbsenPulang = Absensi::whereDate('created_at', $tanggal)->where('jam_pulang', '<>', '0')->count('user_id');
+        $this->belumAbsenPulang = $this->totalPegawai - $this->sudahAbsenPulang;
     }
-    return $pegawaiBH;
-}
 
+    public function summaryHadir()
+    {
+        $tanggal = Carbon::now();
+        $pegawaiHadir = Absensi::select('user_id')
+            ->whereRaw('LENGTH(jam_masuk)>3')
+            ->whereDate('created_at', $tanggal)
+            ->get();
+        // dd($pegawaiHadir);                                
+        return $pegawaiHadir;
+    }
+
+    public function summaryIzin()
+    {
+        $tanggal = Carbon::now();
+        $pegawaiIzin = Absensi::select('user_id')
+            ->where('jam_masuk', 'I')
+            ->whereDate('created_at', $tanggal)
+            ->get();
+
+        return $pegawaiIzin;
+    }
+
+    public function summarySakit()
+    {
+        $tanggal = Carbon::now();
+        $pegawaiSakit = Absensi::select('user_id')
+            ->where('jam_masuk', 'S')
+            ->whereDate('created_at', $tanggal)
+            ->get();
+
+        return $pegawaiSakit;
+    }
+
+    public function summaryDinasLuar()
+    {
+        $tanggal = Carbon::now();
+        $pegawaiDL = Absensi::select('user_id')
+            ->where('jam_masuk', 'DL')
+            ->whereDate('created_at', $tanggal)
+            ->get();
+
+        return $pegawaiDL;
+    }
+
+    public function summaryBelumHadir()
+    {
+        $tanggal = Carbon::now();
+        $pegawaiBH = array();
+        $allUser = User::select('id', 'name')->where('role', 'user')->orderBy('name')->get();
+        foreach ($allUser as $au) {
+            $data = Absensi::where('user_id', $au['id'])->whereDate('created_at', $tanggal)->get();
+            if (blank($data)) {
+                $pegawaiBH[] = $au['name'];
+            }
+        }
+        return $pegawaiBH;
+    }
 }
