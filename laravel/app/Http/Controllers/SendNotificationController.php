@@ -78,6 +78,7 @@ class SendNotificationController extends Controller
         // ]);
 
         $group_wa_id = Pengaturan::get()->first()->group_wa_id;
+        $token=Pengaturan::get()->first()->token;
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -95,14 +96,14 @@ class SendNotificationController extends Controller
                 'countryCode' => '62', //optional
             ),
             CURLOPT_HTTPHEADER => array(
-                'Authorization: QoHLhWA837o5m5RHGJnM' //change TOKEN to your actual token
+                'Authorization:'.$token //change TOKEN to your actual token
             ),
         ));
 
         $response = curl_exec($curl);
 
         curl_close($curl);
-        // return $response;
+        return $response;
     }
 
     public function cek_hari_libur()

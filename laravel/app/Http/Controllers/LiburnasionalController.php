@@ -17,6 +17,7 @@ class LiburnasionalController extends Controller
         $date=Carbon::now();
         // dd($date->year);
         $liburnasional=Libur::whereYear('tanggal',$date->year)
+                                    ->orderBy('tanggal','asc')
                                     ->get();
         return view ('admin.liburnasional.index',[
             "title"=>"Libur Nasional",
@@ -44,7 +45,7 @@ class LiburnasionalController extends Controller
         }
     }
 
-    public function edit(string $id) : View 
+    public function edit(string $id) : View
     {
         $liburnasional=Libur::findOrFail($id);
         return view('admin.liburnasional.edit',[
@@ -69,7 +70,7 @@ class LiburnasionalController extends Controller
 
     public function destroy($id):RedirectResponse
     {
-        
+
         if(Libur::where('id',$id)->delete()){
             return redirect()->route('liburnasional.index')->with('success','Berhasil hapus data');
         }else{
