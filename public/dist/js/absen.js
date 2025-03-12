@@ -5,22 +5,10 @@ var jarak;
 
 window.onload = getLocation;
 
-// function typeWriter(text, index) {
-//   if (index < text.length) {
-//       document.getElementById("keterangan").innerHTML += text.charAt(index);
-//       setTimeout(function () {
-//           typeWriter(text, index + 1);
-//       }, 100); // Delay of 100ms
-//   }
-// }
-
-// typeWriter(text, 0);
-
-
 
 function getLocation() {
   document.getElementById("keterangan").innerHTML ="Mendapatkan data dari GPS";
-  setTimeout(redirect,30000);
+  setTimeout(redirect,60000);
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -74,7 +62,6 @@ function hitungjarak(lat1, long1, lat2, long2, unit = "kilometers") {
   }
   if(jarak<jarak_maksimal){
     // alert(jarak);
-    
     document.getElementById("konten").style.display = "block";
     document.getElementById("loading").style.display = "none";
 

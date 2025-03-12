@@ -171,6 +171,7 @@ class LaporanController extends Controller
     public function laporanBulanan(Request $request):View
     {
         $bulan=$request['tanggal'];
+        $normal_hari=$request['normal_hari'];
         $tanggal_Awal=Carbon::parse($bulan)->startOfMonth();
         $tanggal_Akhir=Carbon::parse($bulan)->endOfMonth();
         $period=CarbonPeriod::create($tanggal_Awal,$tanggal_Akhir);
@@ -187,6 +188,7 @@ class LaporanController extends Controller
         }
 
         foreach ($all_Users as $au) {
+           
             foreach ($period as $date) {
                 $data = Absensi::select('jam_masuk', 'jam_pulang')
                     ->where('user_id', $au['id'])
@@ -208,6 +210,9 @@ class LaporanController extends Controller
             $seluruh_data[]=$data_lengkap_per_orang;
             unset($data_absen_per_orang);
         }
+      
+            
+
 
 
 
@@ -215,10 +220,92 @@ class LaporanController extends Controller
         $string_Tahun=Carbon::parse($bulan)->year;
         // dd($string_Tahun);
 
+        foreach ($all_Users as $au) {
+            $jam_kerja_per_bulan=0;
+            $jam_Kerja_Per_Hari=0;
+            $tidak_hadir=0;
+            $riil_hari=0.0;
+            $absen_hari=0;
+            $izin=0;
+            $izin_jam=0;
+            $sakit=0;
+            $sakit_jam=0;
+            $dinas_luar=0;
+            
+            $data_rekap_per_orang=array("nama"=>$au['name'],"nip"=>$au['nip']);
+            foreach ($period as $date) {
+                $data = Absensi::select('jam_masuk', 'jam_pulang')
+                    ->where('user_id', $au['id'])
+                    ->whereDate('created_at', $date)
+                    ->get()->toArray();
+
+                    if (!blank($data)) {
+                        // hitung riil hari
+                    //    dd($data[0]['jam_masuk']);
+                       if (strlen($data[0]['jam_masuk']) > 3 and strlen($data[0]['jam_pulang']) > 3) {
+                            $riil_hari+=1;
+                            
+                        } else if(strlen($data[0]['jam_masuk']) > 3 and ($data[0]['jam_pulang']=='0')){
+                            $riil_hari=$riil_hari+0.5;
+                        }else if(($data[0]['jam_masuk']=='0') and strlen($data[0]['jam_pulang']) > 3){
+                            $riil_hari=$riil_hari+0.5;
+                        }
+
+                        //hitung absen hari
+                        if (strlen($data[0]['jam_masuk']) > 3 or strlen($data[0]['jam_pulang']) > 3) {
+                            $absen_hari+=1;
+                            
+                        }
+                        //hitung izin
+                        if($data[0]['jam_masuk']=='I'){
+                            $izin+=1;
+                        }
+                        $izin_jam=$izin*6.25;
+
+                           //hitung sakit
+                           if($data[0]['jam_masuk']=='S'){
+                            $sakit+=1;
+                        }
+                        $sakit_jam=$sakit*6.25;
+                        
+                           //hitung dinas luar
+                        if($data[0]['jam_masuk']=='DL'){
+                            $dinas_luar+=1;
+                        }
+                          //hitung jumlah jam kerja
+                        if (strlen($data[0]['jam_masuk']) > 3 and strlen($data[0]['jam_pulang']) > 3) {
+                            $jam_Kerja_Per_Hari = strtotime($data[0]['jam_pulang']) - strtotime($data['0']['jam_masuk']);
+                        } else {
+                            $jam_Kerja_Per_Hari = 0;
+                        }
+                        
+                    } else {
+                        $tidak_hadir+=1;
+                }
+            $jam_kerja_per_bulan+=$jam_Kerja_Per_Hari;
+            }
+            $total_jam_kerja_per_bulan=(int) floor($jam_kerja_per_bulan/3600);
+            $data_rekap_per_orang+=["normal_hari"=>$normal_hari,
+                                                        "riil_hari"=>$riil_hari,
+                                                        "absen_hari"=>$absen_hari,
+                                                        "tidak_hadir"=>$tidak_hadir,
+                                                        "jml_izin"=>$izin,
+                                                        "izin_jam"=>$izin_jam,
+                                                        "sakit_jam"=>$sakit_jam,
+                                                        "dinas_luar"=>$dinas_luar,
+                                                        "total_jam_kerja_bulan"=>$total_jam_kerja_per_bulan+($dinas_luar*7),
+                                                        "rata2"=>round(($riil_hari+$dinas_luar)/$normal_hari*100)
+                                                    ];
+            $rekap_data[]=$data_rekap_per_orang;
+            unset($data_rekap_per_orang);
+            
+}
+
         return view('admin.laporan.bulanan',[
             "title"=>"Laporan Bulanan <br>Bulan:$string_Bulan <br>Tahun:$string_Tahun",
             "header"=>$header,
-            "data"=>$seluruh_data
+            "data"=>$seluruh_data,
+            "rekap"=>$rekap_data
         ]);
     }
 

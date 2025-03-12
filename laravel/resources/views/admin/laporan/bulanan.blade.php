@@ -27,19 +27,15 @@
 @section('namaHalaman','Laporan Bulanan')
 @section('konten')
 <div class="card">
-
     <div class="card-body">
         <table id="example1" class="table table-bordered table-striped dataTable dtr-inline collapsed table-hover">
             <thead>
-
                 <tr>
                     <th>No</th>
-
                     @foreach($header as $hd)
                     <th>{{ $hd }}</th>
                     @endforeach
                 </tr>
-
             </thead>
             <tbody>
                 @foreach($data as $dt)
@@ -51,10 +47,83 @@
                     @endforeach
                 </tr>
                 @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
 
-
-     
-
+<div class="card">
+    <div class="card-body">
+        <table id="example2" class="table table-bordered table-striped dataTable dtr-inline collapsed table-hover">
+            <thead>
+                <tr>
+                    <th>No</th>     
+                    <th>Nama</th>     
+                    <th>NIP</th>     
+                    <th>Normal</th>     
+                    <th>Riil</th>     
+                    <th>Absen</th>     
+                    <th>Trlmbt</th>     
+                    <th>Plg. Cpt</th>     
+                    <th>Lmbr</th>     
+                    <th>Jml. Izin</th>     
+                    <th>D. Luar</th>     
+                    <th>N/In</th>     
+                    <th>N/Out</th>     
+                    <th>Scan</th>     
+                    <th>Sakit</th>     
+                    <th>Cuti</th>     
+                    <th>Izin</th>     
+                    <th>Jam Kerja</th>     
+                    <th>Rata2</th>     
+                </tr>
+               
+            </thead>
+            <tbody>
+                <tr>
+                    <td >&nbsp;</td>     
+                    <td >&nbsp;</td>     
+                    <td >&nbsp;</td>     
+                    <td>Hari</td>     
+                    <td>Hari</td>     
+                    <td>Hari</td>     
+                    <td>Menit</td>     
+                    <td>Menit</td>     
+                    <td>Jam</td>     
+                    <td>&nbsp;</td>     
+                    <td>Hari</td>     
+                    <td>Kali</td>     
+                    <td>Kali</td>     
+                    <td>Kali</td>     
+                    <td>Jam</td>     
+                    <td>Jam</td>     
+                    <td>Jam</td>     
+                    <td>Jam</td>     
+                    <td>%</td>     
+                </tr>
+               @foreach($rekap as $rek)
+               <tr>
+                <td >{{ $loop->iteration }}</td>     
+                    <td >{{ $rek['nama'] }}</td>     
+                    <td >{{ $rek['nip'] }}</td>     
+                    <td>{{ $rek['normal_hari'] }}</td>     
+                    <td>{{ $rek['riil_hari'] }}</td>     
+                    <td>{{ $rek['absen_hari'] }}</td>     
+                    <td>&nbsp;</td>     
+                    <td>&nbsp;</td>     
+                    <td>&nbsp;</td>     
+                    <td>{{ $rek['jml_izin'] }}</td>     
+                    <td>{{ $rek['dinas_luar'] }}</td>     
+                    <td>1</td>     
+                    <td>1</td>     
+                    <td>2</td>     
+                    <td>{{ $rek['sakit_jam'] }}</td>     
+                    <td>&nbsp;</td>     
+                    <td>{{ $rek['izin_jam'] }}</td>     
+                    <td>{{ $rek['total_jam_kerja_bulan'] }}</td>     
+                    <td>{{ $rek['rata2'] }}</td>     
+               </tr>
+               @endforeach
             </tbody>
         </table>
     </div>
@@ -90,44 +159,6 @@
                         leftColumns:2
             },
             'buttons': [
-                // {
-                //     extend: 'print',
-                //     text: 'Print',
-
-                //     exportOptions: {
-                //         stripHtml: false,
-
-                //     },
-                //     customize: function(win) {
-
-                //         var last = null;
-                //         var current = null;
-                //         var bod = [];
-
-                //         var css = '@page { size: landscape; }',
-                //             head = win.document.head || win.document.getElementsByTagName('head')[0],
-                //             style = win.document.createElement('style');
-
-                //         style.type = 'text/css';
-                //         style.media = 'print';
-
-                //         if (style.styleSheet) {
-                //             style.styleSheet.cssText = css;
-                //         } else {
-                //             style.appendChild(win.document.createTextNode(css));
-                //         }
-
-                //         head.appendChild(style);
-                //         $(win.document.body)
-                //             .css('font-size', '8pt');
-                            
-                //     }
-                // },
-                // {
-                //     extend: 'pdfHtml5',
-                //     orientation: 'landscape',
-                //     pageSize: 'LEGAL'
-                // },
                 {
                     extend:'excel',
                     text:'Excel'
@@ -135,14 +166,21 @@
             ],
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
+            "paging":true,
+            "responsive": false,
+            "lengthChange": true,
             "autoWidth": false,
-            "responsive": true,
-        });
+            "scrollX":true,
+            "fixedColumns": {
+                        leftColumns:2
+            },
+            'buttons': [
+                {
+                    extend:'excel',
+                    text:'Excel'
+                }
+            ],
+        }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
     });
 </script>
 @endsection

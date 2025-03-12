@@ -20,6 +20,10 @@
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="normal_hari">Jumlah Hari Aktif</label>
+                        <input type="number" class="form-control" id="normal_hari" name="normal_hari" placeholder="00" required>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-success float-right"><i class="fas fa-eye"></i> Lihat</button>
       </form>
