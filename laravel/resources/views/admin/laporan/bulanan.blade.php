@@ -100,6 +100,7 @@
                     <td>Jam</td>     
                     <td>Jam</td>     
                     <td>%</td>     
+                    
                 </tr>
                @foreach($rekap as $rek)
                <tr>

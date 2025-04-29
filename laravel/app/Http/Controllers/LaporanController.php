@@ -231,6 +231,7 @@ class LaporanController extends Controller
             $sakit=0;
             $sakit_jam=0;
             $dinas_luar=0;
+            $scan=0;
             
             $data_rekap_per_orang=array("nama"=>$au['name'],"nip"=>$au['nip']);
             foreach ($period as $date) {
@@ -287,7 +288,7 @@ class LaporanController extends Controller
             $total_jam_kerja_per_bulan=(int) floor($jam_kerja_per_bulan/3600);
             $data_rekap_per_orang+=["normal_hari"=>$normal_hari,
                                                         "riil_hari"=>$riil_hari,
-                                                        "absen_hari"=>$absen_hari,
+                                                        "absen_hari"=>$absen_hari+$dinas_luar,
                                                         "tidak_hadir"=>$tidak_hadir,
                                                         "jml_izin"=>$izin,
                                                         "izin_jam"=>$izin_jam,

@@ -44,6 +44,20 @@
 </head>
 
 <body class="hold-transition login-page">
+
+@if(Auth::user())
+  @if(Auth::user()->role=='admin')
+  <script>
+    window.location="/admin";
+  </script>
+  @else
+  <script>
+    window.location="/pegawai";
+  </script>
+  @endif
+@endif
+
+
   <div class="login-box">
 
     <!-- /.login-logo -->

@@ -122,11 +122,7 @@
                                 @foreach($dataAbsen as $item)
                                 @foreach($item as $subItem)
                                 <tr>
-
-
                                     <td class="align-middle">{{ $daftar_hari[date('l',strtotime($subItem['created_at']))] }}</td>
-
-
                                     <td class="align-middle">{{ $subItem['jam_masuk'] }}</td>
                                     <td class="align-middle">{{ $subItem['jam_pulang'] }}</td>
 
