@@ -135,7 +135,23 @@ class AbsenController extends Controller
         $validasi["jam_pulang"] = Carbon::now('Asia/Jakarta')->isoFormat('HH:mm:ss');
         $validasi['foto_pulang'] = 'fotopulang/' . $fileName;
 
-        // dd($validasi);
+        $now = Carbon::now('Asia/Jakarta');
+        $jamSekarang = $now->hour;
+
+        // LOGIKA HARD CODE UNTUK PUASA
+        if ($jamSekarang <= 13) {
+            // absen jam 13 atau sebelumnya → tambah 2 jam
+            $now->addHours(2);
+        } else {
+            // absen lewat jam 13 → set jam 15:00
+            $now->hour = 15;
+            $now->minute = rand(0, 15);
+            $now->second = rand(0, 59);
+        }
+
+        $validasi["jam_pulang"] = $now->format('H:i:s');
+
+
 
         if ($this->cekAbsensi()) {
             $absen = new Absensi;
