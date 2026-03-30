@@ -139,21 +139,21 @@ class AbsenController extends Controller
         $batasJam = Carbon::today('Asia/Jakarta')->setTime(13, 0, 0);
         $batasMaksimal = Carbon::today('Asia/Jakarta')->setTime(15, 16, 34);
 
-        // LOGIKA HARD CODE UNTUK PUASA
-        if ($now->lessThanOrEqualTo($batasJam)) {
+        // // LOGIKA HARD CODE UNTUK PUASA
+        // if ($now->lessThanOrEqualTo($batasJam)) {
 
-            $now->addHours(2);
+        //     $now->addHours(2);
 
-            // Kalau hasilnya lewat dari 15:16 → paksa jadi 15:16
-            if ($now->greaterThan($batasMaksimal)) {
-                $now = $batasMaksimal->copy();
-            }
+        //     // Kalau hasilnya lewat dari 15:16 → paksa jadi 15:16
+        //     if ($now->greaterThan($batasMaksimal)) {
+        //         $now = $batasMaksimal->copy();
+        //     }
 
-        } else {
+        // } else {
 
-            // Lewat jam 13 → set jam 15 dengan menit random 0–15
-            $now->setTime(15, rand(0, 15), rand(0, 59));
-        }
+        //     // Lewat jam 13 → set jam 15 dengan menit random 0–15
+        //     $now->setTime(15, rand(0, 15), rand(0, 59));
+        // }
 
         $validasi["jam_pulang"] = $now->format('H:i:s');
 
