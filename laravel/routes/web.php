@@ -26,7 +26,7 @@ Route::get('/restricted', function () {
 })->name('restricted');
 
 
-Route::middleware(['auth', IsAdmin::class])->group(function () {
+Route::middleware(['auth', IsAdmin::class, \App\Http\Middleware\NoCache::class])->group(function () {
 
     Route::resource('/pengguna', UserController::class)->except('detroy', 'show');
     Route::get('/reset/{id}', [UserController::class, 'reset'])->name('reset');
@@ -55,7 +55,7 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::resource('/liburnasional', LiburnasionalController::class)->except('show');
 });
 
-Route::middleware(['auth', IsPegawai::class])->group(function () {
+Route::middleware(['auth', IsPegawai::class, \App\Http\Middleware\NoCache::class])->group(function () {
     Route::controller(DashboardPegawaiController::class)->group(function () {
         Route::get('/pegawai',  'index')->name('pegawai');
         Route::get('/faq',  'faq')->name('faq');

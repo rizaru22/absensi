@@ -7629,6 +7629,8 @@ var defaultOptions = {
         for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
           node = _step3.value;
           node.innerHTML = this.filesize(file.size);
+          var _node = _step3.value;
+          _node.innerHTML = this.filesize(file.size);
         }
       } catch (err) {
         _iterator3.e(err);
