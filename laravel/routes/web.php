@@ -66,7 +66,7 @@ Route::middleware(['auth', IsPegawai::class, \App\Http\Middleware\NoCache::class
     Route::get('/fotomasuk', function () {
         return view('pegawai.fotomasuk',[
             "pengaturan"=>Pengaturan::all()
-        ]);
+        ]); 
     })->name('fotomasuk');
 
     Route::get('/fotopulang', function () {

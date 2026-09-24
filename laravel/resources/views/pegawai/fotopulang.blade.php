@@ -5,13 +5,16 @@
 @endsection
 @section('konten')
 
-<div class="loading" id="loading">
+<div class="row loading" id="loading">
     <div class="loader"></div> 
     <div class="flex-break"></div>
-    <div class="text text-center">
-        <h1>Mohon Menunggu!</h1>
-        <p id="keterangan" class="" style="color: white;"></p>
+    <div class="col-12justify-content-center">
+        <div class="text text-center">
+            <h1>Mohon Menunggu!</h1>
+            <p id="keterangan" class="" style="color: white;"></p>
+        </div>
     </div>
+    
 </div>
 <div class="container mb-5 pb-5 konten" id="konten">
     <div class="row">
@@ -28,14 +31,13 @@
             </form>
             <div class="text-center mx-auto">
                 <div class="webcam-capture-body text-center mt-2 mx-auto">
-                <h5>Absen Pulang</h5>
-                    <div id="my_camera" class="webcam-capture"></div>
+                <h1>Absen Pulang</h1>
+                      <!-- Frame Lingkaran -->
+                    <div class="circle-frame" id="frame">
+                        <video id="webcam" autoplay playsinline muted></video>
+                    </div>
+                     <div id="status">Buka Kamera...</div>
                 </div>
-            </div>
-            <!-- <div id="results" class="webcam-capture" style="width: 590px; height:460px">Foto Anda</div> -->
-            <div class="text-center mx-auto">
-
-                <button type="button" class="btn btn-success btn-lg rounded-circle shadow mb-3 p-3 rouded pt-3 pb-3 border-dark rounded-lg" onclick="ambil_foto()"><i class="fas fa-camera fa-2x"></i></button>
             </div>
 
         </div>
@@ -89,7 +91,7 @@
  
 @endsection
 @section('script')
-<script src="{{asset('dist/js/webcam.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
 <script src="{{asset('dist/js/absen.js')}}"></script>
 <script language="JavaScript">
        let latSMK1 = {{$pengaturan[0]->latitude}};

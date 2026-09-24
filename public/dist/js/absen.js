@@ -72,33 +72,143 @@ function hitungjarak(lat1, long1, lat2, long2, unit = "kilometers") {
   }
 }
 
+const video = document.getElementById('webcam');
+    const frame = document.getElementById('frame');
+    const statusText = document.getElementById('status');
+    const previewContainer = document.getElementById('preview-container');
+    const previewImg = document.getElementById('preview-img');
 
-// Webcam
-var cameras = new Array(); //create empty array to later insert available devices
-navigator.mediaDevices
-  .enumerateDevices() // get the available devices found in the machine
-  .then(function (devices) {
-    devices.forEach(function (device) {
-      var i = 0;
-      if (device.kind === "videoinput") {
-        //filter video devices only
-        cameras[i] = device.deviceId; // save the camera id's in the camera array
-        i++;
+    let isCaptured = false;
+    let blinkDetected = false;
+
+    // 1. Akses Kamera Depan HP
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } }
+        });
+        video.srcObject = stream;
+        statusText.innerText = "Arahkan wajah ke lingkaran";
+      } catch (err) {
+        statusText.innerText = "Gagal mengakses kamera depan: " + err.message;
       }
+    }
+
+    // 2. Hitung Jarak 2 Titik Koordinat
+    function getDistance(p1, p2) {
+      return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+    }
+
+    // 3. Deteksi Kedip Mata (EAR - Eye Aspect Ratio)
+    function checkBlink(landmarks) {
+      // Mata Kiri
+      const leftDistV = getDistance(landmarks[159], landmarks[145]);
+      const leftDistH = getDistance(landmarks[33], landmarks[133]);
+      const leftEAR = leftDistV / leftDistH;
+
+      // Mata Kanan
+      const rightDistV = getDistance(landmarks[386], landmarks[374]);
+      const rightDistH = getDistance(landmarks[362], landmarks[263]);
+      const rightEAR = rightDistV / rightDistH;
+
+      return ((leftEAR + rightEAR) / 2) < 0.18; // Ambang batas mata tertutup
+    }
+
+    // 4. Logika Deteksi Wajah & Liveness
+    function onResults(results) {
+      if (isCaptured) return;
+
+      if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+        const landmarks = results.multiFaceLandmarks[0];
+
+        // Cek Posisi Wajah (Hidung harus di area tengah)
+        const nose = landmarks[1];
+        const isCentered = nose.x > 0.35 && nose.x < 0.65 && nose.y > 0.35 && nose.y < 0.65;
+
+        if (!isCentered) {
+          frame.classList.remove('valid');
+          statusText.innerText = "Posisikan wajah tepat di tengah";
+        } else {
+          frame.classList.add('valid');
+
+          // Cek Liveness (Kedip)
+          if (!blinkDetected) {
+            statusText.innerText = "Silakan KEDIPKAN MATA";
+            if (checkBlink(landmarks)) {
+              blinkDetected = true;
+            }
+          } else {
+            statusText.innerText = "Berhasil! Mengambil foto...";
+            capturePhoto();
+          }
+        }
+      } else {
+        frame.classList.remove('valid');
+        statusText.innerText = "Wajah tidak terdeteksi";
+      }
+    }
+
+    // 5. Fungsi Capture Gambar
+    function capturePhoto() {
+      isCaptured = true;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+
+      // Gambar dari video ke canvas
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const dataURL = canvas.toDataURL('image/jpeg', 0.8);
+
+  // efek suara shutter
+  const shutter = new Audio();
+  shutter.autoplay = false;
+  shutter.src = navigator.userAgent.match(/Firefox/)
+    ? "shutter.ogg"
+    : "shutter.mp3";
+  shutter.play();
+
+  // kirim foto ke input hidden form
+  $(".image-tag").val(dataURL);
+
+  // submit form
+  document.getElementById("kirim_foto").submit();
+
+  previewImg.src = dataURL;
+  previewContainer.style.display = 'block';
+  frame.style.display = 'none';
+   
+    }
+
+    // 6. Inisialisasi MediaPipe FaceMesh
+    const faceMesh = new FaceMesh({
+      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
     });
-  });
 
-Webcam.set({
-  width: 450,
-  height: 600,
-  image_format: "jpeg",
-  jpeg_quality: 80,
-  flip_horiz: true,
-  fps: 30,
-  sourceId: cameras[0],
-});
+    faceMesh.setOptions({
+      maxNumFaces: 1,
+      refineLandmarks: true,
+      minDetectionConfidence: 0.5
+    });
 
-Webcam.attach(".webcam-capture");
+    faceMesh.onResults(onResults);
+
+    // Loop pendeteksian frame
+    async function processFrame() {
+      if (video.readyState >= 2 && !isCaptured) {
+        await faceMesh.send({ image: video });
+      }
+      requestAnimationFrame(processFrame);
+    }
+
+    // Jalankan Pertama Kali
+    startCamera().then(() => {
+      video.onloadeddata = () => processFrame();
+    });
+
+
 
 function ambil_foto() {
   var shutter = new Audio();
@@ -113,7 +223,7 @@ function ambil_foto() {
     document.kirim_foto.submit();
   });
 }
-
+ 
 
 function redirect(){
   if(jarak)
