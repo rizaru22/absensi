@@ -137,9 +137,46 @@ function checkMouthOpen(landmarks) {
   return mouthRatio > 0.35; 
 }
 
+// Fungsi mengecek rata-rata kecerahan frame (Skala 0 - 255)
+function getBrightness(videoElement) {
+  const canvasTemp = document.createElement('canvas');
+  canvasTemp.width = 100;  // Dikecilkan agar proses komputasi sangat cepat
+  canvasTemp.height = 100;
+  const ctx = canvasTemp.getContext('2d');
+
+  // Ambil piksel frame saat ini
+  ctx.drawImage(videoElement, 0, 0, 100, 100);
+  const imageData = ctx.getImageData(0, 0, 100, 100);
+  const data = imageData.data;
+
+  let totalLuma = 0;
+  // Hitung tingkat kecerahan setiap piksel menggunakan rumus Luma standar
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    // Rumus standar kecerahan perseptual (Luma)
+    totalLuma += (0.299 * r + 0.587 * g + 0.114 * b);
+  }
+
+  // Kembalikan rata-rata nilai kecerahan
+  return totalLuma / (100 * 100);
+}
+
 // 5. Logika Deteksi Wajah & Dual Liveness
 function onResults(results) {
   if (isCaptured) return;
+
+  // Cek kecerahan ruangan/wajah dulu
+  const brightness = getBrightness(video);
+  
+  // Jika nilai kecerahan < 60 (Sangat gelap/Siluet/Backlight), tolak proses
+  if (brightness < 60) {
+    frame.classList.remove('valid');
+    statusText.style.color = "#fc0217"; // Warna merah
+    statusText.innerText = "Wajah terlalu gelap! Hindari membelakangi cahaya";
+    return;
+  }
 
   if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
     const landmarks = results.multiFaceLandmarks[0];
