@@ -37,7 +37,7 @@
                         <video id="webcam" autoplay playsinline muted></video>
                     </div>
                      <div id="status">Buka Kamera...</div>
-                     <div id="brightness-status" class="small text-muted mt-1">Kecerahan: menghitung...</div>
+                     <!-- <div id="brightness-status" class="small text-muted mt-1">Kecerahan: menghitung...</div> -->
                 </div>
             </div>
 

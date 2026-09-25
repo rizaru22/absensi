@@ -181,22 +181,22 @@ function getBrightness(videoElement) {
 function onResults(results) {
   if (isCaptured || !video || !frame || !statusText) return;
 
-  const brightness = getBrightness(video);
-  updateBrightnessStatus(brightness);
+  // const brightness = getBrightness(video);
+  // updateBrightnessStatus(brightness);
 
-  if (brightness < 50) {
-    frame.classList.remove('valid');
-    statusText.style.color = "#fc0217";
-    statusText.innerText = "Wajah terlalu gelap! Hindari membelakangi cahaya";
-    return;
-  }
+  // if (brightness < 50) {
+  //   frame.classList.remove('valid');
+  //   statusText.style.color = "#fc0217";
+  //   statusText.innerText = "Wajah terlalu gelap! Hindari membelakangi cahaya";
+  //   return;
+  // }
 
-  if (brightness > 220) {
-    frame.classList.remove('valid');
-    statusText.style.color = "#f59e0b";
-    statusText.innerText = "Cahaya terlalu terang! Kurangi sumber cahaya di depan wajah";
-    return;
-  }
+  // if (brightness > 220) {
+  //   frame.classList.remove('valid');
+  //   statusText.style.color = "#f59e0b";
+  //   statusText.innerText = "Cahaya terlalu terang! Kurangi sumber cahaya di depan wajah";
+  //   return;
+  // }
 
   if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
     const landmarks = results.multiFaceLandmarks[0];
@@ -213,18 +213,18 @@ function onResults(results) {
 
       // TAHAP 1: Cek Kedip Mata
       if (!blinkDetected) {
-        statusText.innerText = "Langkah 1/2: Silakan KEDIPKAN MATA";
+        statusText.innerText = "Verifikasi: Silakan KEDIPKAN MATA";
         if (checkBlink(landmarks)) {
           blinkDetected = true;
         }
       } 
       // TAHAP 2: Cek Buka Mulut (Masker dipastikan harus lepas)
-      else if (!mouthOpened) {
-        statusText.innerText = "Langkah 2/2: BUKA MULUT (Lepas Masker)";
-        if (checkMouthOpen(landmarks)) {
-          mouthOpened = true;
-        }
-      } 
+      // else if (!mouthOpened) {
+      //   statusText.innerText = "Langkah 2/2: BUKA MULUT (Lepas Masker)";
+      //   if (checkMouthOpen(landmarks)) {
+      //     mouthOpened = true;
+      //   }
+      // } 
       // KEDUA TAHAP LOLOS -> CAPTURE
       else {
         statusText.innerText = "Verifikasi Berhasil! Mengambil foto...";
