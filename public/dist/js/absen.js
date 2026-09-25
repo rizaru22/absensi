@@ -92,6 +92,7 @@ function reload() {
 const video = document.getElementById('webcam');
 const frame = document.getElementById('frame');
 const statusText = document.getElementById('status');
+const brightnessStatus = document.getElementById('brightness-status');
 const previewContainer = document.getElementById('preview-container');
 const previewImg = document.getElementById('preview-img');
 
@@ -99,16 +100,29 @@ let isCaptured = false;
 let blinkDetected = false;
 let mouthOpened = false; // Flag tambahan untuk buka mulut
 
+function updateBrightnessStatus(brightness) {
+  if (!brightnessStatus) return;
+
+  brightnessStatus.textContent = `Kecerahan: ${brightness.toFixed(1)}`;
+  brightnessStatus.style.color = brightness < 60 ? '#fc0217' : '#1d4ed8';
+}
+
 // 1. Akses Kamera Depan HP
 async function startCamera() {
+  if (!video) return;
+
   try {
     const stream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } }
     });
     video.srcObject = stream;
-    statusText.innerText = "Arahkan wajah ke lingkaran";
+    if (statusText) {
+      statusText.innerText = "Arahkan wajah ke lingkaran";
+    }
   } catch (err) {
-    statusText.innerText = "Gagal mengakses kamera depan: " + err.message;
+    if (statusText) {
+      statusText.innerText = "Gagal mengakses kamera depan: " + err.message;
+    }
   }
 }
 
@@ -131,10 +145,10 @@ function checkBlink(landmarks) {
 function checkMouthOpen(landmarks) {
   const mouthHeight = getDistance(landmarks[13], landmarks[14]);
   const mouthWidth = getDistance(landmarks[61], landmarks[291]);
-  const mouthRatio = mouthHeight / mouthWidth;
-  
-  // Ambil ambang batas mulut terbuka lebar
-  return mouthRatio > 0.35; 
+  const mouthRatio = mouthWidth > 0 ? mouthHeight / mouthWidth : 0;
+
+  // Cek dengan ambang yang lebih toleran agar tidak gagal saat ada cahaya kuat
+  return mouthRatio > 0.28 || mouthHeight > 0.08;
 }
 
 // Fungsi mengecek rata-rata kecerahan frame (Skala 0 - 255)
@@ -165,16 +179,22 @@ function getBrightness(videoElement) {
 
 // 5. Logika Deteksi Wajah & Dual Liveness
 function onResults(results) {
-  if (isCaptured) return;
+  if (isCaptured || !video || !frame || !statusText) return;
 
-  // Cek kecerahan ruangan/wajah dulu
   const brightness = getBrightness(video);
-  
-  // Jika nilai kecerahan < 60 (Sangat gelap/Siluet/Backlight), tolak proses
-  if (brightness < 60) {
+  updateBrightnessStatus(brightness);
+
+  if (brightness < 50) {
     frame.classList.remove('valid');
-    statusText.style.color = "#fc0217"; // Warna merah
+    statusText.style.color = "#fc0217";
     statusText.innerText = "Wajah terlalu gelap! Hindari membelakangi cahaya";
+    return;
+  }
+
+  if (brightness > 220) {
+    frame.classList.remove('valid');
+    statusText.style.color = "#f59e0b";
+    statusText.innerText = "Cahaya terlalu terang! Kurangi sumber cahaya di depan wajah";
     return;
   }
 
